@@ -1,0 +1,51 @@
+
+$font-size: 16pt;
+$h1-font-size: 32pt;
+$h2-font-size: 24pt;
+$error-font-size: 14pt;
+
+// branding
+$icon-width: 24px;
+$icon-height: 24px;
+
+// COLORS
+$primary: hsla(231, 41%, 47%, 1);
+$primary-light: hsla(231, 41%, 47%, 0.2);
+$green: #92AC99;
+$warning: hsla(53, 100%, 61%, 1);
+$warning-accent: hsla(53, 100%, 61%, 0.2);
+$error: hsla(9, 100%, 45%, 1);
+$error-accent: hsla(9, 100%, 45%, 0.08);
+$light: #f6f6f6;
+$semi-light: #D9E3F2;
+$text: #3f454b;
+$dark: #252525;
+$shadow: hsla(0, 0%, 0%, 0.18);
+//
+
+// shadows
+$primary-box-shadow: 0 0 6px 2px $primary;
+$box-shadow: 0 0 4px 3px $shadow;
+
+// spacing
+$line-height-headings: 1.4;
+$line-height-text: 1.7;
+$default-padding: 24px;
+$default-margin: 32px;
+$default-margin-top: 18px;
+$default-margin-bottom: 18px;
+
+// borders
+$default-border-width: 2px;
+$default-border-radius: 6px;
+
+// keyframes
+@-webkit-keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}

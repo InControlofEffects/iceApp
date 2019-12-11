@@ -1,0 +1,410 @@
+@import "variables", "mixins";
+
+html,
+body {
+	font-family: "Helvetica", "Gill Sans", "Gill Sans MT", Calibri, sans-serif;
+	font-size: $font-size;
+	margin: 0;
+	padding: 0;
+}
+
+nav,
+header,
+footer,
+article,
+section,
+figure,
+form,
+fieldset {
+	display: block;
+	margin: 0;
+	padding: 0;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+legend {
+	color: $dark;
+	line-height: $line-height-headings;
+	padding: 0;
+	margin: 0;
+	margin-top: 16px;
+	margin-bottom: 6px;
+}
+
+h1 {
+	width: 90%;
+	font-size: $h1-font-size;
+}
+
+h2 {
+	width: 90%;
+	font-size: $h2-font-size;
+}
+
+p,
+li,
+label,
+figcaption {
+	color: $text;
+	line-height: $line-height-text;
+	padding: 0;
+	margin: 0;
+	font-size: $font-size;
+}
+
+p {
+	margin-bottom: 12px;
+}
+
+a {
+	text-decoration: none;
+	
+	padding: 0;
+	margin: 0;
+	border-bottom: 2px solid transparent;
+	color: $primary;
+	cursor: pointer;
+
+	&:focus {
+		@include boxShadow($primary-box-shadow);
+	}
+}
+
+span,
+strong {
+	color: inherit;
+	line-height: inherit;
+}
+
+// block quotes - used for messages
+blockquote {
+	position: relative;
+	margin: 16px 0;
+	padding: 8px;
+	line-height: $line-height-headings;
+	color: $text;
+	border-left-width: 36px;
+	border-left-style: solid;
+	border-left-color: transparent;
+	font-size: $font-size;
+	font-weight: 600;
+
+	&::before {
+		content: "!";
+		position: absolute;
+		@include displayFlex;
+		@include flexJustifyContent("center");
+		@include flexAlignItems("center");
+		width: 36px;
+		height: 100%;
+		top: 0;
+		left: -36px;
+		text-align: center;
+		font-weight: 600;
+		font-size: 21pt;
+	}
+}
+
+// specific styles for warning messages
+.error-text {
+	display: block;
+	color: $error;
+	font-weight: 600;
+	font-size: 11pt;
+	margin-bottom: 8px;
+	line-height: $line-height-headings;
+}
+
+.warning {
+	border-left-color: $warning;
+	background-color: $warning-accent;
+}
+
+.error {
+	border-left-color: $error;
+	background-color: $error-accent;
+
+	&::before {
+		color: white;
+	}
+
+	.error-text {
+		margin: 0;
+	}
+}
+
+// ordered and unordered lists
+ul,
+ol {
+	padding: 0;
+	margin: 0;
+
+	li {
+		margin-bottom: $default-margin-bottom;
+		color: $text;
+	}
+}
+
+// images
+img {
+	display: block;
+	width: 100%;
+}
+
+// default table styles
+table {
+	width: 100%;
+	margin: 24px auto;
+	font-weight: normal;
+	border-spacing: 0;
+	text-align: left;
+
+	// table header
+	thead tr th {
+		font-weight: 600;
+		text-transform: uppercase;
+		font-size: 14pt;
+		padding: 6px 12px;
+		border-bottom: 1px solid $dark;
+		color: $dark;
+	}
+
+	// table body
+	tbody tr td {
+		padding: 24px 12px;
+		font-size: 14pt;
+		color: $text;
+	}
+
+	// row highlighting
+	tbody tr:nth-child(even) {
+		background-color: $semi-light;
+	}
+}
+
+// buttons
+button {
+	@include noAppearance;
+	display: block;
+	position: relative;
+	margin: 12px 0;
+	padding: 8px 16px;
+	background-clip: border-box;
+	background-color: transparent;
+	border: 2px solid transparent;
+	font-size: 12pt;
+	text-transform: uppercase;
+	letter-spacing: 2px;
+	font-weight: 600;
+	text-align: center;
+	cursor: pointer;
+	border-radius: 4px;
+
+	p {
+		font-weight: normal;
+		text-transform: none;
+		letter-spacing: normal;
+		font-size: 16pt;
+	}
+
+	// define button styles
+	&.primary {
+		background-color: $primary;
+		color: white;
+	}
+
+	&.secondary {
+		background-color: $primary-light;
+		color: $primary;
+	}
+
+	&.default {
+		background-color: transparent;
+		color: $primary;
+		border-color: $primary;
+	}
+
+	// button icon if applicable
+	.icon {
+		display: inline-block;
+		position: relative;
+		top: 1px;
+		width: 18px;
+		height: 18px;
+	}
+
+	// icon only button
+	&.icon-only {
+		display: inline-block;
+		position: relative;
+		width: 50px;
+		height: 50px;
+		padding: 0;
+		margin: 0;
+
+		.icon {
+			position: relative;
+			top: 2px;
+			width: 35px;
+			height: 35px;
+		}
+
+		&:hover {
+			@include boxShadow(none);
+		}
+
+		&:focus {
+			border-color: $primary;
+			@include boxShadow($box-shadow);
+		}
+	}
+
+	// hover events
+	&:hover {
+		@include boxShadow($primary-box-shadow);
+	}
+
+	// focus events
+	&:focus {
+		@include boxShadow($primary-box-shadow);
+	}
+}
+
+// button containers
+.page-nav {
+	list-style: none;
+	display: block;
+	width: 100%;
+	margin: 0;
+	padding: 0;
+	@include displayFlex;
+	flex-wrap: wrap-reverse;
+
+	.page-nav-item {
+		display: block;
+		width: 100%;
+		padding: 0;
+		margin: 0;
+	}
+
+	// single button styles
+	&.nav-single-button {
+		.page-nav-item {
+			width: 100%;
+
+			button {
+				width: 100%;
+				margin: 0;
+			}
+		}
+	}
+
+	// two button styles
+	&.nav-two-buttons {
+		.page-nav-item {
+			button {
+				width: 100%;
+				margin: 0;
+
+				&:nth-child(1) {
+					margin-bottom: $default-margin-bottom;
+				}
+			}
+		}
+	}
+}
+
+// input: checkboxes
+input[type=checkbox] {
+	position: absolute;
+	height: 1px;
+	width: 1px;
+	overflow: hidden;
+	clip: rect(1px 1px 1px 1px);
+	clip: rect(1px, 1px, 1px, 1px);
+}
+
+// input: text-based
+input[type=text],
+input[type=password] {
+	@include noAppearance;
+	display: block;
+	width: 300px;
+	font-size: 12pt;
+	color: $dark;
+	padding: 8px;
+	padding-left: 12px;
+	border: 2px solid transparent;
+	background-color: rgba(230, 230, 230, 0.1);
+	margin-bottom: 12px;
+	@include boxShadow(inset 0 0 4px 0 #c5c5c5);
+
+	// focus events
+	&:focus {
+		border-color: $primary;
+	}
+
+	// invalid
+	&.invalid {
+		border-color: $error;
+	}
+}
+
+// application wrappers
+#app {
+	display: block;
+	width: 100%;
+	padding: 0;
+	margin: 0;
+	padding-bottom: 64px;
+
+	&.app-fullscreen {
+		background-color: $semi-light;
+		min-height: 100vh;
+		padding-bottom: 0;
+		@include displayFlex;
+	}
+}
+
+.main {
+	margin: 0;
+	margin-top: 80px;
+	min-height: 60.85vh;
+}
+
+.text-bold {
+	font-weight: bold;
+}
+
+.screen-reader-text {
+	clip: rect(0 0 0 0);
+	overflow: hidden;
+	position: absolute;
+	height: 1px;
+	width: 1px;
+}
+
+.revealable-content {
+	div {
+		max-height: 200px;
+		overflow: hidden;
+	}
+
+	button {
+		margin: 0 auto;
+		margin-top: 16px;
+	}
+
+	&.revealable-expanded div {
+		max-height: 1250px;
+	}
+}
+
+// load files
+@import "signInScreen", "loadingScreen", "progressBar", "navbar", "pages", "cards";
+@import "mediaQueries";

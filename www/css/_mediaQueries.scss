@@ -1,0 +1,106 @@
+@media screen and (min-width: 512px) {
+	// app stylings
+	#app {
+		// login screen class
+		&.app-fullscreen {
+			@include flexAlignItems("center");
+			@include flexJustifyContent("center");
+		}
+	}
+
+	.signin-screen {
+		width: 375px;
+	}
+
+	// set widths for card sets
+	.card-group {
+		&.side-effect-cards {
+			.card {
+				width: 65%;
+			}
+		}
+		&.medication-cards {
+			.card {
+				width: 60%;
+			}
+		}
+	}
+
+	// navigation bar
+	.navbar {
+		.brand-link {
+			.menu-link {
+				font-size: 16pt;
+			}
+		}
+	}
+
+	// page buttons
+	.page-nav {
+		.page-nav-item {
+			display: inline-block;
+			width: 50%;
+			margin: 0;
+		}
+
+		&.nav-single-button .page-nav-item,
+		&.nav-two-buttons .page-nav-item {
+			button {
+				width: 250px;
+				margin: 0;
+
+				&:nth-child(1) {
+					margin: 0;
+				}
+			}
+		}
+
+		&.nav-single-button {
+			@include flexAlignItems("center");
+			@include flexJustifyContent("flex-end");
+
+			.page-nav-item {
+				@include displayFlex;
+				@include flexJustifyContent("flex-end");
+			}
+		}
+
+		&.nav-two-buttons {
+			.page-nav-item:nth-child(1) {
+				@include displayFlex;
+				@include flexJustifyContent("flex-start");
+			}
+			.page-nav-item:nth-child(2) {
+				@include displayFlex;
+				@include flexJustifyContent("flex-end");
+			}
+		}
+	}
+}
+
+@media screen and (min-width: 636px) {
+	// increase button size and remove margins
+	.page-nav {
+		button {
+			display: inline-block;
+			width: 175px;
+		}
+	}
+
+	// increase the font size of the error messages
+	.error {
+		.error-text {
+			font-size: 16px;
+			padding: 8px 0;
+		}
+	}
+}
+
+@media screen and (min-width: 972px) {
+	// set max-widths for page and button wrapper
+	.page,
+	.page-nav {
+		width: 100%;
+		max-width: 912px;
+	}
+}

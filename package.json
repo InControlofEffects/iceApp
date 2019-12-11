@@ -1,0 +1,22 @@
+{
+  "name": "ice-app",
+  "version": "1.0.0",
+  "description": "shiny app for the decision of antipsychotic treatments and side effects",
+  "scripts": {
+    "develop": "sass --watch www/css/index.scss:www/css/styles.min.css --style compressed"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/davidruvolo51/ice-app.git"
+  },
+  "keywords": [
+    "shiny",
+    "r"
+  ],
+  "author": "David Ruvolo",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/davidruvolo51/ice-app/issues"
+  },
+  "homepage": "https://github.com/davidruvolo51/ice-app#readme"
+}

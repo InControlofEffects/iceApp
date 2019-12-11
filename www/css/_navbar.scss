@@ -1,0 +1,86 @@
+
+.navbar {
+    position: fixed;
+    width: 100%;
+    padding: 0;
+    margin: 0;
+    top: 0;
+    z-index: 999;
+    background-color: white;
+    border-bottom: 1px solid $light;
+    @include boxShadow($box-shadow);
+
+    // navigation list - menu
+    .menu {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        @include displayGrid;
+        @include gridTemplateColumns(7fr 1fr);
+        grid-column-gap: 0;
+        grid-template-areas: "brand textIcon restartIcon";
+
+        // all menu items
+        .menu-item {
+            display: inline-block;
+            padding: 8px;
+            margin: 0;
+
+            // reset button styles
+            button {
+                padding: 0;
+                margin: 0;
+                border-radius: 0;
+                box-shadow: none;
+            }
+
+            // icons
+            .icon {
+
+                &.icon-restart {
+                    width: 25px;
+                    height: 25px;
+                }
+            }
+
+            // styling for first link, i.e., the branding link + logo
+            &.brand-item {
+                
+                .menu-link {
+                    font-size: 11pt;
+                    text-transform: uppercase;
+                    font-weight: bold;
+                    letter-spacing: 2px;
+
+                    .logo {
+                        position: relative;
+                        display: inline-block;
+                        width: 22px;
+                        height: 22px;
+                        top: 4px;
+                    }
+                }
+            }
+
+            // grid arrange menu items
+            &:nth-child(1){
+                -ms-grid-column: 1;
+                -ms-grid-row: 1;
+                grid-column: 1;
+                grid-row: 1;
+                grid-area: brand;
+            }
+
+            &:nth-child(2){
+                -ms-grid-column: 2;
+                -ms-grid-row: 1;
+                grid-column: 2;
+                grid-row: 1;
+                grid-area: restartIcon;
+                display: flex;
+                justify-content: flex-end;
+                align-items: center;
+            }
+        }
+    }
+}

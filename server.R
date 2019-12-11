@@ -1,0 +1,74 @@
+#'//////////////////////////////////////////////////////////////////////////////
+#' FILE: server.R
+#' AUTHOR: David Ruvolo
+#' CREATED: 2017-09-09
+#' MODIFIED: 2019-12-11
+#' PURPOSE: server for in control of effects application
+#' STATUS: in.progress
+#' PACKAGES: see global
+#' COMMENTS: 
+#'      The server.R for the ICE application handles the loading of server and
+#'      ui components, as well as the loading and rendering of application pages.
+#'      The primary function of the server.R file is to handle the login status
+#'      of the application. The further processing of client interactivity is
+#'      handled in the server/index.R file and other files in the server/ directory
+#'      Please refer to those files for more information.
+#'//////////////////////////////////////////////////////////////////////////////
+#' SERVER
+server <- function(input, output, session) {
+
+    # LOAD UTILS
+    source("server/utils/js_handlers.R", local = TRUE)
+    source("server/utils/patient_prefs.R", local = TRUE)
+    source("server/modules/login.R", local = TRUE)
+    source("server/modules/effects.R", local = TRUE)
+    source("server/modules/navigation.R", local = TRUE)
+    source("src/components/primary/app.R", local = TRUE)
+    users <- readRDS("server/database/users.RDS")
+
+    # DEFINE PAGES
+    pageNum <- reactiveVal()
+    pageNum(1)
+    file_order <- c(
+        "instructions_1.R",
+        "instructions_2.R",
+        "instructions_3.R",
+        "side_effects.R",
+        "results.R",
+        "quit.R"
+    )
+    
+    # BUILD FILE PATHS + GET LENGTH
+    file_paths <- as.character(sapply(file_order, function(x) { paste0("src/pages/", x) }))
+    file_length <- length(file_paths)
+
+
+    # set default app view as the login screen (loaded in global.R)
+    output$app <- renderUI(loginScreen())
+    js$addCSS("#app", "app-fullscreen")
+
+    # init logged value
+    logged <- reactiveVal()
+    logged(FALSE)  # default
+    # logged(TRUE)  # for testing
+
+    # run app when logged == TRUE
+    observe({
+
+        if(logged() == "TRUE") {
+
+            # REMOVE CSS FROM APP
+            js$removeCSS("#app", "app-fullscreen")
+
+            # LOAD AND RENDER FIRST PAGE INTO APP TEMPLATE
+            source(file = file_paths[1], local = TRUE)
+            output$app <- renderUI(app)
+            output$currentPage <- page
+            
+            # INIT PROGRESS BAR
+            session$sendCustomMessage(type = "updateProgressBar", c(0, file_length, 1))
+
+        }
+    })
+
+} # END SERVER
