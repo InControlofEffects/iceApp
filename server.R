@@ -2,7 +2,7 @@
 #' FILE: server.R
 #' AUTHOR: David Ruvolo
 #' CREATED: 2017-09-09
-#' MODIFIED: 2019-12-11
+#' MODIFIED: 2019-12-12
 #' PURPOSE: server for in control of effects application
 #' STATUS: in.progress
 #' PACKAGES: see global
@@ -17,16 +17,18 @@
 #' SERVER
 server <- function(input, output, session) {
 
-    # LOAD UTILS
+    # load ui components, utils, and modules
     source("server/utils/js_handlers.R", local = TRUE)
     source("server/utils/patient_prefs.R", local = TRUE)
     source("server/modules/login.R", local = TRUE)
     source("server/modules/effects.R", local = TRUE)
     source("server/modules/navigation.R", local = TRUE)
     source("src/components/primary/app.R", local = TRUE)
+    source("src/components/elements/card-side-effect.R", local = TRUE)
+    source("src/components/elements/card-medication.R", local = TRUE)
     users <- readRDS("server/database/users.RDS")
 
-    # DEFINE PAGES
+    # define pages and starting point
     pageNum <- reactiveVal()
     pageNum(1)
     file_order <- c(
@@ -49,8 +51,8 @@ server <- function(input, output, session) {
 
     # init logged value
     logged <- reactiveVal()
-    logged(FALSE)  # default
-    # logged(TRUE)  # for testing
+    # logged(FALSE)  # default
+    logged(TRUE)  # for dev
 
     # run app when logged == TRUE
     observe({
