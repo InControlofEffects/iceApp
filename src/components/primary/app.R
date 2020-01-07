@@ -2,13 +2,14 @@
 #' FILE: index.R
 #' AUTHOR: David Ruvolo
 #' CREATED: 2019-08-29
-#' MODIFIED: 2019-12-11
+#' MODIFIED: 2020-01-07
 #' PURPOSE: generic R template for writing UI compents into based on Login status
 #' PACKAGES: *see global*
 #' COMMENTS: NA
 #'//////////////////////////////////////////////////////////////////////////////
 # main app
-app <- tagList(
+app <- function(){
+    tagList(
             
         # accessiblity link
         tags$a(class="screen-reader-content", "skip to main content", href="#main"),
@@ -45,3 +46,4 @@ app <- tagList(
             uiOutput("currentPage")
         )
     )
+}

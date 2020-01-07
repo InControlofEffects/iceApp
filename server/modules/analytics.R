@@ -35,7 +35,7 @@ analytics_primary <- data.frame(
 
 # init analytics vars for attempts
 session_attempt_id <- reactiveVal(id = generateId(4))
-session_attempts <- reactiveVal(0)         # a counter for if the restart button was clicked
+session_attempts <- reactiveVal(1)         # a counter for if the restart button was clicked
 
 # define side effects information button counters
 info_btn_clicks_weightgain <- reactiveVal(0)        # weight gain info btn opened/closed
