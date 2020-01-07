@@ -2,7 +2,7 @@
 #' FILE: server.R
 #' AUTHOR: David Ruvolo
 #' CREATED: 2017-09-09
-#' MODIFIED: 2019-12-12
+#' MODIFIED: 2020-01-07
 #' PURPOSE: server for in control of effects application
 #' STATUS: in.progress
 #' PACKAGES: see global
@@ -17,12 +17,14 @@
 #' SERVER
 server <- function(input, output, session) {
 
-    # load ui components, utils, and modules
+    # load server components
     source("server/utils/js_handlers.R", local = TRUE)
     source("server/utils/patient_prefs.R", local = TRUE)
     source("server/modules/login.R", local = TRUE)
     source("server/modules/effects.R", local = TRUE)
     source("server/modules/navigation.R", local = TRUE)
+
+    # load ui components
     source("src/components/primary/app.R", local = TRUE)
     source("src/components/elements/card-side-effect.R", local = TRUE)
     source("src/components/elements/card-medication.R", local = TRUE)
@@ -51,8 +53,8 @@ server <- function(input, output, session) {
 
     # init logged value
     logged <- reactiveVal()
-    # logged(FALSE)  # default
-    logged(TRUE)  # for dev
+    logged(FALSE)  # default
+    # logged(TRUE)  # for dev
 
     # run app when logged == TRUE
     observe({
@@ -64,7 +66,7 @@ server <- function(input, output, session) {
 
             # LOAD AND RENDER FIRST PAGE INTO APP TEMPLATE
             source(file = file_paths[1], local = TRUE)
-            output$app <- renderUI(app)
+            output$app <- renderUI(app())
             output$currentPage <- page
             
             # INIT PROGRESS BAR
