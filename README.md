@@ -14,7 +14,7 @@ This application uses the following technologies.
 
 There are two branches: master and dev. Please use the dev branch or a branch of your choice for all development work.
 
-## Development
+## Basic Development
 
 To work on the app. Switch over to the dev branch and pull the latest changes.
 
@@ -64,3 +64,94 @@ On the server-side, there is a bit of activity happening.
 1. **Sourcing of Components**: As many of the pages use UI components and functions, all files are sourced in the server. This makes them available for all sub-pages.
 
 This section will be updated once the database and analytics modules are completed.
+
+## Server Maintenance
+
+### `nginx`
+
+#### Edit
+
+```bash
+sudo nano /etc/nginx/sites-enabled/default
+```
+
+#### Restart
+
+```bash
+sudo service nginx restart
+```
+
+### `shiny-server`
+
+#### Edit
+
+```bash
+sudo nano /etc/shiny-server/shiny-server.conf
+```
+
+#### Restart
+
+```bash
+sudo systemctl restart shiny-server
+```
+
+#### View Logs
+
+```bash
+sudo cat /var/log/shiny-server.log
+```
+
+
+### R language
+
+base r
+
+```bash
+# install xenial
+sudo sh -c 'echo "deb http://cran.rstudio.com/bin/linux/ubuntu xenial/" >> /etc/apt/sources.list'
+
+# public keys
+gpg --keyserver keyserver.ubuntu.com --recv-key E084DAB9
+gpg -a --export E084DAB9 | sudo apt-key add -
+
+# install r
+sudo apt-get update
+sudo apt-get -y install r-base
+
+```
+
+- rstudio: [https://www.rstudio.com/products/rstudio/download-server/](https://www.rstudio.com/products/rstudio/download-server/)
+- shiny server: [https://www.rstudio.com/products/shiny/download-server/](https://www.rstudio.com/products/shiny/download-server/)
+
+### R packages
+
+```bash
+# installing packages syntax example
+sudo su - -c "R -e \"install.packages('mongolite', repos='http://cran.rstudio.com/')\""
+
+# current list
+sudo su - -c "R -e \"install.packages(c('shiny', 'mongolite', 'stringi', 'tools'), repos='http://cran.rstudio.com/')\""
+```
+
+### Updating server
+
+```sh
+sudo apt list --upgradeable
+sudo apt-get update
+sudo apt-get dist-upgrade
+```
+When you run `sudo apt-get *`, R cran packages that are shipped with Ubuntu will be updated. Aftwards, follow the steps listed here:
+
+[https://cran.r-project.org/bin/linux/ubuntu/README.html](https://cran.r-project.org/bin/linux/ubuntu/README.html)
+
+Make sure you are located in the `$HOME` directory of the `root` user. Enter `R`
+
+```bash
+R
+```
+
+And update packages by running the following code.
+
+```R
+update.packages("/usr/local/lib/site-library")
+```
