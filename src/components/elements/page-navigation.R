@@ -2,21 +2,21 @@
 #' FILE: page-navigation.R
 #' AUTHOR: David Ruvolo
 #' CREATED: 2019-06-09
-#' MODIFIED: 2020-01-25
+#' MODIFIED: 2020-01-27
 #' PURPOSE: module for page navigation buttons
 #' PACKAGES: shiny
-#' COMMENTS: 
+#' COMMENTS:
 #'          This "module" is for rendering the end of page navigation buttons.
-#'          By default, the function returns the previous page button and the 
+#'          By default, the function returns the previous page button and the
 #'          next page button. Alternatively, you can substitute the next button
 #'          for the submit button, the restart button, or the quit button/
 #'//////////////////////////////////////////////////////////////////////////////
 
 # define list of page navigation buttons
-page_nav_btns <- list()
+navbtns <- list()
 
 # PREVIOUS BUTTON
-page_nav_btns$previous <- tags$button(
+navbtns$previous <- tags$button(
     id = "previousPage",
     class = "action-button shiny-bound-input default",
     HTML(icons$chevron$left),
@@ -24,7 +24,7 @@ page_nav_btns$previous <- tags$button(
 )
 
 # NEXT BUTTON
-page_nav_btns$`next` <- tags$button(
+navbtns$`next` <- tags$button(
     id = "nextPage",
     class = "action-button shiny-bound-input primary",
     "Next",
@@ -32,7 +32,7 @@ page_nav_btns$`next` <- tags$button(
 )
 
 # START BUTTON
-page_nav_btns$start <- tags$button(
+navbtns$start <- tags$button(
     id = "start",
     class = "action-button shiny-bound-input primary",
     "Start",
@@ -40,7 +40,7 @@ page_nav_btns$start <- tags$button(
 )
 
 # SUBMIT BUTTON
-page_nav_btns$submit <- tags$button(
+navbtns$submit <- tags$button(
     id = "submit",
     class = "action-button shiny-bound-input primary",
     "Submit",
@@ -48,7 +48,7 @@ page_nav_btns$submit <- tags$button(
 )
 
 # RESTART BUTTON
-page_nav_btns$restart <- tags$button(
+navbtns$restart <- tags$button(
     id = "restart",
     class = "action-button shiny-bound-input primary",
     HTML(icons$chevron$left),
@@ -56,7 +56,7 @@ page_nav_btns$restart <- tags$button(
 )
 
 # QUIT BUTTON
-page_nav_btns$quit <- tags$button(
+navbtns$quit <- tags$button(
     id = "quit",
     class = "action-button shiny-bound-input primary",
     "Quit",
@@ -64,29 +64,28 @@ page_nav_btns$quit <- tags$button(
 )
 
 # SIGNIN BUTTON
-page_nav_btns$submitEffects <- tags$button(
+navbtns$submitEffects <- tags$button(
     id = "submitEffects",
     class = "action-button shiny-bound-input primary",
     "Submit"
 )
 
 # function for pageNavgiation component
-pageNavigation <- function(buttons) {
+page_nav <- function(buttons) {
 
     # validate buttons and find elements to render
-    valid_btns <- match(buttons, names(page_nav_btns))
+    valid_btns <- match(buttons, names(navbtns))
 
     # pull btns and render into single object as <li>
-    btns <- lapply(1:length(valid_btns), function(index) {
+    btns <- lapply(seq_len(length(valid_btns)), function(index) {
         tags$li(
             class = "page-nav-item",
-            page_nav_btns[valid_btns[index]]
+            navbtns[valid_btns[index]]
         )
     })
 
     # return buttons as list
     out <- tags$ul(btns)
-    out$attribs$`aria-label` <- "go to next or previous page"
 
     # add css
     if (length(valid_btns) == 1) {
@@ -96,5 +95,5 @@ pageNavigation <- function(buttons) {
     }
 
     # return
-    out
+    return(out)
 }

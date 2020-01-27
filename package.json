@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "shiny app for the decision of antipsychotic treatments and side effects",
   "scripts": {
-    "develop": "sass --watch www/css/index.scss:www/css/styles.min.css --style compressed"
+    "build": "sass --watch www/css/index.scss:www/css/styles.min.css --style compressed"
   },
   "repository": {
     "type": "git",

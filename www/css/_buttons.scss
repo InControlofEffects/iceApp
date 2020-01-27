@@ -1,0 +1,129 @@
+button {
+	@include noAppearance;
+	display: block;
+	position: relative;
+	margin: 12px 0;
+	padding: 8px 16px;
+	background-clip: border-box;
+	background-color: transparent;
+	border: 2px solid transparent;
+	font-size: 12pt;
+	text-transform: uppercase;
+	letter-spacing: 2px;
+	font-weight: 600;
+	text-align: center;
+	cursor: pointer;
+	border-radius: 4px;
+
+	p {
+		font-weight: normal;
+		text-transform: none;
+		letter-spacing: normal;
+		font-size: 16pt;
+	}
+
+	// define button styles
+	&.primary {
+		background-color: $primary;
+		color: white;
+	}
+
+	&.secondary {
+		background-color: $primary-light;
+		color: $primary;
+	}
+
+	&.default {
+		background-color: transparent;
+		color: $primary;
+		border-color: $primary;
+	}
+
+	// button icon if applicable
+	.icon {
+		display: inline-block;
+		position: relative;
+		top: 1px;
+		width: 18px;
+		height: 18px;
+	}
+
+	// icon only button
+	&.icon-only {
+		display: inline-block;
+		position: relative;
+		width: 50px;
+		height: 50px;
+		padding: 0;
+		margin: 0;
+
+		.icon {
+			position: relative;
+			top: 2px;
+			width: 35px;
+			height: 35px;
+		}
+
+		&:hover {
+			@include boxShadow(none);
+		}
+
+		&:focus {
+			border-color: $primary;
+			@include boxShadow($box-shadow);
+		}
+	}
+
+	// hover events
+	&:hover {
+		@include boxShadow($primary-box-shadow);
+	}
+
+	// focus events
+	&:focus {
+		@include boxShadow($primary-box-shadow);
+	}
+}
+
+.page-nav {
+	list-style: none;
+	display: block;
+	width: 100%;
+	margin: 0;
+	padding: 0;
+	@include displayFlex;
+	flex-wrap: wrap-reverse;
+
+	.page-nav-item {
+		display: block;
+		width: 100%;
+		padding: 0;
+		margin: 0;
+	}
+
+	// single button styles
+	&.nav-single-button {
+		.page-nav-item {
+			width: 100%;
+
+			button {
+				width: 100%;
+				margin: 0;
+			}
+		}
+	}
+
+	// two button styles
+	&.nav-two-buttons {
+		.page-nav-item {
+			button {
+				width: 100%;
+				margin: 0;
+
+				&:nth-child(1) {
+					margin-bottom: $default-margin-bottom;
+				}
+			}
+		}
+	}
+}
