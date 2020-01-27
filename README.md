@@ -133,6 +133,18 @@ sudo su - -c "R -e \"install.packages('mongolite', repos='http://cran.rstudio.co
 sudo su - -c "R -e \"install.packages(c('shiny', 'mongolite', 'stringi', 'tools'), repos='http://cran.rstudio.com/')\""
 ```
 
+Installing packages from github.
+
+```bash
+R
+```
+
+And then...
+
+```r
+remotes::install_github("davidruvolo51/shinytools")
+```
+
 ### Updating server
 
 ```sh

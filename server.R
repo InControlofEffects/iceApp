@@ -2,7 +2,7 @@
 #' FILE: server.R
 #' AUTHOR: David Ruvolo
 #' CREATED: 2017-09-09
-#' MODIFIED: 2020-01-07
+#' MODIFIED: 2020-01-27
 #' PURPOSE: server for in control of effects application
 #' STATUS: in.progress
 #' PACKAGES: see global
@@ -54,8 +54,7 @@ server <- function(input, output, session) {
 
     # init logged value
     logged <- reactiveVal()
-    # logged(FALSE)  # default use TRUE for dev
-    logged(TRUE)  # default use TRUE for dev
+    logged(FALSE)  # default use TRUE for dev
 
     # run app when logged == TRUE
     observe({
