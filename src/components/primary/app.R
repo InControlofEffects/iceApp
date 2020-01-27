@@ -2,7 +2,7 @@
 #' FILE: index.R
 #' AUTHOR: David Ruvolo
 #' CREATED: 2019-08-29
-#' MODIFIED: 2020-01-25
+#' MODIFIED: 2020-01-27
 #' PURPOSE: generic R template for rendering UI based on login status
 #' PACKAGES: *see global*
 #' COMMENTS: NA
@@ -10,17 +10,13 @@
 # main app
 app <- function() {
     tagList(
-        # accessiblity link
         tags$a(
             class = "screen-reader-content",
             href = "#main",
             "skip to main content"
         ),
-        # navigation bar
         tags$nav(class = "navbar",
-            # site menu
             tags$ul(class = "menu",
-                # brand link - logo + application name
                 tags$li(class = "menu-item brand-item",
                     tags$a(
                         class = "menu-link",
@@ -33,7 +29,6 @@ app <- function() {
                         "In Control of Effects"
                     )
                 ),
-                # settings - restart application
                 tags$li(class = "menu-item",
                     tags$button(
                         id = "restart",
@@ -45,7 +40,6 @@ app <- function() {
                 )
             )
         ),
-        # progress bar
         tags$figure(class = "progressBar",
             tags$figcaption(class = "screen-reader-text", "Progress bar"),
             tags$div(
@@ -58,9 +52,8 @@ app <- function() {
                 `aria-valuetext` = ""
             )
         ),
-        # main output
         tags$main(class = "main", id = "main",
-            uiOutput("currentPage")
+            uiOutput("current_page")
         )
     )
 }

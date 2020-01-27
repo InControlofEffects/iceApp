@@ -2,7 +2,7 @@
 #' FILE: submit_effects.R
 #' AUTHOR: David Ruvolo
 #' CREATED: 2019-08-30
-#' MODIFIED: 2020-01-25
+#' MODIFIED: 2020-01-27
 #' PURPOSE: primary server code for handling side effect selection and results
 #' PACKAGES: shiny
 #' COMMENTS: uses server/utils/patientPrefs.R
@@ -21,12 +21,12 @@ observeEvent(input$submitEffects, {
     )
 
     # check the number of inputs and throw error message
-    # if number of items greater than 1, otherwise, process 
+    # if number of items greater than 1, otherwise, process
     # inputs and return results
     if (sum(selection[1, ]) == 0) {
 
         # throw error
-        js$innerHTML(
+        shinytools::inner_html(
             elem = "#form-error",
             string = "No side effects were selected. You must select one side effect."
         )
@@ -41,7 +41,7 @@ observeEvent(input$submitEffects, {
     } else if (sum(selection[1, ]) >= 2) {
 
         # throw error
-        js$innerHTML(
+        shinytools::inner_html(
             elem = "#form-error",
             string = "Too many side effects were selected. Select only one side effect."
         )
@@ -60,17 +60,17 @@ observeEvent(input$submitEffects, {
         # process page navigation from side effects to results page
 
         # increment page number
-        newPageNum <- pageNum() + 1
-        pageNum(newPageNum)
+        new_page_num <- page_num() + 1
+        page_num(new_page_num)
 
         # load next page
-        source(file = file_paths[pageNum()], local = TRUE)
-        output$currentPage <- page
+        source(file = file_paths[page_num()], local = TRUE)
+        output$current_page <- page
 
         # run function to update progress bar
         session$sendCustomMessage(
             type = "updateProgressBar",
-            c(1, file_length, pageNum())
+            c(1, file_length, page_num())
         )
 
         #'////////////////////////////////////////
@@ -84,42 +84,48 @@ observeEvent(input$submitEffects, {
                 "drug" = names(results),
                 "score" = results[1:31],
                 stringsAsFactors = FALSE,
-                row.names = 1:length(results)
+                row.names = seq_len(length(results))
             )
         })
 
         #'////////////////////////////////////////
         # send via innerHTML(id) - top 3
-        js$innerHTML(
+        shinytools::inner_html(
             elem = "#results-label-rec-1",
-            string = toTitleCase(outputs()[1, 1]), 50
+            string = toTitleCase(outputs()[1, 1]),
+            delay = 250
         )
-        js$innerHTML(
+        shinytools::inner_html(
             elem = "#results-label-rec-2",
-            string = toTitleCase(outputs()[2, 1]), 50
+            string = toTitleCase(outputs()[2, 1]),
+            delay = 250
         )
-        js$innerHTML(
+        shinytools::inner_html(
             elem = "#results-label-rec-3",
-            string = toTitleCase(outputs()[3, 1]), 50
+            string = toTitleCase(outputs()[3, 1]),
+            delay = 250
         )
 
         #'////////////////////////////////////////
         # send via innerHTML(id) - top 3 - rev order in worst score
         # (e.g., worst = highest num)
-        js$innerHTML(
+        shinytools::inner_html(
             elem = "#results-label-avoid-1",
-            string = toTitleCase(outputs()[31, 1]), 50
+            string = toTitleCase(outputs()[31, 1]),
+            delay = 250
         )
-        js$innerHTML(
+        shinytools::inner_html(
             elem = "#results-label-avoid-2",
-            string = toTitleCase(outputs()[30, 1]), 50
+            string = toTitleCase(outputs()[30, 1]),
+            delay = 250
         )
-        js$innerHTML(
+        shinytools::inner_html(
             elem = "#results-label-avoid-3",
-            string = toTitleCase(outputs()[29, 1]), 50
+            string = toTitleCase(outputs()[29, 1]),
+            delay = 250
         )
 
         # reset view to top
-        js$scrollToTop()
+        shinytools::scroll_to_top()
     }
 }, ignoreInit = TRUE)

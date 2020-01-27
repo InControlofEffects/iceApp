@@ -6,12 +6,12 @@
 #' PURPOSE: server for in control of effects application
 #' STATUS: in.progress
 #' PACKAGES: see global
-#' COMMENTS: 
+#' COMMENTS:
 #'      The server.R for the ICE application handles the loading of server and
-#'      ui components, as well as the loading and rendering of application pages.
+#'      ui components, as well as the loading/rendering of application pages.
 #'      The primary function of the server.R file is to handle the login status
 #'      of the application. The further processing of client interactivity is
-#'      handled in the server/index.R file and other files in the server/ directory
+#'      handled in the server/index.R file and other files in the server.
 #'      Please refer to those files for more information.
 #'//////////////////////////////////////////////////////////////////////////////
 #' SERVER
@@ -31,8 +31,8 @@ server <- function(input, output, session) {
     users <- readRDS("server/database/users.RDS")
 
     # define pages and starting point
-    pageNum <- reactiveVal()
-    pageNum(1)
+    page_num <- reactiveVal()
+    page_num(1)
     file_order <- c(
         "instructions_1.R",
         "instructions_2.R",
@@ -41,38 +41,41 @@ server <- function(input, output, session) {
         "results.R",
         "quit.R"
     )
-    
+
     # BUILD FILE PATHS + GET LENGTH
-    file_paths <- as.character(sapply(file_order, function(x) { paste0("src/pages/", x) }))
+    file_paths <- as.character(
+        sapply(
+            file_order,
+            function(x) {
+                paste0("src/pages/", x)
+        })
+    )
     file_length <- length(file_paths)
-
-
-    # set default app view as the login screen (loaded in global.R)
-    output$app <- renderUI(loginScreen())
-    js$addCSS("#app", "app-fullscreen")
 
     # init logged value
     logged <- reactiveVal()
-    logged(FALSE)  # default
-    # logged(TRUE)  # for dev
+    # logged(FALSE)  # default use TRUE for dev
+    logged(TRUE)  # default use TRUE for dev
 
     # run app when logged == TRUE
     observe({
-
-        if(logged() == "TRUE") {
-
-            # REMOVE CSS FROM APP
-            js$removeCSS("#app", "app-fullscreen")
+        if (logged() == "TRUE") {
+            shinytools::remove_css(elem = "#app", css = "app-fullscreen")
 
             # LOAD AND RENDER FIRST PAGE INTO APP TEMPLATE
             source(file = file_paths[1], local = TRUE)
             output$app <- renderUI(app())
-            output$currentPage <- page
-            
-            # INIT PROGRESS BAR
-            session$sendCustomMessage(type = "updateProgressBar", c(0, file_length, 1))
+            output$current_page <- page
 
+            # INIT PROGRESS BAR
+            session$sendCustomMessage(
+                type = "updateProgressBar",
+                c(0, file_length, 1)
+            )
+
+        } else {
+            output$app <- renderUI(loginScreen())
+            shinytools::add_css(elem = "#app", css = "app-fullscreen")
         }
     })
-
-} # END SERVER
+}
