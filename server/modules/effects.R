@@ -2,7 +2,7 @@
 #' FILE: submit_effects.R
 #' AUTHOR: David Ruvolo
 #' CREATED: 2019-08-30
-#' MODIFIED: 2020-01-27
+#' MODIFIED: 2020-03-24
 #' PURPOSE: primary server code for handling side effect selection and results
 #' PACKAGES: shiny
 #' COMMENTS: uses server/utils/patientPrefs.R
@@ -26,7 +26,7 @@ observeEvent(input$submitEffects, {
     if (sum(selection[1, ]) == 0) {
 
         # throw error
-        shinytools::inner_html(
+        browsertools::inner_html(
             elem = "#form-error",
             string = "No side effects were selected. You must select one side effect."
         )
@@ -41,7 +41,7 @@ observeEvent(input$submitEffects, {
     } else if (sum(selection[1, ]) >= 2) {
 
         # throw error
-        shinytools::inner_html(
+        browsertools::inner_html(
             elem = "#form-error",
             string = "Too many side effects were selected. Select only one side effect."
         )
@@ -90,17 +90,17 @@ observeEvent(input$submitEffects, {
 
         #'////////////////////////////////////////
         # send via innerHTML(id) - top 3
-        shinytools::inner_html(
+        browsertools::inner_html(
             elem = "#results-label-rec-1",
             string = toTitleCase(outputs()[1, 1]),
             delay = 250
         )
-        shinytools::inner_html(
+        browsertools::inner_html(
             elem = "#results-label-rec-2",
             string = toTitleCase(outputs()[2, 1]),
             delay = 250
         )
-        shinytools::inner_html(
+        browsertools::inner_html(
             elem = "#results-label-rec-3",
             string = toTitleCase(outputs()[3, 1]),
             delay = 250
@@ -109,23 +109,23 @@ observeEvent(input$submitEffects, {
         #'////////////////////////////////////////
         # send via innerHTML(id) - top 3 - rev order in worst score
         # (e.g., worst = highest num)
-        shinytools::inner_html(
+        browsertools::inner_html(
             elem = "#results-label-avoid-1",
             string = toTitleCase(outputs()[31, 1]),
             delay = 250
         )
-        shinytools::inner_html(
+        browsertools::inner_html(
             elem = "#results-label-avoid-2",
             string = toTitleCase(outputs()[30, 1]),
             delay = 250
         )
-        shinytools::inner_html(
+        browsertools::inner_html(
             elem = "#results-label-avoid-3",
             string = toTitleCase(outputs()[29, 1]),
             delay = 250
         )
 
         # reset view to top
-        shinytools::scroll_to_top()
+        browsertools::scroll_to_top()
     }
 }, ignoreInit = TRUE)

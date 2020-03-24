@@ -2,7 +2,7 @@
 #' FILE: global.R
 #' AUTHOR: David Ruvolo
 #' CREATED: 2017-09-14
-#' MODIFIED: 2020-01-27
+#' MODIFIED: 2020-03-24
 #' VERSION: 1.2.0
 #' PURPOSE: package, data, & utils loading
 #' PACKAGES: shiny, shinyjs, stringi, tools, mongolite
@@ -16,7 +16,6 @@ options(stringsAsFactors = F)
 suppressPackageStartupMessages(library(shiny))
 suppressPackageStartupMessages(library(stringi))
 suppressPackageStartupMessages(library(tools))
-suppressPackageStartupMessages(library(shinytools))
 
 #' SOURCE DATA
 antiPsychDF <- readRDS("server/data/antipsych_sideEffects.RDS")

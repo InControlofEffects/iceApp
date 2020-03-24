@@ -2,12 +2,11 @@
 #' FILE: instructions_1.R
 #' AUTHOR: David Ruvolo
 #' CREATED: 2019-06-08
-#' MODIFIED: 2020-01-27
-#' PURPOSE: page 1 instructions
+#' MODIFIED: 2020-03-24
+#' PURPOSE: function components for the instructions pages
 #' PACKAGES: shiny
 #' COMMENTS: NA
 #'//////////////////////////////////////////////////////////////////////////////
-# BUILD
 page <- renderUI({
     tags$section(class = "page",
         tags$h1("How to use this app"),

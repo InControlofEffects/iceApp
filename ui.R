@@ -2,7 +2,7 @@
 #' FILE: ui.R
 #' AUTHOR: David Ruvolo
 #' CREATED: 2017-09-09
-#' MODIFIED: 2020-01-27
+#' MODIFIED: 2020-03-24
 #' PURPOSE: client for in control of effects application
 #' STATUS: in.progress
 #' PACKAGES: see global
@@ -10,7 +10,7 @@
 #'//////////////////////////////////////////////////////////////////////////////
 # UI
 ui <- tagList(
-    shinytools::use_shinytools(),
+    browsertools::use_browsertools(),
     # <head>
     tags$head(lang = "en",
         tags$meta(charset = "utf-8"),

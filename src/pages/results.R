@@ -2,7 +2,7 @@
 #' FILE: results.R
 #' AUTHOR: David Ruvolo
 #' CREATED: 2019-06-08
-#' MODIFIED: 2020-01-27
+#' MODIFIED: 2020-03-24
 #' PURPOSE: ui for results page
 #' STATUS: working
 #' PACKAGES: shiny
@@ -11,17 +11,36 @@
 #'      a card with an icon and title. This component is located the file
 #'      src/components/elements/card-medicaiton.R and it is loaded in the server
 #'//////////////////////////////////////////////////////////////////////////////
-# BUILD
 page <- renderUI({
-    tags$section(class = "page",
 
-        # content
+    # function component for results cards
+    card_medication <- function(id, title = NULL, css = NULL, icon = NULL) {
+        card <- tags$div(class = "card", id = paste0("card-", id))
+        p <- tags$p(id = id, class = "card-label label-rec")
+
+        # add elems
+        if (!is.null(title)) p$children <- title
+        if (!is.null(icon)) card$children <- list(icon, p)
+        if (is.null(icon)) card$children <- p
+
+        # apply css
+        if (!is.null(css)) {
+            card$attribs$class <- paste0(card$attribs$class, " ", css)
+        }
+        return(card)
+    }
+
+    # render
+    page <- tags$section(class = "page",
         tags$h1("Results"),
-        tags$p("Based on the selections you've made, here are the results. The",
+        tags$p(
+            "Based on the selections you've made, here are the results. The",
             tags$strong("recommended"),
-            "medication list have a low likelihood of causing the side effect that you selected. The",
+            "medication list have a low likelihood of causing the side",
+            "effect that you selected. The",
             tags$strong("avoid"),
-            "medication list have a high likelihood of causing of the side effect that you selected.",
+            "medication list have a high likelihood of causing of the",
+            "side effect that you selected.",
             "Tap the button 'next' to finish the app."
         ),
 
@@ -35,7 +54,7 @@ page <- renderUI({
 
             # results: recommended 1
             card_medication(
-                id="results-label-rec-1",
+                id = "results-label-rec-1",
                 css = "card-rec",
                 icon = HTML(icons$checkmark)
             ),
@@ -84,8 +103,6 @@ page <- renderUI({
                 icon = HTML(icons$warning)
             )
         ),
-
-        # render buttons
         page_nav(buttons = c("previous", "next"))
     )
 })

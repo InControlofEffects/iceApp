@@ -2,7 +2,7 @@
 #' FILE: page-navigation.R
 #' AUTHOR: David Ruvolo
 #' CREATED: 2019-06-26
-#' MODIFIED: 2020-01-27
+#' MODIFIED: 2020-03-27
 #' PURPOSE: handle primary page navigation
 #' PACKAGES: shiny
 #' COMMENTS: NA
@@ -24,7 +24,7 @@ observeEvent(input$previousPage, {
     session$sendCustomMessage(
         type = "updateProgressBar", c(-1, file_length, page_num())
     )
-    shinytools::scroll_to_top()
+    browsertools::scroll_to_top()
 
 }, ignoreInit = TRUE)
 
@@ -45,7 +45,7 @@ observeEvent(input$nextPage, {
     session$sendCustomMessage(
         type = "updateProgressBar", c(1, file_length, page_num())
     )
-    shinytools::scroll_to_top()
+    browsertools::scroll_to_top()
 
 }, ignoreInit = TRUE)
 
@@ -66,7 +66,7 @@ observeEvent(input$start, {
     session$sendCustomMessage(
         type = "updateProgressBar", c(1, file_length, page_num())
     )
-    shinytools::scroll_to_top()
+    browsertools::scroll_to_top()
 
 }, ignoreInit = TRUE)
 
@@ -86,6 +86,6 @@ observeEvent(input$restart, {
     session$sendCustomMessage(
         type = "updateProgressBar", c(0, file_length, page_num())
     )
-    shinytools::scroll_to_top()
+    browsertools::scroll_to_top()
 
 }, ignoreInit = TRUE)

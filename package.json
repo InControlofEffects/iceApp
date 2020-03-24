@@ -1,22 +1,62 @@
 {
-  "name": "ice-app",
-  "version": "1.0.0",
-  "description": "shiny app for the decision of antipsychotic treatments and side effects",
-  "scripts": {
-    "build": "sass --watch www/css/index.scss:www/css/styles.min.css --style compressed"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/davidruvolo51/ice-app.git"
-  },
-  "keywords": [
-    "shiny",
-    "r"
-  ],
-  "author": "David Ruvolo",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/davidruvolo51/ice-app/issues"
-  },
-  "homepage": "https://github.com/davidruvolo51/ice-app#readme"
+	"name": "ice-app",
+	"version": "1.0.0",
+	"description": "shiny app for the decision of antipsychotic treatments and side effects",
+	"author": "David Ruvolo",
+	"license": "ISC",
+	"scripts": {
+		"clean": "rm www/css/styles.min.css www/js/index.min.js",
+		"scss": "parcel src/styles/index.scss -d www/css/ -o www/css/styles.min.css --port 1111 --no-cache --no-source-maps",
+		"scss_build": "parcel build src/styles/index.scss -d www/css/ -o www/css/styles.min.css --no-cache --no-source-maps",
+		"js": "parcel src/js/index.js -d www/js/ -o www/js/index.min.js --port 2222 --no-cache --no-source-maps",
+		"js_build": "babel src/js/index.js --out-file www/js/index.min.js --presets minify --no-comments",
+		"dev": "concurrently \"npm run scss\" \"npm run js\"",
+		"build": "concurrently \"npm run scss_build\" \"npm run js\"",
+		"shiny": "Rscript -e \"shiny::runApp(port=8000)\""
+	},
+	"devDependencies": {
+		"@babel/cli": "^7.8.4",
+		"@babel/core": "^7.9.0",
+		"@babel/preset-env": "^7.9.0",
+		"babel-preset-minify": "^0.5.1"
+	},
+	"dependencies": {
+		"autoprefixer": "^9.7.5",
+		"concurrently": "^5.1.0",
+		"cssnano": "^4.1.10",
+		"postcss-modules": "^1.5.0",
+		"sass": "^1.26.3"
+	},
+	"postcss": {
+		"modules": false,
+		"plugins": {
+			"autoprefixer": {
+				"overrideBrowserslist": [
+					">1%",
+					"last 4 versions",
+					"Firefox ESR",
+					"not ie < 9"
+				],
+				"flexbox": "no-2009"
+			},
+			"cssnano": {
+				"calc": true,
+				"discardComments": {
+					"removeAll": true
+				}
+			}
+		}
+	},
+	"keywords": [
+		"shiny",
+		"r"
+	],
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/davidruvolo51/ice-app.git"
+	},
+	"homepage": "https://github.com/davidruvolo51/ice-app#readme",
+	"bugs": {
+		"url": "https://github.com/davidruvolo51/ice-app/issues"
+	}
 }

@@ -2,10 +2,10 @@
 #' FILE: _login.R
 #' AUTHOR: David Ruvolo
 #' CREATED: 2019-12-11
-#' MODIFIED: 2019-12-11
-#' PURPOSE: server code for processing login 
+#' MODIFIED: 2020-03-24
+#' PURPOSE: server code for processing login
 #' STATUS: working
-#' PACKAGES: NA
+#' PACKAGES: sodium, browsertools (custom)
 #' COMMENTS: NA
 #'//////////////////////////////////////////////////////////////////////////////
 observeEvent(input$login, {
@@ -13,40 +13,103 @@ observeEvent(input$login, {
     # get input data
     username <- isolate(input$username)
     password <- isolate(input$password)
-    
+
     # reset error messages
-    js$innerHTML("#error-form", "")
-    js$innerHTML("#error-username", "")
-    js$innerHTML("#error-password", "")
-    js$removeCSS("#username", "invalid")
-    js$removeCSS("#password", "invalid")
-    
+    browsertools::inner_html("#error-form", "")
+    browsertools::inner_html("#error-username", "")
+    browsertools::inner_html("#error-password", "")
+    browsertools::remove_css("#username", "invalid")
+    browsertools::remove_css("#password", "invalid")
+
     # validate inputs and check credentials
     usr <- which(users$username == username)
-    if( username == "" || password == ""){
-        if( username == "" && password == ""){
-            js$innerHTML("#error-form", "Error: No username and password was entered. These fields cannot be left blank.")
-        } else if (username == "" && !(password == "") ){
-                js$innerHTML("#error-username", "Error: Username is missing")
-                js$addCSS("#username","invalid")
-            } else if(!(username == "") && password == "") {
-                js$innerHTML("#error-password","Error: Password is missing")
-                js$addCSS("#password", "invalid")
+    if (username == "" || password == "") {
+        if (username == "" && password == "") {
+
+            # throw error
+            browsertools::inner_html(
+                elem = "#error-form",
+                string = "Error: No username and password was entered."
+            )
+        } else if (username == "" && !(password == "")) {
+
+                # throw error
+                browsertools::inner_html(
+                    elem = "#error-username",
+                    string = "Error: Username is missing"
+                )
+
+                # add invalid class
+                browsertools::add_css(
+                    elem = "#username",
+                    css = "invalid"
+                )
+            } else if (!(username == "") && password == "") {
+                # throw error
+                browsertools::inner_html(
+                    elem = "#error-password",
+                    string = "Error: Password is missing"
+                )
+
+                # add invalid class
+                browsertools::add_css(
+                    elem = "#password",
+                    css = "invalid"
+                )
             } else {
-                js$innerHTML("#error-form", "Error: Something went wrong. Please enter your details again.")
+                # throw error
+                browsertools::inner_html(
+                    elem = "#error-form",
+                    string = "Error: The password or username is incorrect"
+                )
             }
-    } else if(length(usr)){
+    } else if (length(usr)) {
+
+        # verify password
         pwd <- sodium::password_verify(users$password[usr], password)
-        if(pwd){
+        if (pwd) {
+
+            # state is TRUE
             logged(TRUE)
+
         } else {
-            js$innerHTML("#error-password", "Error: The password is incorrect")
-            js$addCSS("#password", "invalid")
+
+            # throw error
+            browsertools::inner_html(
+                elem = "#error-password",
+                string = "Error: The password is incorrect"
+            )
+
+            # add invalid class
+            browsertools::add_css(
+                elem = "#password",
+                css = "invalid"
+            )
         }
-    } else if(!length(usr)){
-        js$innerHTML("#error-username", "Error: The username is incorrect")
-        js$addCSS("#username", "invalid")
+    } else if (!length(usr)) {
+
+        # throw error
+        browsertools::inner_html(
+            elem = "#error-username",
+            string = "Error: The username is incorrect"
+        )
+
+        # add class
+        browsertools::add_css(
+            elem = "#username",
+            css = "invalid"
+        )
+
     } else {
-        js$innerHTML("#error-form", "Error: Something went wrong. Please enter the details again. If you continue to have problems, contact the study coordinator.")
+
+        # throw error
+        browsertools::inner_html(
+            elem = "#error-form",
+            string = paste0(
+                "Error: Something went wrong. Please enter the details again.",
+                "If you continue to have problems, contact the study",
+                "coordinator."
+            )
+        )
     }
 })

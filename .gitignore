@@ -4,3 +4,5 @@
 .Ruserdata
 server/database/users.R
 .sass-cache
+node_modules/
+.cache/

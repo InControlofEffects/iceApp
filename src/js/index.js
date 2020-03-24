@@ -2,7 +2,7 @@
 // FILE: index.js
 // AUTHOR: David Ruvolo
 // CREATED: 2019-11-11
-// MODIFIED: 2020-01-27
+// MODIFIED: 2020-03-24
 // PURPOSE: main js file for app
 // DEPENDENCIES: NA
 // STATUS: working
@@ -159,8 +159,8 @@ const utils = (function(){
 })();
 
 // resetSideEffects
-Shiny.addCustomMessageHandler("resetSideEffects", function (event) {
-    utils.resetSideEffects();
+Shiny.addCustomMessageHandler("resetSideEffects", function (value) {
+    utils.resetSideEffects(value);
 });
 
 
@@ -168,5 +168,5 @@ Shiny.addCustomMessageHandler("resetSideEffects", function (event) {
 Shiny.addCustomMessageHandler("updateProgressBar", function (value) {
     setTimeout(function(){
         utils.updateProgressBar(value);
-    }, 50)
+    }, 150)
 });

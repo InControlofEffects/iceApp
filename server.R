@@ -2,7 +2,7 @@
 #' FILE: server.R
 #' AUTHOR: David Ruvolo
 #' CREATED: 2017-09-09
-#' MODIFIED: 2020-01-27
+#' MODIFIED: 2020-03-24
 #' PURPOSE: server for in control of effects application
 #' STATUS: in.progress
 #' PACKAGES: see global
@@ -18,7 +18,6 @@
 server <- function(input, output, session) {
 
     # load server components
-    source("server/utils/js_handlers.R", local = TRUE)
     source("server/utils/patient_prefs.R", local = TRUE)
     source("server/modules/login.R", local = TRUE)
     source("server/modules/effects.R", local = TRUE)
@@ -26,8 +25,6 @@ server <- function(input, output, session) {
 
     # load ui components
     source("src/components/primary/app.R", local = TRUE)
-    source("src/components/elements/card-side-effect.R", local = TRUE)
-    source("src/components/elements/card-medication.R", local = TRUE)
     users <- readRDS("server/database/users.RDS")
 
     # define pages and starting point
@@ -44,26 +41,24 @@ server <- function(input, output, session) {
 
     # BUILD FILE PATHS + GET LENGTH
     file_paths <- as.character(
-        sapply(
-            file_order,
-            function(x) {
-                paste0("src/pages/", x)
+        sapply(file_order, function(x) {
+            paste0("src/pages/", x)
         })
     )
     file_length <- length(file_paths)
 
     # init logged value
     logged <- reactiveVal()
-    logged(FALSE)  # default use TRUE for dev
+    logged(TRUE)  # default use TRUE for dev
 
     # run app when logged == TRUE
     observe({
         if (logged() == "TRUE") {
-            shinytools::remove_css(elem = "#app", css = "app-fullscreen")
+            browsertools::remove_css(elem = "#app", css = "app-fullscreen")
 
             # LOAD AND RENDER FIRST PAGE INTO APP TEMPLATE
             source(file = file_paths[1], local = TRUE)
-            output$app <- renderUI(app())
+            output$app <- shiny::renderUI(app())
             output$current_page <- page
 
             # INIT PROGRESS BAR
@@ -73,8 +68,8 @@ server <- function(input, output, session) {
             )
 
         } else {
-            output$app <- renderUI(loginScreen())
-            shinytools::add_css(elem = "#app", css = "app-fullscreen")
+            output$app <- shiny::renderUI(loginScreen())
+            browsertools::add_css(elem = "#app", css = "app-fullscreen")
         }
     })
 }

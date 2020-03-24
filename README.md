@@ -2,6 +2,42 @@
 
 This is a private repository for the *In Control of Effects* application. The In Control of Effects application is a decision making tool for potential antipsychotic medications based on unwanted side effects. The application is built using the [shiny](https://shiny.rstudio.com) framework for interactive applications in the R environment. 
 
+
+## Development
+
+1. Install Node.js and NPM
+
+2. Install packages
+
+```bash
+npm install
+```
+
+
+
+
+## First Time Installation
+
+If you want to start from scratch
+
+```bash
+# install babel
+npm install --save-dev @babel/core @babel/cli
+npm install @babel/preset-env --save-dev
+npm install --save-dev @babel/preset-env
+npm install babel-preset-minify --save-dev
+touch .babelrc
+
+# css plugins: cssnano, sass, autoprefixer
+npm install cssnano
+npm install sass
+npm install autoprefixer
+npm install postcss-modules
+```
+
+
+
+
 ## Tools
 
 This application uses the following technologies.
