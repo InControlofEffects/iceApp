@@ -9,7 +9,6 @@
 #' DATA: data/antipsych_sideeffects.RDS - see analysis on formats for more info
 #' NOTES: pkgs must be installed on server. see document on maintaining server
 #'//////////////////////////////////////////////////////////////////////////////
-#' GLOBAL OPTIONS:
 options(stringsAsFactors = F)
 
 #' LOAD PACKAGES
@@ -18,11 +17,22 @@ suppressPackageStartupMessages(library(stringi))
 suppressPackageStartupMessages(library(tools))
 
 #' SOURCE DATA
-antiPsychDF <- readRDS("server/data/antipsych_sideEffects.RDS")
+antiPsychDF <- readRDS("server/assets/incontrolofeffects_rx.RDS")
 
 #' SOURCE MODULES
-source("src/components/elements/icons.R")
-source("src/components/login-screen.R")
-source("src/components/elements/page-navigation.R")
+source("client/components/elements/icons.R")
+source("client/components/login-screen.R")
+source("client/components/elements/page-navigation.R")
 # source("modules/server/analytics.R")
 # source("server/visualizations.R")
+
+
+# application options
+opts <- list(
+
+    # should login screen be rendered?
+    logged = TRUE,
+
+    # app mode: use "dev", "prod", "test"
+    mode = "dev"
+)

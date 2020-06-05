@@ -1,62 +1,38 @@
 {
 	"name": "ice-app",
-	"version": "1.0.0",
+	"version": "1.1.0",
 	"description": "shiny app for the decision of antipsychotic treatments and side effects",
 	"author": "David Ruvolo",
 	"license": "ISC",
 	"scripts": {
-		"clean": "rm www/css/styles.min.css www/js/index.min.js",
-		"scss": "parcel src/styles/index.scss -d www/css/ -o www/css/styles.min.css --port 1111 --no-cache --no-source-maps",
-		"scss_build": "parcel build src/styles/index.scss -d www/css/ -o www/css/styles.min.css --no-cache --no-source-maps",
-		"js": "parcel src/js/index.js -d www/js/ -o www/js/index.min.js --port 2222 --no-cache --no-source-maps",
-		"js_build": "babel src/js/index.js --out-file www/js/index.min.js --presets minify --no-comments",
-		"dev": "concurrently \"npm run scss\" \"npm run js\"",
-		"build": "concurrently \"npm run scss_build\" \"npm run js\"",
+		"clean": "rm -rf www/iceapp.min.*",
+		"refresh_assets": "Rscript -e \"source('server/refresh_assets.R')\"",
+		"dev": "parcel src/index.js -d www/ -o www/iceapp.min.js --no-cache --no-source-maps",
+		"build": "parcel build src/index.js -d www/ -o www/iceapp.min.js --no-cache --no-source-maps",
 		"shiny": "Rscript -e \"shiny::runApp(port=8000)\""
 	},
 	"devDependencies": {
 		"@babel/cli": "^7.8.4",
 		"@babel/core": "^7.9.0",
 		"@babel/preset-env": "^7.9.0",
-		"babel-preset-minify": "^0.5.1"
-	},
-	"dependencies": {
 		"autoprefixer": "^9.7.5",
-		"concurrently": "^5.1.0",
+		"babel-preset-minify": "^0.5.1",
 		"cssnano": "^4.1.10",
+		"parcel": "1.12.4",
 		"postcss-modules": "^1.5.0",
 		"sass": "^1.26.3"
 	},
-	"postcss": {
-		"modules": false,
-		"plugins": {
-			"autoprefixer": {
-				"overrideBrowserslist": [
-					">1%",
-					"last 4 versions",
-					"Firefox ESR",
-					"not ie < 9"
-				],
-				"flexbox": "no-2009"
-			},
-			"cssnano": {
-				"calc": true,
-				"discardComments": {
-					"removeAll": true
-				}
-			}
-		}
-	},
+	"dependencies": {},
 	"keywords": [
 		"shiny",
 		"r"
 	],
 	"repository": {
 		"type": "git",
-		"url": "git+https://github.com/davidruvolo51/ice-app.git"
+		"url": "git+https://github.com/InControlofEffects/ice-app/ice-app.git"
 	},
-	"homepage": "https://github.com/davidruvolo51/ice-app#readme",
+	"homepage": "https://github.com/InControlofEffects/ice-app",
 	"bugs": {
-		"url": "https://github.com/davidruvolo51/ice-app/issues"
+		"url": "https://github.com/InControlofEffects/ice-app/issues"
 	}
 }

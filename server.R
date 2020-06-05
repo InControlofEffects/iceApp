@@ -2,7 +2,7 @@
 #' FILE: server.R
 #' AUTHOR: David Ruvolo
 #' CREATED: 2017-09-09
-#' MODIFIED: 2020-03-24
+#' MODIFIED: 2020-06-04
 #' PURPOSE: server for in control of effects application
 #' STATUS: in.progress
 #' PACKAGES: see global
@@ -18,42 +18,38 @@
 server <- function(input, output, session) {
 
     # load server components
-    source("server/utils/patient_prefs.R", local = TRUE)
+    source("server/assets/user_preferences.R", local = TRUE)
     source("server/modules/login.R", local = TRUE)
     source("server/modules/effects.R", local = TRUE)
     source("server/modules/navigation.R", local = TRUE)
 
     # load ui components
-    source("src/components/primary/app.R", local = TRUE)
+    source("client/components/primary/app.R", local = TRUE)
     users <- readRDS("server/database/users.RDS")
 
     # define pages and starting point
     page_num <- reactiveVal()
     page_num(1)
-    file_order <- c(
-        "instructions_1.R",
-        "instructions_2.R",
-        "instructions_3.R",
-        "side_effects.R",
-        "results.R",
-        "quit.R"
-    )
 
-    # BUILD FILE PATHS + GET LENGTH
-    file_paths <- as.character(
-        sapply(file_order, function(x) {
-            paste0("src/pages/", x)
-        })
+    # set order using full file paths
+    file_paths <- c(
+        "client/pages/instructions_1.R",
+        "client/pages/instructions_2.R",
+        "client/pages/instructions_3.R",
+        "client/pages/side_effects.R",
+        "client/pages/results.R",
+        "client/pages/quit.R"
     )
     file_length <- length(file_paths)
 
     # init logged value
-    logged <- reactiveVal()
-    logged(TRUE)  # default use TRUE for dev
+    logged <- reactiveVal(opts$logged)
 
-    # run app when logged == TRUE
+    # main observe that renders app based on user logged status
     observe({
-        if (logged() == "TRUE") {
+
+        # when logged
+        if (logged()) {
             browsertools::remove_css(elem = "#app", css = "app-fullscreen")
 
             # LOAD AND RENDER FIRST PAGE INTO APP TEMPLATE
@@ -66,8 +62,10 @@ server <- function(input, output, session) {
                 type = "updateProgressBar",
                 c(0, file_length, 1)
             )
+        }
 
-        } else {
+        # when !logged
+        if (!logged()) {
             output$app <- shiny::renderUI(loginScreen())
             browsertools::add_css(elem = "#app", css = "app-fullscreen")
         }
