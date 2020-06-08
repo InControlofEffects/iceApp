@@ -98,6 +98,14 @@
 				margin: 0;
 				max-height: 0;
 
+				position: absolute;
+				width: 1px;
+				height: 1px;
+				clip: rect(0, 0, 0, 0);
+				clip: rect(0 0 0 0);
+				overflow: hidden;
+				
+
 				// text
 				p {
 					width: 90%;
@@ -105,7 +113,12 @@
 
 				// when expanded
 				&.expanded {
+					position: static;
+					width: auto;
+					height: auto;
 					max-height: 2000px;
+					clip: auto;
+					overflow: auto;
 				}
 			}
 

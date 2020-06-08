@@ -1,5 +1,4 @@
 button {
-	@include noAppearance;
 	display: block;
 	position: relative;
 	margin: 12px 0;
@@ -76,12 +75,14 @@ button {
 
 	// hover events
 	&:hover {
-		@include boxShadow($primary-box-shadow);
+		// @include boxShadow($primary-box-shadow);
+		text-decoration: underline;
 	}
-
+	
 	// focus events
 	&:focus {
-		@include boxShadow($primary-box-shadow);
+		// @include boxShadow($primary-box-shadow);
+		text-decoration: underline;
 	}
 }
 
