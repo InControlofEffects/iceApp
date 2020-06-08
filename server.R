@@ -28,8 +28,7 @@ server <- function(input, output, session) {
     users <- readRDS("server/database/users.RDS")
 
     # define pages and starting point
-    page_num <- reactiveVal()
-    page_num(1)
+    page_num <- reactiveVal(opts$start_page)
 
     # set order using full file paths
     file_paths <- c(
@@ -53,7 +52,7 @@ server <- function(input, output, session) {
             browsertools::remove_css(elem = "#app", css = "app-fullscreen")
 
             # LOAD AND RENDER FIRST PAGE INTO APP TEMPLATE
-            source(file = file_paths[1], local = TRUE)
+            source(file = file_paths[page_num()], local = TRUE)
             output$app <- shiny::renderUI(app())
             output$current_page <- page
 

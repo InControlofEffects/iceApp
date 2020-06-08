@@ -34,5 +34,9 @@ opts <- list(
     logged = TRUE,
 
     # app mode: use "dev", "prod", "test"
-    mode = "dev"
+    mode = "dev",
+
+    # starting page
+    start_page = 4
+
 )

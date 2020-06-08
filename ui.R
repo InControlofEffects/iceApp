@@ -47,11 +47,11 @@ ui <- tagList(
             tags$link(
                 rel = "stylesheet",
                 type = "text/css",
-                href = "css/styles.min.css"
+                href = "iceapp.min.css"
             ),
             tags$title("In Control of Effects")
         )
     ),
     uiOutput("app"),
-    tags$script(src = "js/index.min.js")
+    tags$script(src = "iceapp.min.js")
 )
