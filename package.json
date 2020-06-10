@@ -22,7 +22,9 @@
 		"postcss-modules": "^1.5.0",
 		"sass": "^1.26.3"
 	},
-	"dependencies": {},
+	"dependencies": {
+		"css": "^2.2.4"
+	},
 	"keywords": [
 		"shiny",
 		"r"
