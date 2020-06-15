@@ -49,7 +49,7 @@ Shiny.addCustomMessageHandler("toggle_selection", function(data) {
 
 
 // reset side effects
-function resetSideEffects() {
+function reset_side_effects() {
 
     // get elements
     var cards = document.querySelectorAll(".side-effect-cards .card");
@@ -76,8 +76,8 @@ function resetSideEffects() {
 }
 
 // resetSideEffects
-Shiny.addCustomMessageHandler("resetSideEffects", function (value) {
-    resetSideEffects(value);
+Shiny.addCustomMessageHandler("reset_side_effects", function (value) {
+    reset_side_effects(value);
 });
 
 ////////////////////////////////////////

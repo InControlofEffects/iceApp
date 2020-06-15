@@ -7,14 +7,154 @@
 #' PACKAGES: shiny
 #' COMMENTS: uses server/utils/patientPrefs.R
 #'//////////////////////////////////////////////////////////////////////////////
-# ON SUBMIT RESULTS
+
+#' ~ 0 ~
+#' Functions for Communicating with Client via JS
+
+
+# opening/closing definitions
+toggle_definition <- function(id) {
+    session$sendCustomMessage("toggle_definition", list(id = id))
+}
+
+# if option selected, highlight.
+toggle_selection <- function(id) {
+    session$sendCustomMessage("toggle_selection", list(id = id))
+}
+
+# resetting side effects
+reset_side_effects <- function() {
+
+    # reset input values
+    shiny::updateCheckboxInput(session, "akathisia", value = 0)
+    shiny::updateCheckboxInput(session, "anticholinergic", value = 0)
+    shiny::updateCheckboxInput(session, "antiparkinson", value = 0)
+    shiny::updateCheckboxInput(session, "extrapyram", value = 0)
+    shiny::updateCheckboxInput(session, "prolactin", value = 0)
+    shiny::updateCheckboxInput(session, "qtc", value = 0)
+    shiny::updateCheckboxInput(session, "sedation", value = 0)
+    shiny::updateCheckboxInput(session, "weight_gain", value = 0)
+
+    # clear styles
+    session$sendCustomMessage(type = "reset_side_effects", "event")
+}
+
+#'//////////////////////////////////////
+
+#' ~ 1 ~
+# Events for Akathisia Card
+
+# make selection
+observeEvent(input$akathisia, {
+    toggle_selection(id = "akathisia")
+}, ignoreInit = TRUE)
+
+# toggle definition + log event
+observeEvent(input$`card-akathisia-btn`, {
+    toggle_definition(id = "akathisia")
+}, ignoreInit = TRUE)
+
+#'//////////////////////////////////////
+
+#' ~ 2 ~
+# Events for Anticholinergic Card
+
+# make selection
+observeEvent(input$anticholinergic, {
+    toggle_selection(id = "anticholinergic")
+}, ignoreInit = TRUE)
+
+
+# toggle definition + log event
+observeEvent(input$`card-anticholinergic-btn`, {
+    toggle_definition(id = "anticholinergic")
+}, ignoreInit = TRUE)
+
+#'//////////////////////////////////////
+
+#' ~ 3 ~
+#' Events for Antiparkinson Card
+
+# make selection
+observeEvent(input$antiparkinson, {
+    toggle_selection(id = "antiparkinson")
+}, ignoreInit = TRUE)
+
+# toggle definition + log event
+observeEvent(input$`card-antiparkinson-btn`, {
+    toggle_definition(id = "antiparkinson")
+}, ignoreInit = TRUE)
+
+#'//////////////////////////////////////
+
+#' ~ 4 ~
+#' Events for Prolactin Card
+
+# make selection
+observeEvent(input$prolactin, {
+    toggle_selection(id = "prolactin")
+}, ignoreInit = TRUE)
+
+# toggle definition + log event
+observeEvent(input$`card-prolactin-btn`, {
+    toggle_definition(id = "prolactin")
+}, ignoreInit = TRUE)
+
+#'//////////////////////////////////////
+
+#' ~ 5 ~
+#' Events for QTC Card
+
+# make selection
+observeEvent(input$qtc, {
+    toggle_selection(id = "qtc")
+}, ignoreInit = TRUE)
+
+# toggle definition + log event
+observeEvent(input$`card-qtc-btn`, {
+    toggle_definition(id = "qtc")
+}, ignoreInit = TRUE)
+
+#'//////////////////////////////////////
+
+#' ~ 6 ~
+#' Events for Sedation Card
+
+# make selection
+observeEvent(input$sedation, {
+    toggle_selection(id = "sedation")
+}, ignoreInit = TRUE)
+
+# toggle definition + log event
+observeEvent(input$`card-sedation-btn`, {
+    toggle_definition(id = "sedation")
+}, ignoreInit = TRUE)
+
+#'//////////////////////////////////////
+
+#' ~ 7 ~
+#' Events for Weight Gain
+
+# make selection
+observeEvent(input$`weight_gain`, {
+    toggle_selection(id = "weight_gain")
+}, ignoreInit = TRUE)
+
+# toggle definition + log event
+observeEvent(input$`card-weight_gain-btn`, {
+    toggle_definition(id = "weight_gain")
+}, ignoreInit = TRUE)
+
+#'//////////////////////////////////////
+
+# on submission
 observeEvent(input$submitEffects, {
 
     #' gather selections and order in alphabetical order by id
     selection <- data.frame(
         akathisia = ifelse(input$akathisia, 1, 0),
         anticholinergic = ifelse(input$anticholinergic, 1, 0),
-        antiparkison = ifelse(input$antiparkison, 1, 0),
+        antiparkison = ifelse(input$antiparkinson, 1, 0),
         prolactin = ifelse(input$prolactin, 1, 0),
         qtc = ifelse(input$qtc, 1, 0),
         sedation = ifelse(input$sedation, 1, 0),
@@ -40,12 +180,8 @@ observeEvent(input$submitEffects, {
             )
         )
 
-        # reset all input values to 0 & remove all css classes
-        shiny::updateCheckboxInput(session, "weight", value = 0)
-        shiny::updateCheckboxInput(session, "qtc", value = 0)
-        shiny::updateCheckboxInput(session, "prolactin", value = 0)
-        shiny::updateCheckboxInput(session, "extrapyram", value = 0)
-        session$sendCustomMessage(type = "resetSideEffects", "event")
+        # reset side effects
+        reset_side_effects()
 
     } else if (sum(selection[1, ]) >= 2) {
 
@@ -65,13 +201,8 @@ observeEvent(input$submitEffects, {
             )
         )
 
-        # reset all input values to 0 and remove all css classes
-        shiny::updateCheckboxInput(session, "weight", value = 0)
-        shiny::updateCheckboxInput(session, "qtc", value = 0)
-        shiny::updateCheckboxInput(session, "prolactin", value = 0)
-        shiny::updateCheckboxInput(session, "extrapyram", value = 0)
-        session$sendCustomMessage(type = "resetSideEffects", "event")
-
+        # reset side effects
+        reset_side_effects()
 
     } else {
 
