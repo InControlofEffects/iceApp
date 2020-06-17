@@ -2,7 +2,7 @@
 #' FILE: server.R
 #' AUTHOR: David Ruvolo
 #' CREATED: 2017-09-09
-#' MODIFIED: 2020-06-04
+#' MODIFIED: 2020-06-17
 #' PURPOSE: server for in control of effects application
 #' STATUS: in.progress
 #' PACKAGES: see global
@@ -14,8 +14,16 @@
 #'      handled in the server/index.R file and other files in the server.
 #'      Please refer to those files for more information.
 #'//////////////////////////////////////////////////////////////////////////////
-#' SERVER
+#' SERVER 
 server <- function(input, output, session) {
+
+    # wrapper for progress bar updater
+    updateProgressBar <- function(el = "bar", now, max = file_length) {
+        session$sendCustomMessage(
+            type = "updateProgressBar",
+            list(el = el, now = now, max = max)
+        )
+    }
 
     # load server components
     source("server/assets/user_preferences.R", local = TRUE)
@@ -24,11 +32,12 @@ server <- function(input, output, session) {
     source("server/modules/navigation.R", local = TRUE)
 
     # load ui components
-    source("client/components/primary/app.R", local = TRUE)
+    source("client/login-screen.R", local = TRUE)
     users <- readRDS("server/database/users.RDS")
 
     # define pages and starting point
-    page_num <- reactiveVal(opts$start_page)
+    page_num <- reactiveVal()
+    page_num(4)
 
     # set order using full file paths
     file_paths <- c(
@@ -41,15 +50,15 @@ server <- function(input, output, session) {
     )
     file_length <- length(file_paths)
 
-    # init logged value
-    logged <- reactiveVal(opts$logged)
+
+    #'//////////////////////////////////////
 
     # main observe that renders app based on user logged status
+    logged <- reactiveVal(TRUE)
     observe({
 
         # when logged
         if (logged()) {
-            browsertools::remove_css(elem = "#app", css = "app-fullscreen")
 
             # LOAD AND RENDER FIRST PAGE INTO APP TEMPLATE
             source(file = file_paths[page_num()], local = TRUE)
@@ -57,16 +66,12 @@ server <- function(input, output, session) {
             output$current_page <- page
 
             # INIT PROGRESS BAR
-            session$sendCustomMessage(
-                type = "updateProgressBar",
-                c(0, file_length, 1)
-            )
+            updateProgressBar(now = page_num())
         }
 
         # when !logged
         if (!logged()) {
-            output$app <- shiny::renderUI(loginScreen())
-            browsertools::add_css(elem = "#app", css = "app-fullscreen")
+            output$current_page <- renderUI(loginScreen())
         }
     })
 }

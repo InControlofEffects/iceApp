@@ -10,11 +10,7 @@
 #'//////////////////////////////////////////////////////////////////////////////
 # UI
 ui <- tagList(
-
-    # load dependencies for UI packages
     browsertools::use_browsertools(),
-
-    # application <head>
     singleton(
         tags$head(lang = "en",
             tags$meta(charset = "utf-8"),
@@ -52,6 +48,49 @@ ui <- tagList(
             tags$title("In Control of Effects")
         )
     ),
-    uiOutput("app"),
+    tags$a(
+        class = "screen-reader-content",
+        href = "#main",
+        "skip to main content"
+    ),
+    tags$nav(class = "navbar",
+        tags$ul(class = "menu",
+            tags$li(class = "menu-item brand-item",
+                tags$a(
+                    class = "menu-link",
+                    href = "https://incontrolofeffects.com",
+                    appLogo(),
+                    "In Control of Effects"
+                )
+            ),
+            tags$li(class = "menu-item",
+                tags$button(
+                    id = "restart",
+                    class = "action-button shiny-bound-input",
+                    title = "Restart",
+                    tags$span(
+                        class = "screen-reader-text",
+                        "restart the application"
+                    ),
+                    rheroicons::outline$refresh(aria_hidden = TRUE)
+                )
+            )
+        )
+    ),
+    tags$figure(class = "progressBar",
+        tags$figcaption(class = "screen-reader-text", "Progress bar"),
+        tags$div(
+            id = "bar",
+            class = "bar",
+            role = "progressbar",
+            `aria-valuenow` = "0",
+            `aria-valuemin` = "0",
+            `aria-valuemax` = "1",
+            `aria-valuetext` = ""
+        )
+    ),
+    tags$main(class = "main", id = "main",
+        uiOutput("current_page")
+    ),
     tags$script(src = "iceapp.min.js")
 )
