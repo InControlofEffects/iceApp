@@ -2,10 +2,10 @@
 #' FILE: side_effects.R
 #' AUTHOR: David Ruvolo
 #' CREATED: 2019-06-08
-#' MODIFIED: 2020-06-04
+#' MODIFIED: 2020-06-15
 #' PURPOSE: page for displaying side effects options
 #' STATUS: working
-#' PACKAGES: shiny
+#' PACKAGES: shiny; rheroicons
 #' COMMENTS:
 #'      This page uses the UI component `card_input` to standardize the UI. This
 #'      function can be found here: src/components/elements/card-side-effect.R
@@ -39,7 +39,7 @@ page <- renderUI({
                     id = paste0("card-", id, "-btn"),
                     `data-group` = id,
                     `aria-expanded` = "false",
-                    HTML(icons$menuToggle)
+                    rheroicons::outline$chevron_down()
                 ),
                 # collapsible definition
                 tags$div(
@@ -53,18 +53,32 @@ page <- renderUI({
     }
 
     # render
-    page <- tags$section(
+    tags$section(
+        id = "side-effects-page",
         class = "page",
         tags$h1("Which side effect would you like to avoid?"),
-        tags$span(class = "error-text", id = "form-error", role = "alert"),
+        tags$p(
+            id = "side-effects-selection-title",
+            "Click or tap the name of the side effect you would like to avoid."
+        ),
+        tags$div(
+            class = "error-box browsertools-hidden",
+            id = "side-effects-error-box",
+            role = "alert",
+            `aria-hidden` = "true",
+            rheroicons::outline$exclamation(aria_hidden = TRUE),
+            tags$span(
+                id = "side-effects-error-message",
+                class = "error-box-text"
+            )
+        ),
         tags$form(
+            id = "side-effects-selection",
             class = "card-group side-effect-cards",
-            tags$legend(
-                id = "side-effect-cards-title",
-                class = "form-legend",
-                "Select one side effect"
-            ),
+            `aria-labelledby` = "side-effects-selection-title",
             tags$fieldset(
+                class = "filled-fieldset",
+
                 # side effects: akathisia >> restlessness
                 card_input(
                     id = "akathisia",
@@ -153,16 +167,16 @@ page <- renderUI({
                 `data-group` = "accordion",
                 tags$button(
                     id = "additional-options",
-                    class = "accordion-button",
+                    class = "accordion-button shiny-bound-input action-button",
                     `data-group` = "accordion",
                     `aria-expanded` = "false",
                     "Additional Options",
-                    HTML(icons$menuToggle)
+                    rheroicons::outline$cog()
                 )
             ),
             tags$div(
                 id = "additional-options-fieldset",
-                class = "accordion-section",
+                class = "accordion-section browsertools-hidden",
                 `data-group` = "accordion",
                 tags$fieldset(
                     id = "licensed-countries",
@@ -178,7 +192,7 @@ page <- renderUI({
                             value = "Germany",
                             type = "checkbox"
                         ),
-                        HTML(icons$checkmark),
+                        rheroicons::outline$check(),
                         tags$label(
                             `for` = "countries-germany",
                             "Germany"
@@ -194,7 +208,7 @@ page <- renderUI({
                             value = "UK",
                             type = "checkbox"
                         ),
-                        HTML(icons$checkmark),
+                        rheroicons::outline$check(),
                         tags$label(
                             `for` = "countries-uk",
                             "United Kingdom"
@@ -210,7 +224,7 @@ page <- renderUI({
                             value = "UK",
                             type = "checkbox"
                         ),
-                        HTML(icons$checkmark),
+                        rheroicons::outline$check(),
                         tags$label(
                             `for` = "countries-usa",
                             "United States"

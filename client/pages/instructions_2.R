@@ -2,14 +2,16 @@
 #' FILE: instructions_2.R
 #' AUTHOR: David Ruvolo
 #' CREATED: 2019-06-08
-#' MODIFIED: 2020-01-27
+#' MODIFIED: 2020-06-15
 #' PURPOSE: second page of instructions
 #' PACKAGES: shiny
 #' COMMENTS: NA
 #'//////////////////////////////////////////////////////////////////////////////
 # BUILD
 page <- renderUI({
-    tags$section(class = "page",
+    tags$section(
+        id = "instructions-page-2",
+        class = "page instructions-page",
         tags$h1("How to use this app"),
         tags$p(
             "The results page will show a list of recommend medications",

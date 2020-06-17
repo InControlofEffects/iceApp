@@ -2,10 +2,10 @@
 #' FILE: results.R
 #' AUTHOR: David Ruvolo
 #' CREATED: 2019-06-08
-#' MODIFIED: 2020-03-24
+#' MODIFIED: 2020-06-15
 #' PURPOSE: ui for results page
 #' STATUS: working
-#' PACKAGES: shiny
+#' PACKAGES: shiny; rheroicons
 #' COMMENTS:
 #'      This page uses the UI component card_medication. This component renders
 #'      a card with an icon and title. This component is located the file
@@ -31,7 +31,9 @@ page <- renderUI({
     }
 
     # render
-    page <- tags$section(class = "page",
+    page <- tags$section(
+        id = "results-page",
+        class = "page",
         tags$h1("Results"),
         tags$p(
             "Based on the selections you've made, here are the results. The",
@@ -56,21 +58,21 @@ page <- renderUI({
             card_medication(
                 id = "results-label-rec-1",
                 css = "card-rec",
-                icon = HTML(icons$checkmark)
+                icon = rheroicons::solid$check()
             ),
 
             # results: recommended 2
             card_medication(
                 id = "results-label-rec-2",
                 css = "card-rec",
-                icon = HTML(icons$checkmark)
+                icon = rheroicons::solid$check()
             ),
 
             # results: recommended 3
             card_medication(
                 id = "results-label-rec-3",
                 css = "card-rec",
-                icon = HTML(icons$checkmark)
+                icon = rheroicons::solid$check()
             )
         ),
 
@@ -86,21 +88,21 @@ page <- renderUI({
             card_medication(
                 id = "results-label-avoid-1",
                 css = "card-avoid",
-                icon = HTML(icons$warning)
+                icon = rheroicons::solid$exclamation()
             ),
 
             # results: avoid 2
             card_medication(
                 id = "results-label-avoid-2",
                 css = "card-avoid",
-                icon = HTML(icons$warning)
+                icon = rheroicons::solid$exclamation()
             ),
 
             # results: avoid 3
             card_medication(
                 id = "results-label-avoid-3",
                 css = "card-avoid",
-                icon = HTML(icons$warning)
+                icon = rheroicons::solid$exclamation()
             )
         ),
         page_nav(buttons = c("previous", "next"))

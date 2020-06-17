@@ -2,9 +2,9 @@
 #' FILE: page-navigation.R
 #' AUTHOR: David Ruvolo
 #' CREATED: 2019-06-09
-#' MODIFIED: 2020-01-27
+#' MODIFIED: 2020-06-15
 #' PURPOSE: module for page navigation buttons
-#' PACKAGES: shiny
+#' PACKAGES: shiny; rheroicons
 #' COMMENTS:
 #'          This "module" is for rendering the end of page navigation buttons.
 #'          By default, the function returns the previous page button and the
@@ -19,7 +19,8 @@ navbtns <- list()
 navbtns$previous <- tags$button(
     id = "previousPage",
     class = "action-button shiny-bound-input default",
-    HTML(icons$chevron$left),
+    # HTML(icons$chevron$left),
+    rheroicons::outline$chevron_left(),
     "Previous"
 )
 
@@ -28,7 +29,8 @@ navbtns$`next` <- tags$button(
     id = "nextPage",
     class = "action-button shiny-bound-input primary",
     "Next",
-    HTML(icons$chevron$right)
+    # HTML(icons$chevron$right)
+    rheroicons::outline$chevron_right()
 )
 
 # START BUTTON
@@ -36,7 +38,8 @@ navbtns$start <- tags$button(
     id = "start",
     class = "action-button shiny-bound-input primary",
     "Start",
-    HTML(icons$chevron$right)
+    # HTML(icons$chevron$right)
+    rheroicons::outline$chevron_right()
 )
 
 # SUBMIT BUTTON
@@ -44,14 +47,16 @@ navbtns$submit <- tags$button(
     id = "submit",
     class = "action-button shiny-bound-input primary",
     "Submit",
-    HTML(icons$chevron$right)
+    # HTML(icons$chevron$right)
+    rheroicons::outline$chevron_right()
 )
 
 # RESTART BUTTON
 navbtns$restart <- tags$button(
     id = "restart",
     class = "action-button shiny-bound-input primary",
-    HTML(icons$chevron$left),
+    # HTML(icons$chevron$left),
+    rheroicons::outline$refresh(),
     "Restart"
 )
 
@@ -60,7 +65,8 @@ navbtns$quit <- tags$button(
     id = "quit",
     class = "action-button shiny-bound-input primary",
     "Quit",
-    HTML(icons$chevron$right)
+    # HTML(icons$chevron$right)
+    rheroicons::outline$logout()
 )
 
 # SIGNIN BUTTON

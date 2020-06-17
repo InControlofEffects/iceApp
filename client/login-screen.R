@@ -2,7 +2,7 @@
 #' FILE: login-screen.R
 #' AUTHOR: David Ruvolo
 #' CREATED: 2019-08-27
-#' MODIFIED: 2020-01-25
+#' MODIFIED: 2020-06-15
 #' PURPOSE: login screen for shiny app
 #' PACKAGES: see global R
 #' COMMENTS: NA
@@ -15,7 +15,8 @@ loginScreen <- function() {
         tags$a(
             class = "brandlink",
             href = "https://incontrolofeffects.com",
-            tags$img(class = "logo", src = "images/Logo.svg"),
+            # tags$img(class = "logo", src = "images/Logo.svg"),
+            appLogo(),
             tags$span("In Control of Effects")
         ),
 
