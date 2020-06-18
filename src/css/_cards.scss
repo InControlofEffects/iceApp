@@ -8,7 +8,7 @@
 		padding: 24px 44px;
 		border-radius: 12px;
 		border: 2px solid transparent;
-		@include boxShadow($box-shadow);
+		background-color: #ffffff;
 		color: $text;
 	}
 
@@ -18,6 +18,7 @@
 
 		.card {
 			width: 70%;
+			background-color: #ffffff;
 
 			// label
 			.card-input {
@@ -29,7 +30,7 @@
 				// span for word breaks
 				span {
 					display: inline-block;
-					width: 90%;
+					box-shadow: inset 0 -2px 0 0 transparent;
 					word-break: keep-all;
 					-webkit-hyphens: auto;
 					-moz-hyphens: auto;
@@ -46,31 +47,33 @@
 					border-bottom: 3px solid currentColor;
 					height: 6px;
 					width: 12px;
-					@include transform(rotate(-45deg));
+					transform: rotate(-45deg);
+					transform-origin: center center;
 					opacity: 0;
+				}
+
+				// focus
+				.checkboxes:focus + span {
+					box-shadow: inset 0 -2px 0 0 $primary;
 				}
 			}
 
 			// toggle
 			.card-toggle {
 				position: absolute;
-				top: 26px;
+				top: 24px;
 				right: 24px;
-				padding: 0;
+				padding: 6px;
 				margin: 0;
-				width: 35px;
-				height: 35px;
 				border-radius: 50%;
 				background-color: transparent;
 
 				// toggle icon
-				.icon {
+				.rheroicons {
 					display: block;
 					position: relative;
-					width: 30px;
-					height: 30px;
-					-webkit-transition: transform 0.3s ease-in-out;
-					-o-transition: transform 0.3s ease-in-out;
+					transform: scale(1.5);
+					transform-origin: center center;
 					transition: transform 0.3s ease-in-out;
 				}
 
@@ -79,16 +82,15 @@
 					color: currentColor;
 
 					// rotate icon
-					.icon {
-						@include transform(rotate(-180deg));
+					.rheroicons {
+						transform: scale(1.5) rotate(-180deg);
 					}
 				}
 
-				// when card toggle is focused or hovered
-				&:focus,
-				&:hover {
+				// hovered or focused
+				&:hover, &:focus {
 					background-color: $primary;
-					color: white;
+					color: #ffffff;
 				}
 			}
 
@@ -124,30 +126,6 @@
 
 			// hover for side effect cards
 			&:hover {
-				background-color: $primary;
-
-				// change label
-				.card-input {
-					span {
-						color: white;
-					}
-				}
-
-				// change toggle color
-				.card-toggle {
-					color: white;
-				}
-
-				// alter definitions
-				.card-content {
-					p {
-						color: white;
-					}
-				}
-			}
-
-			// focus for side effects
-			&.focused {
 				border-color: $primary;
 			}
 
@@ -165,7 +143,7 @@
 				}
 
 				.card-toggle {
-					.icon {
+					.rheroicons {
 						color: white;
 					}
 				}
@@ -183,14 +161,14 @@
 			width: 100%;
 
 			// icons + labels
-			.icon,
+			.rheroicons,
 			.card-label {
 				display: inline-block;
 				padding: 8px 0;
 			}
 
 			// icons
-			.icon {
+			.rheroicons {
 				position: absolute;
 				width: 35px;
 				height: 35px;
@@ -199,12 +177,12 @@
 				margin: 0;
 
 				// icons for recommended medications
-				&.icon-checkmark path {
+				&.rheroicons-check {
 					stroke: green;
 				}
 
 				// icons for avoid medications
-				&.icon-warning path {
+				&.rheroicons-exclamation {
 					fill: $error;
 				}
 			}
@@ -267,4 +245,23 @@
 			// }
 		}
 	}
+}
+
+@media (min-width: 512px) {
+
+	// set widths for card sets
+	.card-group {
+		&.side-effect-cards {
+			.card {
+				width: 65%;
+			}
+		}
+		&.medication-cards {
+			.card {
+				width: 60%;
+			}
+		}
+	}
+
+	
 }

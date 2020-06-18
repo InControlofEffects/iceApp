@@ -22,9 +22,7 @@ fieldset {
 h1,
 h2,
 h3,
-h4,
-h5,
-h6,
+h4
 legend {
 	color: $dark;
 	line-height: $line-height-headings;
@@ -61,79 +59,11 @@ p {
 
 a {
 	text-decoration: none;
-	
 	padding: 0;
 	margin: 0;
-	border-bottom: 2px solid transparent;
 	color: $primary;
+	box-shadow: inset 0 -1px 0 0 currentColor;
 	cursor: pointer;
-
-	&:focus {
-		@include boxShadow($primary-box-shadow);
-	}
-}
-
-span,
-strong {
-	color: inherit;
-	line-height: inherit;
-}
-
-// block quotes - used for messages
-blockquote {
-	position: relative;
-	margin: 16px 0;
-	padding: 8px;
-	line-height: $line-height-headings;
-	color: $text;
-	border-left-width: 36px;
-	border-left-style: solid;
-	border-left-color: transparent;
-	font-size: $font-size;
-	font-weight: 600;
-
-	&::before {
-		content: "!";
-		position: absolute;
-		@include displayFlex;
-		@include flexJustifyContent("center");
-		@include flexAlignItems("center");
-		width: 36px;
-		height: 100%;
-		top: 0;
-		left: -36px;
-		text-align: center;
-		font-weight: 600;
-		font-size: 21pt;
-	}
-}
-
-// specific styles for warning messages
-.error-text {
-	display: block;
-	color: $error;
-	font-weight: 600;
-	font-size: 11pt;
-	margin-bottom: 8px;
-	line-height: $line-height-headings;
-}
-
-.warning {
-	border-left-color: $warning;
-	background-color: $warning-accent;
-}
-
-.error {
-	border-left-color: $error;
-	background-color: $error-accent;
-
-	&::before {
-		color: white;
-	}
-
-	.error-text {
-		margin: 0;
-	}
 }
 
 // ordered and unordered lists
@@ -154,38 +84,6 @@ img {
 	width: 100%;
 }
 
-// default table styles
-table {
-	width: 100%;
-	margin: 24px auto;
-	font-weight: normal;
-	border-spacing: 0;
-	text-align: left;
-
-	// table header
-	thead tr th {
-		font-weight: 600;
-		text-transform: uppercase;
-		font-size: 14pt;
-		padding: 6px 12px;
-		border-bottom: 1px solid $dark;
-		color: $dark;
-	}
-
-	// table body
-	tbody tr td {
-		padding: 24px 12px;
-		font-size: 14pt;
-		color: $text;
-	}
-
-	// row highlighting
-	tbody tr:nth-child(even) {
-		background-color: $semi-light;
-	}
-}
-
-
 // input: checkboxes
 input[type=checkbox] {
 	position: absolute;
@@ -199,17 +97,15 @@ input[type=checkbox] {
 // input: text-based
 input[type=text],
 input[type=password] {
-	@include noAppearance;
 	display: block;
-	width: 300px;
 	font-size: 12pt;
 	color: $dark;
 	padding: 8px;
 	padding-left: 12px;
 	border: 2px solid transparent;
-	background-color: rgba(230, 230, 230, 0.1);
+	background-color: #ffffff;
 	margin-bottom: 12px;
-	@include boxShadow(inset 0 0 4px 0 #c5c5c5);
+	box-shadow: inset 0 0 4px 0 #c5c5c5;
 
 	// focus events
 	&:focus {
@@ -220,4 +116,8 @@ input[type=password] {
 	&.invalid {
 		border-color: $error;
 	}
+}
+
+fieldset {
+	border: none;
 }

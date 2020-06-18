@@ -6,24 +6,24 @@
     margin: 0;
     top: 0;
     z-index: 999;
-    background-color: white;
+    background-color: #ffffff;
     border-bottom: 1px solid $light;
-    @include boxShadow($box-shadow);
+    box-shadow: $box-shadow;
 
     // navigation list - menu
     .menu {
         list-style: none;
         padding: 0;
         margin: 0;
-        @include displayGrid;
-        @include gridTemplateColumns(7fr 1fr);
+        display: grid;
+        grid-template-columns: 8fr repeat(2, 65px);
         grid-column-gap: 0;
-        grid-template-areas: "brand textIcon restartIcon";
+        grid-template-areas: "brand restartIcon logoutIcon";
 
         // all menu items
         .menu-item {
             display: inline-block;
-            padding: 8px;
+            padding: 12px;
             margin: 0;
 
             // reset button styles
@@ -34,23 +34,28 @@
                 box-shadow: none;
             }
 
-            // icons
-            .icon {
+            .rheroicons {
+                transform: scale(1.5);
+                transform-origin: center center;
+                color: $primary;
 
-                &.icon-restart {
-                    width: 25px;
-                    height: 25px;
+                &.rheroicons-logout {
+                    transform: scale(-1.5, 1.5);
+                    transform-origin: center;
                 }
             }
 
             // styling for first link, i.e., the branding link + logo
             &.brand-item {
                 
-                .menu-link {
+                .menu-title {
+                    margin: 0;
+                    line-height: 1;
                     font-size: 11pt;
                     text-transform: uppercase;
                     font-weight: bold;
                     letter-spacing: 2px;
+                    color: $primary;
 
                     .logo {
                         position: relative;
@@ -81,6 +86,27 @@
                 justify-content: flex-end;
                 align-items: center;
             }
+            &:nth-child(3){
+                -ms-grid-column: 3;
+                -ms-grid-row: 1;
+                grid-column: 3;
+                grid-row: 1;
+                grid-area: logoutIcon;
+                display: flex;
+                justify-content: flex-end;
+                align-items: center;
+                margin-right: 16px;
+            }
         }
     }
+}
+
+@media (min-width: 512px) {
+    .navbar {
+		.brand-link {
+			.menu-link {
+				font-size: 16pt;
+			}
+		}
+	}
 }
