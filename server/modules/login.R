@@ -2,12 +2,28 @@
 #' FILE: _login.R
 #' AUTHOR: David Ruvolo
 #' CREATED: 2019-12-11
-#' MODIFIED: 2020-03-24
+#' MODIFIED: 2020-06-18
 #' PURPOSE: server code for processing login
 #' STATUS: working
 #' PACKAGES: sodium, browsertools (custom)
 #' COMMENTS: NA
 #'//////////////////////////////////////////////////////////////////////////////
+
+# reset signin form error messages
+reset_signin_errors <- function() {
+    browsertools::inner_text("#signin-form-error-message", "")
+    browsertools::hide_elem("#signin-form-error")
+    browsertools::remove_css("#username", "invalid")
+    browsertools::remove_css("#password", "invalid")
+}
+
+# send new message
+send_signin_error <- function(string) {
+    browsertools::show_elem("#signin-form-error")
+    browsertools::inner_text("#signin-form-error-message", string)
+}
+
+# onSubmit
 observeEvent(input$login, {
 
     # get input data
@@ -15,101 +31,33 @@ observeEvent(input$login, {
     password <- isolate(input$password)
 
     # reset error messages
-    browsertools::inner_html("#error-form", "")
-    browsertools::inner_html("#error-username", "")
-    browsertools::inner_html("#error-password", "")
-    browsertools::remove_css("#username", "invalid")
-    browsertools::remove_css("#password", "invalid")
+    reset_signin_errors()
 
     # validate inputs and check credentials
     usr <- which(users$username == username)
     if (username == "" || password == "") {
         if (username == "" && password == "") {
-
-            # throw error
-            browsertools::inner_html(
-                elem = "#error-form",
-                string = "Error: No username and password was entered."
-            )
+            send_signin_error("No username or password entered")
         } else if (username == "" && !(password == "")) {
+            send_signin_error("Username is missing")
+            browsertools::add_css("#username", "invalid")
 
-                # throw error
-                browsertools::inner_html(
-                    elem = "#error-username",
-                    string = "Error: Username is missing"
-                )
-
-                # add invalid class
-                browsertools::add_css(
-                    elem = "#username",
-                    css = "invalid"
-                )
-            } else if (!(username == "") && password == "") {
-                # throw error
-                browsertools::inner_html(
-                    elem = "#error-password",
-                    string = "Error: Password is missing"
-                )
-
-                # add invalid class
-                browsertools::add_css(
-                    elem = "#password",
-                    css = "invalid"
-                )
-            } else {
-                # throw error
-                browsertools::inner_html(
-                    elem = "#error-form",
-                    string = "Error: The password or username is incorrect"
-                )
-            }
+        } else if (!(username == "") && password == "") {
+            send_signin_error("Password is missing")
+            browsertools::add_css("#password", "invalid")
+        } else {
+            send_signin_error("Username or password is incorrect")
+        }
     } else if (length(usr)) {
-
-        # verify password
         pwd <- sodium::password_verify(users$password[usr], password)
         if (pwd) {
-
-            # state is TRUE
             logged(TRUE)
-
         } else {
-
-            # throw error
-            browsertools::inner_html(
-                elem = "#error-password",
-                string = "Error: The password is incorrect"
-            )
-
-            # add invalid class
-            browsertools::add_css(
-                elem = "#password",
-                css = "invalid"
-            )
+            send_signin_error("Username or password is incorrect")
         }
     } else if (!length(usr)) {
-
-        # throw error
-        browsertools::inner_html(
-            elem = "#error-username",
-            string = "Error: The username is incorrect"
-        )
-
-        # add class
-        browsertools::add_css(
-            elem = "#username",
-            css = "invalid"
-        )
-
+        send_signin_error("The username or password is incorrect")
     } else {
-
-        # throw error
-        browsertools::inner_html(
-            elem = "#error-form",
-            string = paste0(
-                "Error: Something went wrong. Please enter the details again.",
-                "If you continue to have problems, contact the study",
-                "coordinator."
-            )
-        )
+        send_signin_error("Something went wrong. Please try again")
     }
 })

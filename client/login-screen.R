@@ -2,7 +2,7 @@
 #' FILE: login-screen.R
 #' AUTHOR: David Ruvolo
 #' CREATED: 2019-08-27
-#' MODIFIED: 2020-06-17
+#' MODIFIED: 2020-06-18
 #' PURPOSE: login screen for shiny app
 #' PACKAGES: see global R
 #' COMMENTS: NA
@@ -17,7 +17,10 @@ loginScreen <- function() {
             tags$form(
                 id = "signin-form",
                 class = "form",
-                rheroicons::solid$user_circle(aria_hidden = TRUE),
+                rheroicons::solid$user_circle(
+                    aria_hidden = TRUE,
+                    id = "signin-icon"
+                ),
                 tags$h2(
                     id = "signin-form-title",
                     "Welcome, please sign in"
@@ -76,7 +79,7 @@ loginScreen <- function() {
             ),
             tags$p(
                 id = "return-link",
-                "Return to the ",
+                "Or return to the ",
                 tags$a(
                     href = "#",
                     "main"
