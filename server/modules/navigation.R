@@ -2,7 +2,7 @@
 #' FILE: page-navigation.R
 #' AUTHOR: David Ruvolo
 #' CREATED: 2019-06-26
-#' MODIFIED: 2020-06-017
+#' MODIFIED: 2020-06-18
 #' PURPOSE: handle primary page navigation
 #' PACKAGES: shiny
 #' COMMENTS: NA
@@ -87,3 +87,19 @@ observeEvent(input$restart, {
     }
 
 }, ignoreInit = TRUE)
+
+
+#' ~ 5 ~
+#' NAVIGATION: APP SIGNOUT
+observeEvent(input$logout, {
+
+    # log out
+    logged(FALSE)
+
+    # reset progress bar
+    page_num(0)
+    updateProgressBar(now = page_num())
+
+    # scroll to top
+    browsertools::scroll_to()
+})
