@@ -2,7 +2,7 @@
 #' FILE: submit_effects.R
 #' AUTHOR: David Ruvolo
 #' CREATED: 2019-08-30
-#' MODIFIED: 2020-06-04
+#' MODIFIED: 2020-06-18
 #' PURPOSE: primary server code for handling side effect selection and results
 #' PACKAGES: shiny
 #' COMMENTS: uses server/utils/patientPrefs.R
@@ -176,132 +176,142 @@ observeEvent(input$`additional-options`, {
 #'//////////////////////////////////////
 
 # on submission
-# observeEvent(input$submitEffects, {
+observeEvent(input$submitEffects, {
 
-#     # hide error
-#     hide_error_message()
+    # hide error
+    hide_error_message()
 
-#     #' gather selections and order in alphabetical order by id
-#     selection <- data.frame(
-#         akathisia = ifelse(input$akathisia, 1, 0),
-#         anticholinergic = ifelse(input$anticholinergic, 1, 0),
-#         antiparkison = ifelse(input$antiparkinson, 1, 0),
-#         prolactin = ifelse(input$prolactin, 1, 0),
-#         qtc = ifelse(input$qtc, 1, 0),
-#         sedation = ifelse(input$sedation, 1, 0),
-#         weight_gain = ifelse(input$weight_gain, 1, 0),
-#         stringsAsFactors = FALSE
-#     )
+    #' gather selections and order in alphabetical order by id
+    selection <- data.frame(
+        akathisia = ifelse(input$akathisia, 1, 0),
+        anticholinergic = ifelse(input$anticholinergic, 1, 0),
+        antiparkinson = ifelse(input$antiparkinson, 1, 0),
+        prolactin = ifelse(input$prolactin, 1, 0),
+        qtc = ifelse(input$qtc, 1, 0),
+        sedation = ifelse(input$sedation, 1, 0),
+        weight_gain = ifelse(input$weight_gain, 1, 0),
+        stringsAsFactors = FALSE
+    )
 
-#     # check the number of inputs and throw error message
-#     # if number of items greater than 1, otherwise, process
-#     # inputs and return results
-#     if (sum(selection[1, ]) == 0) {
+    # check the number of inputs and throw error message
+    # if number of items greater than 1, otherwise, process
+    # inputs and return results
+    if (sum(selection[1, ]) == 0) {
 
-#         # throw error
-#         browsertools::scroll_to()
-#         browsertools::console_error(
-#             message = "Selection Error: no selections were detected."
-#         )
-#         show_error_message(
-#             paste0(
-#                 "No selections were made.",
-#                 " You must select one side effect"
-#             )
-#         )
+        # throw error
+        browsertools::scroll_to()
+        browsertools::console_error(
+            message = "Selection Error: no selections were detected."
+        )
+        show_error_message(
+            paste0(
+                "No selections were made.",
+                " You must select one side effect"
+            )
+        )
 
-#         # reset side effects
-#         reset_side_effects()
+        # reset side effects
+        reset_side_effects()
 
-#     } else if (sum(selection[1, ]) >= 2) {
+    } else if (sum(selection[1, ]) >= 2) {
 
-#         # throw error
-#         browsertools::scroll_to()
-#         browsertools::console_error(
-#             message = paste0(
-#                 "Selection Error: too many side effects were selected.",
-#                 "User is allowed one selection."
-#             )
-#         )
-#         show_error_message(
-#             paste0(
-#                 "Too many side effects were selected. ",
-#                 "You can only select one side effect."
-#             )
-#         )
+        # throw error
+        browsertools::scroll_to()
+        browsertools::console_error(
+            message = paste0(
+                "Selection Error: too many side effects were selected.",
+                "User is allowed one selection."
+            )
+        )
+        show_error_message(
+            paste0(
+                "Too many selections were made. ",
+                "You must select one side effect."
+            )
+        )
 
-#         # reset side effects
-#         reset_side_effects()
+        # reset side effects
+        reset_side_effects()
 
-#     } else {
+    } else {
 
-#         #'////////////////////////////////////////
-#         # process page navigation from side effects to results page
+        #'////////////////////////////////////////
+        # process page navigation from side effects to results page
 
-#         # increment page number
-#         new_page_num <- page_num() + 1
-#         page_num(new_page_num)
+        # increment page number
+        new_page_num <- page_num() + 1
+        page_num(new_page_num)
 
-#         # load next page
-#         output$current_page <- renderUI({
-#             pages[[page_num()]]()
-#         })
+        # load next page
+        output$current_page <- renderUI({
+            pages[[page_num()]]()
+        })
 
-#         # run function to update progress bar
-#         session$sendCustomMessage(
-#             type = "updateProgressBar",
-#             c(1, file_length, page_num())
-#         )
+        #'////////////////////////////////////////
 
-#         #'////////////////////////////////////////
+        # exclude cases where selection has NA values
+        selectedSideEffect <- names(selection)[selection[1, ] == 1]
+        filteredDF <- reactive({
+            antiPsychDF[
+                (
+                    antiPsychDF$side_effect == selectedSideEffect &
+                    !is.na(antiPsychDF$value)
+                ), ]
+            })
 
-#         # run user inputs through function
-#         results <- as.data.frame(
-#             user_preferences(
-#                 data = antiPsychDF,
-#                 weights = selection[1, ],
-#                 return_all = FALSE
-#             )
-#         )
+        # run user inputs through function
+        results <- as.data.frame(
+            user_preferences(
+                data = filteredDF(),
+                weights = selection[1, ],
+                return_all = FALSE
+            )
+        )
 
-#         #'////////////////////////////////////////
-#         # send via innerHTML(id) - top 3
-#         browsertools::inner_text(
-#             elem = "#results-label-rec-1",
-#             string = results[1, "name"],
-#             delay = 250
-#         )
-#         browsertools::inner_html(
-#             elem = "#results-label-rec-2",
-#             string = results[2, "name"],
-#             delay = 250
-#         )
-#         browsertools::inner_html(
-#             elem = "#results-label-rec-3",
-#             string = results[3, "name"],
-#             delay = 250
-#         )
+        # reset side effects
+        reset_side_effects()
 
-#         #'////////////////////////////////////////
-#         # send via innerHTML(id) - top 3 - rev order in worst score
-#         # (e.g., worst = highest num)
-#         browsertools::inner_html(
-#             elem = "#results-label-avoid-1",
-#             string = results[NROW(results), "name"],
-#             delay = 250
-#         )
-#         browsertools::inner_html(
-#             elem = "#results-label-avoid-2",
-#             string = results[NROW(results) - 1, "name"],
-#             delay = 250
-#         )
-#         browsertools::inner_html(
-#             elem = "#results-label-avoid-3",
-#             string = results[NROW(results) - 2, "name"],
-#             delay = 250
-#         )
+        print(selection)
 
-#         # reset view to top
-#         browsertools::scroll_to()
-#     }
-# }, ignoreInit = TRUE)
+        #'////////////////////////////////////////
+        # send via innerHTML(id) - top 3
+        browsertools::inner_text(
+            elem = "#results-label-rec-1",
+            string = results[1, "name"],
+            delay = 250
+        )
+        browsertools::inner_html(
+            elem = "#results-label-rec-2",
+            string = results[2, "name"],
+            delay = 250
+        )
+        browsertools::inner_html(
+            elem = "#results-label-rec-3",
+            string = results[3, "name"],
+            delay = 250
+        )
+
+        #'////////////////////////////////////////
+        # send via innerHTML(id) - top 3 - rev order in worst score
+        # (e.g., worst = highest num)
+        browsertools::inner_html(
+            elem = "#results-label-avoid-1",
+            string = results[NROW(results), "name"],
+            delay = 250
+        )
+        browsertools::inner_html(
+            elem = "#results-label-avoid-2",
+            string = results[NROW(results) - 1, "name"],
+            delay = 250
+        )
+        browsertools::inner_html(
+            elem = "#results-label-avoid-3",
+            string = results[NROW(results) - 2, "name"],
+            delay = 250
+        )
+
+        # run function to update progress bar
+        updateProgressBar(now = page_num())
+        browsertools::scroll_to()
+    }
+}, ignoreInit = TRUE)
