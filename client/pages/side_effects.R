@@ -2,7 +2,7 @@
 #' FILE: side_effects.R
 #' AUTHOR: David Ruvolo
 #' CREATED: 2019-06-08
-#' MODIFIED: 2020-06-15
+#' MODIFIED: 2020-06-17
 #' PURPOSE: page for displaying side effects options
 #' STATUS: working
 #' PACKAGES: shiny; rheroicons
@@ -53,7 +53,7 @@ page <- renderUI({
     }
 
     # render
-    tags$section(
+    tags$article(
         id = "side-effects-page",
         class = "page",
         tags$h1("Which side effect would you like to avoid?"),
@@ -84,7 +84,9 @@ page <- renderUI({
                     id = "akathisia",
                     title = "Restlessness",
                     text = paste0(
-                        "tbd"
+                        "Antipsychotic medications can effect dopamine",
+                        " levels in the brain, which may result in feelings",
+                        " of restlessness or an inability to sit still."
                     )
                 ),
 
@@ -93,7 +95,12 @@ page <- renderUI({
                     id = "anticholinergic",
                     title = "Dry mouth and constipation",
                     text = paste0(
-                        "tbd"
+                        "Antipsychotic medications can block acetylcholine",
+                        " a type of chemical in the brain.",
+                        " Blocking it can affect involuntary muscle",
+                        " movements (for example the ones in the bladder and",
+                        " the guts) and various bodily functions (for",
+                        " example saliva production)."
                     )
                 ),
 
@@ -115,7 +122,7 @@ page <- renderUI({
                     id = "prolactin",
                     title = "Sexual dysfunction",
                     text = paste0(
-                        "Some medications increase a hormone called",
+                        "Antipsychotic medications increase a hormone called",
                         " prolactin. In women, prolactin plays an important",
                         " part in pregnancy and an increased level of",
                         " Prolactin may result in lactation. In men, higher",
@@ -142,9 +149,12 @@ page <- renderUI({
                 # side effects: sedation >> ?
                 card_input(
                     id = "sedation",
-                    title = "Feeling tired or drowsy",
+                    title = "Feeling sleepy or drowsy",
                     text = paste0(
-                        "tbd"
+                        "Antipsychotic medications can effect a chemical in",
+                        " the brain known as histamine. Low levels of",
+                        " histamine can lead to feeling sleepy, tired or",
+                        " drowsy."
                     )
                 ),
 
