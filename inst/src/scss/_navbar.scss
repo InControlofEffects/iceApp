@@ -1,0 +1,112 @@
+
+.navbar {
+    position: fixed;
+    width: 100%;
+    padding: 0;
+    margin: 0;
+    top: 0;
+    z-index: 999;
+    background-color: #ffffff;
+    border-bottom: 1px solid $light;
+    box-shadow: $box-shadow;
+
+    // navigation list - menu
+    .menu {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        display: grid;
+        grid-template-columns: 8fr repeat(2, 65px);
+        grid-column-gap: 0;
+        grid-template-areas: "brand restartIcon logoutIcon";
+
+        // all menu items
+        .menu-item {
+            display: inline-block;
+            padding: 12px;
+            margin: 0;
+
+            // reset button styles
+            button {
+                padding: 0;
+                margin: 0;
+                border-radius: 0;
+                box-shadow: none;
+            }
+
+            .rheroicons {
+                transform: scale(1.5);
+                transform-origin: center center;
+                color: $primary;
+
+                &.rheroicons-logout {
+                    transform: scale(-1.5, 1.5);
+                    transform-origin: center;
+                }
+            }
+
+            // styling for first link, i.e., the branding link + logo
+            &.brand-item {
+                
+                .menu-title {
+                    margin: 0;
+                    line-height: 1;
+                    font-size: 11pt;
+                    text-transform: uppercase;
+                    font-weight: bold;
+                    letter-spacing: 2px;
+                    color: $primary;
+
+                    .logo {
+                        position: relative;
+                        display: inline-block;
+                        width: 22px;
+                        height: 22px;
+                        top: 4px;
+                    }
+                }
+            }
+
+            // grid arrange menu items
+            &:nth-child(1){
+                -ms-grid-column: 1;
+                -ms-grid-row: 1;
+                grid-column: 1;
+                grid-row: 1;
+                grid-area: brand;
+            }
+
+            &:nth-child(2){
+                -ms-grid-column: 2;
+                -ms-grid-row: 1;
+                grid-column: 2;
+                grid-row: 1;
+                grid-area: restartIcon;
+                display: flex;
+                justify-content: flex-end;
+                align-items: center;
+            }
+            &:nth-child(3){
+                -ms-grid-column: 3;
+                -ms-grid-row: 1;
+                grid-column: 3;
+                grid-row: 1;
+                grid-area: logoutIcon;
+                display: flex;
+                justify-content: flex-end;
+                align-items: center;
+                margin-right: 16px;
+            }
+        }
+    }
+}
+
+@media (min-width: 512px) {
+    .navbar {
+		.brand-link {
+			.menu-link {
+				font-size: 16pt;
+			}
+		}
+	}
+}
