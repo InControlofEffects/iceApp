@@ -4,14 +4,5 @@
 			"path": "."
 		}
 	],
-	"settings": {
-		"sassVariablesHelper.route": "./src/css/_variables.scss"
-	},
-	"extensions": {
-		"recommendations": [
-			"Nkzq.sass-variables-helper",
-			"Ikuyadeu.r",
-			"REditorSupport.r-lsp"
-		]
-	}
+	"settings": {}
 }
