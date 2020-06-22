@@ -78,7 +78,7 @@ button {
 		// @include boxShadow($primary-box-shadow);
 		text-decoration: underline;
 	}
-	
+
 	// focus events
 	&:focus {
 		// @include boxShadow($primary-box-shadow);
@@ -87,104 +87,105 @@ button {
 }
 
 // page navigation buttons
-.page-nav {
-	list-style: none;
+.navigation-wrapper {
 	display: block;
-	width: 100%;
-	margin: 0;
 	padding: 0;
-	display: flex;
-	flex-wrap: wrap-reverse;
+	margin: 0;
+	margin-top: 16px;
 
-	.page-nav-item {
+	.navigation-button-list {
+		list-style: none;
 		display: block;
 		width: 100%;
-		padding: 0;
 		margin: 0;
-	}
+		padding: 0;
+		display: flex;
+		flex-wrap: wrap-reverse;
 
-	// single button styles
-	&.nav-single-button {
-		.page-nav-item {
-			width: 100%;
-
-			button {
-				width: 100%;
-				margin: 0;
-			}
-		}
-	}
-
-	// two button styles
-	&.nav-two-buttons {
-		.page-nav-item {
-			button {
+		&.single-button-list {
+			.navigation-item {
+				display: block;
 				width: 100%;
 				margin: 0;
 
-				&:nth-child(1) {
-					margin-bottom: $default-margin-bottom;
-				}
-			}
-		}
-	}
-}
-
-@media (min-width: 512px) { 
-	// page buttons
-	.page-nav {
-		.page-nav-item {
-			display: inline-block;
-			width: 50%;
-			margin: 0;
-		}
-
-		&.nav-single-button .page-nav-item,
-		&.nav-two-buttons .page-nav-item {
-			button {
-				width: 250px;
-				margin: 0;
-
-				&:nth-child(1) {
+				button {
+					width: 100%;
 					margin: 0;
 				}
 			}
 		}
 
-		&.nav-single-button {
-			align-items: center;
-			justify-content: flex-end;
+		&.multi-button-list {
+			.navigation-item {
+				display: block;
+				width: 100%;
+				
+				button {
+					width: 100%;
+					margin: 0;
+					margin-bottom: 16px;
+					
+					&:last-child {
+						margin-bottom: 0;
+					}
+				}
 
-			.page-nav-item {
-				display: flex;
-				justify-content: flex-end;
-			}
-		}
-
-		&.nav-two-buttons {
-			.page-nav-item:nth-child(1) {
-				display: flex;
-				justify-content: flex-start;
-			}
-			.page-nav-item:nth-child(2) {
-				display: flex;
-				justify-content: flex-end;
 			}
 		}
 	}
 }
 
 @media (min-width: 636px) {
-	.page-nav {
-		button {
-			display: inline-block;
-			width: 175px;
+	.navigation-wrapper {
+		.navigation-button-list {
+			&.single-button-list {
+				align-items: center;
+				justify-content: flex-end;
+
+				.navigation-item {
+					display: flex;
+					justify-content: flex-end;
+					button {
+						width: 250px;
+						margin: 0;
+
+						&:nth-child(1) {
+							margin: 0;
+						}
+					}
+				}
+			}
+
+			&.multi-button-list {
+				.navigation-item {
+					display: inline-block;
+					width: 50%;
+					margin: 0;
+
+					button {
+						width: 250px;
+						margin: 0;
+
+						&:nth-child(1) {
+							margin: 0;
+						}
+					}
+					&:nth-child(1) {
+						display: flex;
+						justify-content: flex-start;
+					}
+					&:nth-child(2) {
+						display: flex;
+						justify-content: flex-end;
+					}
+				}
+			}
 		}
 	}
 }
 
 @media (min-width: 972px) {
-	.page-nav {
+	.navigation-wrapper {
 		width: 100%;
 		max-width: 972px;
 		margin: 0;
