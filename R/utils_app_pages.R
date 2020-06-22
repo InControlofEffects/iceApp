@@ -102,7 +102,7 @@ pages[[4]] <- mod_app_page_ui(
                 class = "filled-fieldset",
 
                 # side effects: akathisia >> restlessness
-                mod_side_effect_card_ui(
+                mod_side_effect_ui(
                     id = "akathisia",
                     title = "Restlessness",
                     text = paste0(
@@ -113,7 +113,7 @@ pages[[4]] <- mod_app_page_ui(
                 ),
 
                 # side effect: anticholinergic >> dry mouth and constipation
-                mod_side_effect_card_ui(
+                mod_side_effect_ui(
                     id = "anticholinergic",
                     title = "Dry mouth and constipation",
                     text = paste0(
@@ -127,7 +127,7 @@ pages[[4]] <- mod_app_page_ui(
                 ),
 
                 # side effect: Antiparkinson >> Stiffness and tremors
-                mod_side_effect_card_ui(
+                mod_side_effect_ui(
                     id = "antiparkinson",
                     title = "Stiffness and tremor",
                     text = paste0(
@@ -140,7 +140,7 @@ pages[[4]] <- mod_app_page_ui(
                 ),
 
                 # side effect: prolactin >> sexual dysfunction
-                mod_side_effect_card_ui(
+                mod_side_effect_ui(
                     id = "prolactin",
                     title = "Sexual dysfunction",
                     text = paste0(
@@ -156,7 +156,7 @@ pages[[4]] <- mod_app_page_ui(
                 ),
 
                 # side effects: qtc >> irregular heatbeat
-                mod_side_effect_card_ui(
+                mod_side_effect_ui(
                     id = "qtc",
                     title = "Irregular heartbeat",
                     text = paste0(
@@ -169,7 +169,7 @@ pages[[4]] <- mod_app_page_ui(
                 ),
 
                 # side effects: sedation >> ?
-                mod_side_effect_card_ui(
+                mod_side_effect_ui(
                     id = "sedation",
                     title = "Feeling sleepy or drowsy",
                     text = paste0(
@@ -181,7 +181,7 @@ pages[[4]] <- mod_app_page_ui(
                 ),
 
                 # side effects: weight change >> weight gain
-                mod_side_effect_card_ui(
+                mod_side_effect_ui(
                     id = "weight_gain",
                     title = "Weight gain",
                     text = paste0(
@@ -262,7 +262,7 @@ pages[[4]] <- mod_app_page_ui(
                 )
             )
         ),
-        mod_navigation_ui(id = "submitEffects", buttons = c("previous", "submit"))
+        mod_navigation_ui(id = "sideEffects", buttons = c("previous", "submit"))
     )
 )
 

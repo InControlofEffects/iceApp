@@ -11,39 +11,7 @@
 
 import "./scss/index.scss"
 
-
-// toggle definition
-function toggle_definition(id) {
-
-    // get elements
-    let section = document.querySelector(`.card-content[data-group='${id}']`);
-    let btn = document.querySelector(`button[data-group='${id}'`);
-    let open = btn.getAttribute("aria-expanded") === true;
-    
-    // modify attributes and classes
-    btn.classList.toggle("rotated");
-    btn.setAttribute("aria-expanded", !open);
-
-    section.classList.toggle("expanded");
-    section.setAttribute("aria-hidden", !open);
-}
-
-// bind
-Shiny.addCustomMessageHandler("toggle_definition", function(data) {
-    toggle_definition(data.id);
-});
-
 ////////////////////////////////////////
-
-// set selection
-Shiny.addCustomMessageHandler("select_effect", function(data) {
-    document.querySelector(`.card[data-group=${data.id}]`).classList.add("selected");
-});
-
-Shiny.addCustomMessageHandler("deselect_effect", function(data) {
-    document.querySelector(`.card[data-group=${data.id}]`).classList.remove("selected");
-});
-
 
 // reset side effects
 function reset_side_effects() {

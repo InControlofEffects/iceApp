@@ -29,5 +29,5 @@ golem::set_golem_options()
 ## Create Common Files ----
 ## See ?usethis for more information
 usethis::use_mit_license(name = "dcruvolo")  # You can set another license here
-usethis::use_readme_rmd(open = FALSE)
+usethis::use_readme_md(open = FALSE)
 usethis::use_news_md(open = FALSE)

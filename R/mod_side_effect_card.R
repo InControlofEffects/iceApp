@@ -4,10 +4,10 @@
 #' @param id,input,output,session Internal parameters for {shiny}.
 #' @importFrom shiny NS tagList
 #' @noRd
-mod_side_effect_card_ui <- function(id, title, text) {
+mod_side_effect_ui <- function(id, title, text) {
   ns <- NS(id)
   tags$div(
-        id = ns("sideeffect"),
+        id = ns("sideEffects"),
         class = "card side-effects",
         tags$label(
             class = "card-input",
@@ -34,9 +34,8 @@ mod_side_effect_card_ui <- function(id, title, text) {
 }
     
 #' side_effect_card Server Function
-#'
 #' @noRd
-mod_side_effect_card_server <- function(input, output, session) {
+mod_se_server <- function(input, output, session) {
 
     # parse module ID
     ns <- session$ns
@@ -50,12 +49,12 @@ mod_side_effect_card_server <- function(input, output, session) {
     observeEvent(input$checked, {
         if (input$checked) {
             browsertools::add_css(
-                elem = paste0("#", id, "-sideeffect"),
+                elem = paste0("#", id, "-sideEffects"),
                 css = "selected"
             )
         } else {
             browsertools::remove_css(
-                elem = paste0("#", id, "-sideeffect"),
+                elem = paste0("#", id, "-sideEffects"),
                 css = "selected"
             )
         }

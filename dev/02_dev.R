@@ -13,17 +13,23 @@ usethis::use_package("browsertools")
 
 ## Add modules ----
 ## Create a module infrastructure in R/
-golem::add_module(name = "name_of_module1") # Name of the module
-golem::add_module(name = "name_of_module2") # Name of the module
+golem::add_module(name = "app_page")
+golem::add_module(name = "side_effect_card")
+golem::add_module(name = "medication_card")
+golem::add_module(name = "navigation")
+golem::add_module(name = "page_renderer")
+golem::add_module(name = "side_effects_submit")
 
 ## Add helper functions ----
 ## Creates ftc_* and utils_*
 # golem::add_fct("helpers")
-# golem::add_utils("helpers")
+golem::add_utils("app_logo")
+golem::add_utils("error_messages")
+golem::add_utils("user_preferences")
 
 ## Add internal datasets ----
 ## If you have data in your package
-# usethis::use_data_raw(name = "my_dataset", open = FALSE)
+usethis::use_data_raw(name = "incontrolofeffects_rx", open = FALSE)
 
 ## Tests ----
 ## Add one line by test you want to create

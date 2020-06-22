@@ -24,7 +24,7 @@ mod_navigation_ui <- function(id, buttons) {
             outline$chevron_right(aria_hidden = TRUE)
         ),
         submit = tags$button(
-            id = ns("submitEffects"),
+            id = ns("submit"),
             class = "shiny-bound-input action-button primary",
             "Submit",
             outline$arrow_circle_right(aria_hidden = TRUE)
@@ -69,7 +69,7 @@ mod_navigation_ui <- function(id, buttons) {
 #' navigation Server Function
 #' @importFrom browsertools show_elem hide_elem
 #' @noRd
-mod_navigation_server <- function(input, output, session, counter) {
+mod_nav_server <- function(input, output, session, counter) {
     ns <- session$ns
 
     # page previous
