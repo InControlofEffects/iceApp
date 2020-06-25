@@ -8,13 +8,13 @@ app_server <- function(input, output, session) {
 
     # set app reactiveVals
     logged <- reactiveVal(TRUE)
-    navigation <- reactiveVal(4)
+    navigation <- reactiveVal(1)
 
     # page navigation
     callModule(mod_nav_server, "instructions-a", navigation)
     callModule(mod_nav_server, "instructions-b", navigation)
     callModule(mod_nav_server, "instructions-c", navigation)
-    callModule(mod_nav_server, "submitEffects", navigation)
+    callModule(mod_nav_server, "sideEffects", navigation)
     callModule(mod_nav_server, "results", navigation)
     callModule(mod_nav_server, "quit", navigation)
 
@@ -30,8 +30,12 @@ app_server <- function(input, output, session) {
     # output pages
     observe({
 
+        # update progress bar
+        updateProgressBar(now = navigation())
+
         # when logged
         if (logged()) {
+
 
             # show buttons
             browsertools::show_elem(elem = "#restart")
@@ -95,7 +99,6 @@ app_server <- function(input, output, session) {
             updateCheckboxInput(session, "sedation-checked", value = 0)
             updateCheckboxInput(session, "weight_gain-checked", value = 0)
             session$sendCustomMessage("reset_side_effects", "")
-            
 
             # print message
             show_error_message(

@@ -77,6 +77,6 @@ function updateProgressBar(el, now, max) {
 // updateProgressBar
 Shiny.addCustomMessageHandler("updateProgressBar", function (data) {
     setTimeout(function () {
-        updateProgressBar(data.el, data.now, data.max);
+        updateProgressBar(data.elem, data.now, data.max);
     }, 200)
 });
