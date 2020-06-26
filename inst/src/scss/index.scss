@@ -1,5 +1,5 @@
 @import "_variables";
-@import "_base", "_buttons", "_navbar", "_pages", "_cards";
+@import "_base", "_buttons", "_navbar", "_sidebar", "_pages", "_cards";
 
 // screen reader text
 .screen-reader-text {
@@ -17,7 +17,7 @@
     position: fixed;
     display: block;
     width: 100%;
-    top: 53px;
+    top: 50px;
     left: 0;
     padding: 0;
     margin: 0;
@@ -26,7 +26,7 @@
 
     // style the actual bar - id + class are the same
     #bar {
-        height: 11px;
+        height: 13px;
         background-color: $primary;
         transform: scaleX(0);
         transform-origin: 0 center;

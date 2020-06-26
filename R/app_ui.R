@@ -25,28 +25,14 @@ app_ui <- function(request) {
                     )
                 ),
                 tags$li(
-                    class = "menu-item",
-                    browsertools::hidden(tags$button(
-                        id = "restart",
+                    class = "menu-item menu-toggle",
+                    tags$button(
+                        id = "menuToggle",
                         class = "action-button shiny-bound-input",
-                        tags$span(
-                            class = "screen-reader-text",
-                            "restart the application"
-                        ),
-                        rheroicons::outline$refresh(aria_hidden = TRUE)
-                    ))
-                ),
-                tags$li(
-                    class = "menu-item",
-                    browsertools::hidden(tags$button(
-                        id = "logout",
-                        class = "action-button shiny-bound-input",
-                        tags$span(
-                            class = "screen-reader-text",
-                            "logout out"
-                        ),
-                        rheroicons::outline$logout(aria_hidden = TRUE)
-                    ))
+                        `aria-expanded` = "false",
+                        tags$span("menu"),
+                        rheroicons::outline$dots_vertical(aria_hidden = TRUE)
+                    )
                 )
             )
         ),
@@ -62,6 +48,50 @@ app_ui <- function(request) {
                 `aria-valuemin` = "0",
                 `aria-valuemax` = "1",
                 `aria-valuetext` = ""
+            )
+        ),
+        tags$aside(
+            id = "sidebar",
+            class = "sidebar",
+            `aria-labelledby` = "sidebar-title",
+            `aria-hidden` = "true",
+            tags$div(
+                class = "sidebar-content",
+                tags$span(
+                    id = "sidebar-title",
+                    class = "browsertools-hidden",
+                    "application menu"
+                ),
+                tags$ul(
+                    class = "menu",
+                    tags$li(
+                        class = "menu-item",
+                        tags$button(
+                            id = "restart",
+                            class = "action-button shiny-bound-input",
+                            rheroicons::outline$refresh(aria_hidden = TRUE),
+                            tags$span("restart")
+                        )
+                    ),
+                    tags$li(
+                        class = "menu-item",
+                        tags$button(
+                            id = "logout",
+                            class = "action-button shiny-bound-input",
+                            rheroicons::outline$logout(aria_hidden = TRUE),
+                            tags$span("sign out")
+                        )
+                    )
+                ),
+                tags$p(
+                    "Return to",
+                    tags$a(
+                        id = "quit-link",
+                        class = "shiny-bound-input action-link",
+                        href = "https://incontrolofeffects.com",
+                        "main site."
+                    )
+                )
             )
         ),
         tags$main(

@@ -2,7 +2,7 @@
 // FILE: index.js
 // AUTHOR: David Ruvolo
 // CREATED: 2019-11-11
-// MODIFIED: 2020-03-24
+// MODIFIED: 2020-06-26
 // PURPOSE: main js file for app
 // DEPENDENCIES: NA
 // STATUS: working
@@ -10,6 +10,35 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 import "./scss/index.scss"
+
+////////////////////////////////////////
+
+// menu toggle
+const menu = document.getElementById("menuToggle");
+const sidebar = document.getElementById("sidebar");
+const sidebarBtns = document.querySelectorAll(".sidebar .menu button, .sidebar .menu a");
+
+// toggle sidebar state
+function toggle_sidebar () {
+    if ([...sidebar.classList].indexOf("sidebar-revealed") > -1) {
+        sidebar.classList.remove("sidebar-revealed");
+        sidebar.setAttribute("aria-hidden", "true");
+        menu.setAttribute("aria-expanded", "false");
+    } else {
+        sidebar.classList.add("sidebar-revealed");
+        sidebar.removeAttribute("aria-hidden");
+        menu.setAttribute("aria-expanded", "true");
+    }
+}
+
+// bind menu toggle to sidebar buttons
+sidebarBtns.forEach(btn => btn.addEventListener("click", toggle_sidebar));
+
+// menu toggle click
+menu.addEventListener("click", (event) => {
+    toggle_sidebar();
+});
+
 
 ////////////////////////////////////////
 
