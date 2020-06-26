@@ -295,7 +295,7 @@ pages[[5]] <- mod_app_page_ui(
             tags$h2(id = "avoidRxTitle", "Avoid"),
             mod_medication_card_ui(id = "avoid-rx-a", type = "avoid"),
             mod_medication_card_ui(id = "avoid-rx-b", type = "avoid"),
-            mod_medication_card_ui(id = "avoid-rx-b", type = "avoid")
+            mod_medication_card_ui(id = "avoid-rx-c", type = "avoid")
         ),
         mod_navigation_ui(id = "results", buttons = c("previous", "next"))
     )

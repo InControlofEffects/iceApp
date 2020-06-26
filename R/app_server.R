@@ -27,6 +27,18 @@ app_server <- function(input, output, session) {
     callModule(mod_se_server, "sedation")
     callModule(mod_se_server, "weight_gain")
 
+    # reset side effects functions
+    reset_side_effects <- function() {
+        updateCheckboxInput(session, "akathisia-checked", value = 0)
+        updateCheckboxInput(session, "anticholinergic-checked", value = 0)
+        updateCheckboxInput(session, "antiparkinson-checked", value = 0)
+        updateCheckboxInput(session, "prolactin-checked", value = 0)
+        updateCheckboxInput(session, "qtc-checked", value = 0)
+        updateCheckboxInput(session, "sedation-checked", value = 0)
+        updateCheckboxInput(session, "weight_gain-checked", value = 0)
+        session$sendCustomMessage("reset_side_effects", "")
+    }
+
     # output pages
     observe({
 
@@ -78,76 +90,99 @@ app_server <- function(input, output, session) {
             sedation = ifelse(input$`sedation-checked`, 1, 0),
             weight_gain = ifelse(input$`weight_gain-checked`, 1, 0)
         )
-        sum <- sum(choice[1, ])
         print(choice)
 
         # if sum of selections is zero
-        if (sum == 0) {
+        if (sum(choice[1, ]) == 0) {
 
-            # throw error when nothing was selected
+            # resetCheckboxes + show error
             browsertools::scroll_to()
-            browsertools::console_error(
-                message = "Selection Error: no selections were made"
-            )
-
-            # resetCheckboxes
-            updateCheckboxInput(session, "akathisia-checked", value = 0)
-            updateCheckboxInput(session, "anticholinergic-checked", value = 0)
-            updateCheckboxInput(session, "antiparkinson-checked", value = 0)
-            updateCheckboxInput(session, "prolactin-checked", value = 0)
-            updateCheckboxInput(session, "qtc-checked", value = 0)
-            updateCheckboxInput(session, "sedation-checked", value = 0)
-            updateCheckboxInput(session, "weight_gain-checked", value = 0)
-            session$sendCustomMessage("reset_side_effects", "")
-
-            # print message
+            reset_side_effects()
             show_error_message(
                 "No selections were made. You must select one side effect"
             )
 
-        } else  if (sum > 1) {
-
-            # remove css
-            updateCheckboxInput(session, "akathisia-checked", value = 0)
-            updateCheckboxInput(session, "anticholinergic-checked", value = 0)
-            updateCheckboxInput(session, "antiparkinson-checked", value = 0)
-            updateCheckboxInput(session, "prolactin-checked", value = 0)
-            updateCheckboxInput(session, "qtc-checked", value = 0)
-            updateCheckboxInput(session, "sedation-checked", value = 0)
-            updateCheckboxInput(session, "weight_gain-checked", value = 0)
-            session$sendCustomMessage("reset_side_effects", "")
+        } else  if (sum(choice[1, ]) > 1) {
 
             # throw error when more than 1 selection was made
+            # reset side effects + show error
             browsertools::scroll_to()
-            browsertools::console_error(
-                message = "Selection Error: too many side effects were selected"
-            )
-
-            # print message
+            reset_side_effects()
             show_error_message(
                 "Too many selections were made. You may select one side effect."
             )
         } else {
 
             # exclude cases where selection has NA values
-            selectedSideEffect <- names(choice)[choice[1, ] == 1]
-            filteredDF <- incontrolofeffects_rx[(
-                    data$side_effect == selectedSideEffect &
-                    !is.na(data$value)
+            selected_side_effect <- names(choice)[choice[1, ] == 1]
+            filtered_df <- incontrolofeffects_rx[(
+                    incontrolofeffects_rx$side_effect == selected_side_effect &
+                    !is.na(incontrolofeffects_rx$value)
                 ), ]
 
             # run user inputs
             results <- as.data.frame(
                 user_preferences(
-                    data = filteredDF,
+                    data = filtered_df,
                     weights = choice[1, ],
                     return_all = FALSE
                 )
             )
 
+            # reset side effects
+            reset_side_effects()
+
             # onSuccess: increment page
-            next_page <- counter() + 1
-            counter(next_page)
+            next_page <- navigation() + 1
+            navigation(next_page)
+
+            # set write delay
+            delay <- 250
+
+            #'//////////////////////////////////////
+            # write recommended medication #1
+            browsertools::inner_text(
+                elem = "#rec-rx-a-result-title",
+                string = results[1, "name"],
+                delay = delay
+            )
+
+            # write recommended medication #2
+            browsertools::inner_text(
+                elem = "#rec-rx-b-result-title",
+                string = results[2, "name"],
+                delay = delay
+            )
+
+            # write recommended medication #3
+            browsertools::inner_text(
+                elem = "#rec-rx-c-result-title",
+                string = results[3, "name"],
+                delay = delay
+            )
+
+            #'//////////////////////////////////////
+            # write avoid medication # 1
+            browsertools::inner_text(
+                elem = "#avoid-rx-a-result-title",
+                string = results[length(results), "name"],
+                delay = delay
+            )
+
+            # write avoid medication # 2
+            browsertools::inner_text(
+                elem = "#avoid-rx-b-result-title",
+                string = results[length(results) - 1, "name"],
+                delay = delay
+            )
+
+            # write avoid medication # 3
+            browsertools::inner_text(
+                elem = "#avoid-rx-c-result-title",
+                string = results[length(results) - 2, "name"],
+                delay = delay
+            )
+
         }
 
     })
