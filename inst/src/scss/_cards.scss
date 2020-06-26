@@ -5,11 +5,13 @@
 		position: relative;
 		display: block;
 		margin: 32px auto;
+		box-sizing: content-box;
 		padding: 24px 44px;
 		border-radius: 12px;
 		border: 2px solid transparent;
 		background-color: #ffffff;
 		color: $text;
+		box-shadow: $box-shadow;
 	}
 
 	// define styles for unique groups
@@ -61,7 +63,7 @@
 			// toggle
 			.card-toggle {
 				position: absolute;
-				top: 24px;
+				top: 20px;
 				right: 24px;
 				padding: 6px;
 				margin: 0;
@@ -72,9 +74,10 @@
 				.rheroicons {
 					display: block;
 					position: relative;
-					transform: scale(1.5);
-					transform-origin: center center;
-					transition: transform 0.3s ease-in-out;
+					width: 24px;
+					height: 24px;
+					transform: translateY(0);
+					transition: transform 0.4s ease-in-out;
 				}
 
 				// when icon is rotated
@@ -83,7 +86,7 @@
 
 					// rotate icon
 					.rheroicons {
-						transform: scale(1.5) rotate(-180deg);
+						transform: translateY(-3px) rotate(-180deg);
 					}
 				}
 
@@ -111,6 +114,8 @@
 				// text
 				p {
 					width: 90%;
+					padding: 0;
+					margin: 0;
 				}
 
 				// when expanded
@@ -158,7 +163,7 @@
 
 		.card {
 			text-align: left;
-			width: 100%;
+			width: 70%;
 
 			// icons + labels
 			.rheroicons,
@@ -170,19 +175,19 @@
 			// icons
 			.rheroicons {
 				position: absolute;
-				width: 35px;
-				height: 35px;
+				width: 30px;
+				height: 30px;
 				top: 16px;
 				left: 24px;
 				margin: 0;
 
 				// icons for recommended medications
-				&.rheroicons-check {
-					stroke: green;
+				&.rheroicons_check {
+					stroke: $green;
 				}
 
 				// icons for avoid medications
-				&.rheroicons-exclamation {
+				&.rheroicons_exclamation {
 					fill: $error;
 				}
 			}
@@ -253,12 +258,12 @@
 	.card-group {
 		&.side-effect-cards {
 			.card {
-				width: 65%;
+				max-width: 512px;
 			}
 		}
 		&.medication-cards {
 			.card {
-				width: 60%;
+				max-width: 512px;
 			}
 		}
 	}

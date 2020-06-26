@@ -9,23 +9,7 @@ $min-height: calc(100vh - 60px);
     margin: 0;
     margin-top: 35px;
     min-height: $min-height;
-
-    // .full-width-page
-    .full-width-page {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        width: 100vw;
-        max-width: 100vw;
-        min-height: $min-height;
-        padding: 0;
-        margin: 0;
-    }
-
-    // filled-page-background
-    .filled-page-background {
-        background-color: $light;
-    }
+    background-color: #ffffff;
 
     // define page, i.e., each "slide"
     // each time a page is loaded it will fade in
@@ -34,9 +18,11 @@ $min-height: calc(100vh - 60px);
         width: 85%;
         height: auto;
         margin: 0 auto;
+        margin-top: 50px;
         margin-bottom: 54px;
         opacity: 0;
-        animation: fadeIn 1.25s forwards;
+        animation: fadeIn 2s forwards;
+        background-color: #ffffff;
     }
 
     // text with inline icons
@@ -85,7 +71,15 @@ $min-height: calc(100vh - 60px);
 
     // sign in screen
     #signin-page {
-        #signin-form {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100vw;
+        min-height: calc(100vh - 50px);
+        margin: 0;
+        background-color: $light;
+
+        #signin-form-page {
             background-color: #ffffff;
             padding: 16px;
             max-width: 325px;
@@ -96,7 +90,7 @@ $min-height: calc(100vh - 60px);
                 font-size: 18pt;
             }
 
-            #signin-icon {
+            .rheroicons_user_circle {
                 display: block;
                 margin: 0 auto;
                 width: 50px;
@@ -104,17 +98,16 @@ $min-height: calc(100vh - 60px);
                 fill: $primary;
             }
 
-            #username,
-            #password {
+            .form-control {
                 width: 93%;
             }
 
-            #login {
+            button[type=submit] {
                 width: 100%;
             }
         }
 
-        #return-link {
+        p {
             font-size: 11pt;
             text-align: center;
         }
@@ -122,13 +115,26 @@ $min-height: calc(100vh - 60px);
 }
 @media (min-width: 972px) {
     #main {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: $light;
+
         .page {
             max-width: 912px;
             padding: 1em;
+            border-radius: 6px;
+            margin-top: 0;
+
+            &.page-extra-top-spacing {
+                margin-top: 50px;
+            }
         }
 
         #signin-page {
-            #signin-form {
+            min-height: calc(100vh - 77.5px);
+
+            #signin-form-page {
                 min-width: 350px;
             }
         }

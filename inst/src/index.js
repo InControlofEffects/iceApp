@@ -109,3 +109,39 @@ Shiny.addCustomMessageHandler("updateProgressBar", function (data) {
         updateProgressBar(data.elem, data.now, data.max);
     }, 200)
 });
+
+
+////////////////////////////////////////
+
+// input binding for accordion
+// const accordionToggle = new Shiny.inputBinding();
+const accordionToggle = new Shiny.InputBinding();
+$.extend(accordionToggle, {
+    find: function(scope) {
+        return $(scope).find(".accordion-button");
+    },
+    getValue: function(el) {
+        return null;
+    },
+    setValue: function(el) {
+        return null;
+    },
+    subscribe: function(el, callback) {
+        $(el).on("change.accordionToggle", function(e) {
+            var id = $(el).attr("data-group");
+            $(`section.accordion-section[data-group='${id}']`)[0].classList.toggle("browsertools-hidden");
+        });
+    },
+    unsubscribe: function(el) {
+        $(el).off(".accordionToggle");
+    }
+});
+
+// register
+Shiny.inputBindings.register(accordionToggle);
+
+// cue trigger
+$(document).on("click", "button.accordion-button", function(e) {
+    var el = $(e.target);
+    el.trigger("change");
+})
