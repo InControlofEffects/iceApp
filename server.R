@@ -11,7 +11,7 @@
 server <- function(input, output, session) {
 
     # init session analytics
-    session_data <- analytics$new()
+    sdata <- analytics$new()
 
     # set app reactiveVals
     logged <- reactiveVal(T)
@@ -35,7 +35,7 @@ server <- function(input, output, session) {
     callModule(mod_se_server, "weight_gain")
 
     # call module
-    callModule(mod_login_server, "signin-form", accounts, logged, session_data)
+    callModule(mod_login_server, "signin-form", accounts, logged, sdata)
 
     # output pages
     observe({
@@ -71,7 +71,10 @@ server <- function(input, output, session) {
     })
 
     # onClick: navigation bar restart
-    observeEvent(input$restart, { navigation(1) })
+    observeEvent(input$restart, {
+        sdata$update_attempts()
+        navigation(1)
+    })
 
     # onClick: navigation bar logout
     observeEvent(input$logout, {

@@ -118,7 +118,7 @@ pages[[4]] <- tags$article(
                 #
                 # However, side effects are arranged in alphabetical order
                 # by the common name.
-                # - Dry  Mouth and Constipation
+                # - Dry Mouth and Constipation
                 # - Feeling Sleepy or Drowsy
                 # - Irregular Heartbeat
                 # - Restlessness
