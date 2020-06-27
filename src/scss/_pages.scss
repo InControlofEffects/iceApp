@@ -1,0 +1,143 @@
+$min-height: calc(100vh - 60px);
+
+#main {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    width: 100%;
+    padding: 0;
+    margin: 0;
+    margin-top: 35px;
+    min-height: $min-height;
+    background-color: #ffffff;
+
+    // define page, i.e., each "slide"
+    // each time a page is loaded it will fade in
+    .page {
+        display: block;
+        width: 85%;
+        height: auto;
+        margin: 0 auto;
+        margin-top: 50px;
+        margin-bottom: 54px;
+        // opacity: 0;
+        // animation: fadeIn 2s forwards;
+        background-color: #ffffff;
+    }
+
+    // text with inline icons
+    p {
+        .rheroicons {
+            display: inline-block;
+            position: relative;
+            top: 4px;
+            &.rheroicons_outline {
+                stroke: $primary;
+            }
+        }
+    }
+
+    #results-title::after {
+        content: "?";
+        position: relative;
+        right: 10px;
+    }
+
+    // error boxes
+    .error-box {
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        background-color: $error-accent;
+        margin-bottom: 16px;
+        border-radius: $default-border-radius;
+
+        // icons
+        .rheroicons {
+            padding: 16px 12px;
+            width: 30px;
+            background-color: $error;
+            stroke: $light;
+            border-radius: 6px 0 0 6px;
+        }
+
+        // text
+        .error-box-text {
+            color: $error;
+            padding: 0 12px;
+            font-size: 13pt;
+        }
+    }
+
+    // sign in screen
+    #signin {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100vw;
+        height: calc(100vh - 40px);
+        margin: 0;
+        // background-color: $light;
+        background-color: $semi-light;
+
+        .form {
+            background-color: #ffffff;
+            padding: 16px;
+            max-width: 325px;
+            margin-bottom: 6px;
+            border-radius: $default-border-radius;
+
+            h2 {
+                font-size: 18pt;
+            }
+
+            .rheroicons_user_circle {
+                display: block;
+                margin: 0 auto;
+                width: 50px;
+                height: 50px;
+                fill: $primary;
+            }
+
+            .form-control {
+                width: 93%;
+            }
+
+            button[type=submit] {
+                width: 100%;
+            }
+        }
+
+        p {
+            font-size: 11pt;
+            text-align: center;
+        }
+    }
+}
+@media (min-width: 972px) {
+    #main {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: $light;
+
+        .page {
+            max-width: 912px;
+            padding: 1em;
+            border-radius: 6px;
+            margin-top: 0;
+
+            &.page-extra-top-spacing {
+                margin-top: 50px;
+            }
+        }
+
+        #signin {
+            min-height: calc(100vh - 77.5px);
+
+            .form {
+                min-width: 350px;
+            }
+        }
+    }
+}

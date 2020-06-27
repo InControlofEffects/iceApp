@@ -1,12 +1,14 @@
 {
   "name": "ice-app",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "a shiny app for the decision of antipsychotic treatments based on side effects",
   "author": "davidruvolo51",
   "license": "MIT",
   "scripts": {
-    "dev": "parcel inst/src/index.js -d inst/app/www -o inst/app/www/ice.min.js --no-source-maps",
-    "build": "parcel build inst/src/index.js -d inst/app/www -o inst/app/www/ice.min.js --no-source-maps"
+    "shiny": "Rscript -e \"shiny::runApp(launch.browser = FALSE, port = 8000)\"",
+    "dev": "parcel src/index.js -d www -o www/ice.min.js --no-source-maps",
+    "build": "parcel build src/index.js -d www -o www/ice.min.js --no-source-maps",
+    "clean": "rm -rf www/ice.min.*"
   },
   "keywords": [
     "r",
