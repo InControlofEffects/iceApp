@@ -2,14 +2,18 @@
 #' FILE: mod_navigation.R
 #' AUTHOR: David Ruvolo
 #' CREATED: 2020-06-27
-#' MODIFIED: 2020-06-27
+#' MODIFIED: 2020-06-30
 #' PURPOSE: app application
 #' STATUS: in.progress
 #' PACKAGES: NA
 #' COMMENTS: NA
 #'////////////////////////////////////////////////////////////////////////////
 
-# ui
+#' mod_navigation_ui
+#' Create a navigation component by naming buttons
+#' @param id a unique ID for the component
+#' @param buttons the buttons you like to render (previous, next, submit,
+#'              restart, quit)
 mod_navigation_ui <- function(id, buttons) {
     ns <- NS(id)
 
@@ -70,27 +74,53 @@ mod_navigation_ui <- function(id, buttons) {
 
 }
 
-#' navigation Server
-mod_nav_server <- function(input, output, session, counter) {
+#' mod_nav_server
+#' @param input require shiny object
+#' @param output require shiny object
+#' @param session require shiny object
+#' @param counter a reactive counter that manages the page to render
+#' @param session_db an R6 object that is used for saving data to the db
+mod_nav_server <- function(input, output, session, counter, session_db) {
     ns <- session$ns
 
     # page previous
     observeEvent(input$previousPage, {
+
+        # make sure page is faded out
         utils$fadePage()
+
+        # log click to the database
+        session_db$capture_click("navigation", "previous button clicked")
+
+        # increment counter
         new_count <- counter() - 1
         counter(new_count)
     })
 
     # next page
     observeEvent(input$nextPage, {
+
+        # make sure page fades out
         utils$fadePage()
+
+        # log click to database
+        session_db$capture_click("navigation", "next button clicked")
+
+        # increment page
         new_count <- counter() + 1
         counter(new_count)
     })
 
     # restart
     observeEvent(input$restartApp, {
+
+        # fade page
         utils$fadePage()
+
+        # log to database
+        session_db$capture_click("navigation", "app restarted")
+
+        # update counter
         counter(1)
     })
 }

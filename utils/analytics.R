@@ -2,13 +2,15 @@
 #' FILE: utils_analytics.R
 #' AUTHOR: David Ruvolo
 #' CREATED: 2020-06-27
-#' MODIFIED: 2020-06-27
+#' MODIFIED: 2020-06-30
 #' PURPOSE: methods for analytics
 #' STATUS: in.progress
 #' PACKAGES: NA
 #' COMMENTS: this class manages the analytics segment of the application.
 #'      In the server, define a new object using `analytics$new()`. Then,
 #'      use `myObject$log_action()` to send data to the database
+#'
+#'      Use tests/test_analytics.R to log data to the database
 #'////////////////////////////////////////////////////////////////////////////
 analytics <- R6::R6Class(
     "ice_analytics",
@@ -28,6 +30,15 @@ analytics <- R6::R6Class(
 
             # write session info
             private$.write_session_info()
+        },
+
+        # capture action (a generic write function)
+        capture_action = function(event, id, desc) {
+            private$.write_action(
+                event = event,
+                event_id = id,
+                event_desc = desc
+            )
         },
 
         # log button clicks
@@ -51,6 +62,12 @@ analytics <- R6::R6Class(
         # log user selections
         capture_selections = function(selections) {
             private$.write_selections(data = selections)
+        },
+
+        #' log results
+        #' @param results returned object from the user preferences function
+        capture_results = function(results) {
+            private$.write_results(data = results)
         },
 
         # update session attempts
@@ -136,7 +153,7 @@ analytics <- R6::R6Class(
             d <- d[, c(
                 "id", "attempt", "time", "akathisia",
                 "anticholinergic", "antiparkinson",
-                "prolactic", "qtc", "sedation", "weight_gain"
+                "prolactin", "qtc", "sedation", "weight_gain"
             )]
 
             # write
@@ -145,9 +162,30 @@ analytics <- R6::R6Class(
                 name = "selections",
                 value = d
             )
+        },
+
+        # write results
+        .write_results = function(data) {
+
+            # bind private data to data
+            d <- data
+            d$id <- private$.id
+            d$attempt <- private$.attempts
+
+            # reorder
+            d <- d[, c(
+                "id", "attempt", "time",
+                "rx_rec_a", "rx_rec_b", "rx_rec_c",
+                "rx_avoid_a", "rx_avoid_b", "rx_avoid_c"
+            )]
+
+            # write data
+            DBI::dbAppendTable(
+                private$.db_conn,
+                name = "results",
+                value = d
+            )
+
         }
     )
 )
-
-#' Tests
-client <- analytics$new()

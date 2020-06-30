@@ -11,19 +11,19 @@
 server <- function(input, output, session) {
 
     # init session analytics
-    sdata <- analytics$new()
+    session_db <- analytics$new()
 
     # set app reactiveVals
     logged <- reactiveVal(T)
     navigation <- reactiveVal(1)
 
     # page navigation
-    callModule(mod_nav_server, "instructions-a", navigation)
-    callModule(mod_nav_server, "instructions-b", navigation)
-    callModule(mod_nav_server, "instructions-c", navigation)
-    callModule(mod_nav_server, "sideEffects", navigation)
-    callModule(mod_nav_server, "results", navigation)
-    callModule(mod_nav_server, "quit", navigation)
+    callModule(mod_nav_server, "instructions-a", navigation, session_db)
+    callModule(mod_nav_server, "instructions-b", navigation, session_db)
+    callModule(mod_nav_server, "instructions-c", navigation, session_db)
+    callModule(mod_nav_server, "sideEffects", navigation, session_db)
+    callModule(mod_nav_server, "results", navigation, session_db)
+    callModule(mod_nav_server, "quit", navigation, session_db)
 
     # side effect cards pass reset state and reactive object
     callModule(mod_se_server, "akathisia")
@@ -35,7 +35,7 @@ server <- function(input, output, session) {
     callModule(mod_se_server, "weight_gain")
 
     # call module
-    callModule(mod_login_server, "signin-form", accounts, logged, sdata)
+    callModule(mod_login_server, "signin-form", accounts, logged, session_db)
 
     # output pages
     observe({
@@ -72,7 +72,7 @@ server <- function(input, output, session) {
 
     # onClick: navigation bar restart
     observeEvent(input$restart, {
-        sdata$update_attempts()
+        session_db$update_attempts()
         navigation(1)
     })
 
@@ -128,12 +128,23 @@ server <- function(input, output, session) {
                 ), ]
 
             # run user inputs
-            results <- as.data.frame(
+            raw_results <- as.data.frame(
                 user_preferences(
                     data = filtered_df,
                     weights = choice[1, ],
                     return_all = FALSE
                 )
+            )
+
+            # reduce results to desired elements
+            results <- data.frame(
+                time = Sys.time(),
+                rx_rec_a = raw_results[1, "name"],
+                rx_rec_b = raw_results[2, "name"],
+                rx_rec_c = raw_results[3, "name"],
+                rx_avoid_a = raw_results[length(raw_results), "name"],
+                rx_avoid_b = raw_results[length(raw_results) - 1, "name"],
+                rx_avoid_c = raw_results[length(raw_results) - 2, "name"],
             )
 
             # reset side effects
@@ -150,21 +161,21 @@ server <- function(input, output, session) {
             # write recommended medication #1
             browsertools::inner_text(
                 elem = "#rec-rx-a-result-title",
-                string = results[1, "name"],
+                string = results$rx_rec_a,
                 delay = delay
             )
 
             # write recommended medication #2
             browsertools::inner_text(
                 elem = "#rec-rx-b-result-title",
-                string = results[2, "name"],
+                string = results$rx_rec_b,
                 delay = delay
             )
 
             # write recommended medication #3
             browsertools::inner_text(
                 elem = "#rec-rx-c-result-title",
-                string = results[3, "name"],
+                string = results$rx_rec_c,
                 delay = delay
             )
 
@@ -172,23 +183,26 @@ server <- function(input, output, session) {
             # write avoid medication # 1
             browsertools::inner_text(
                 elem = "#avoid-rx-a-result-title",
-                string = results[length(results), "name"],
+                string = results$rx_avoid_a,
                 delay = delay
             )
 
             # write avoid medication # 2
             browsertools::inner_text(
                 elem = "#avoid-rx-b-result-title",
-                string = results[length(results) - 1, "name"],
+                string = results$rx_avoid_b,
                 delay = delay
             )
 
             # write avoid medication # 3
             browsertools::inner_text(
                 elem = "#avoid-rx-c-result-title",
-                string = results[length(results) - 2, "name"],
+                string = results$rx_avoid_c,
                 delay = delay
             )
+
+            # log results to db
+            session_db$capture_results(results)
 
         }
 
