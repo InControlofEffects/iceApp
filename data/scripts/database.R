@@ -2,7 +2,7 @@
 #' FILE: database.R
 #' AUTHOR: David Ruvolo
 #' CREATED: 2020-06-27
-#' MODIFIED: 2020-06-27
+#' MODIFIED: 2020-06-30
 #' PURPOSE: all database things
 #' STATUS: in.progress
 #' PACKAGES: DBI; RSQLite
@@ -115,7 +115,7 @@ selections <- data.frame(
     akathisia = NA,
     anticholinergic = NA,
     antiparkinson = NA,
-    prolactic = NA,
+    prolactin = NA,
     qtc = NA,
     sedation = NA,
     weight_gain = NA
@@ -124,6 +124,42 @@ selections <- data.frame(
 # create
 DBI::dbCreateTable(conn = db, name = "selections", fields = selections)
 
+#'//////////////////////////////////////
 
-# CHECK
+#' ~ 3 ~
+#' Medication Results
+#' This table will be used to store the top three recommended medications and
+#' the top three medications to avoid. Each row is a user attempt and the
+#' returned medications in wide format
+#' @param id session ID
+#' @param attempt current user attempt
+#' @param time time results were returned
+#' @param rx_rec_a first recommended medication
+#' @param rx_rec_b second recommended medication
+#' @param rx_rec_c third recommended medication
+#' @param rx_avoid_a first medication to avoid
+#' @param rx_avoid_b second medication to avoid
+#' @param rx_avoid_c third medication to avoid
+results <- data.frame(
+    id = NA,
+    attempt = NA,
+    time = NA,
+    rx_rec_a = NA,
+    rx_rec_b = NA,
+    rx_rec_c = NA,
+    rx_avoid_a = NA,
+    rx_avoid_b = NA,
+    rx_avoid_c = NA
+)
+
+# create
+DBI::dbCreateTable(conn = db, name = "results", fields = results)
+
+# check
 DBI::dbListTables(db)
+
+
+#'//////////////////////////////////////
+
+#' disconnect
+DBI::dbDisconnect(db)
