@@ -325,7 +325,7 @@ pages[[5]] <- tags$article(
             mod_medication_card_ui(id = "avoid-rx-b", type = "avoid"),
             mod_medication_card_ui(id = "avoid-rx-c", type = "avoid")
         ),
-        mod_navigation_ui(id = "results", buttons = c("previous", "next"))
+        mod_navigation_ui(id = "results", buttons = c("previous", "done"))
     )
 )
 
@@ -334,23 +334,25 @@ pages[[6]] <- tags$article(
     id = "quit",
     class = "page fadeIn page-extra-top-spacing",
     tagList(
-        tags$h1("Before you go"),
-        tags$p(
-            "The In Control of Effects app is design to initiate a discussion",
-            "between you and your psychiatrist regarding antipsychotic",
-            "medications and the risk of side effects. This may be useful",
-            "if there are side effects that you are unaware of or would ",
-            "like to avoid."
+        tags$h1(
+            "Thank you for using the",
+            tags$span("In Control of Effects"),
+            "app!"
         ),
         tags$p(
-            "This app is an experimental clinical research tool that is a",
-            "part of ongoing research led by researchers at the University",
-            "of Oxford. This app does not replace medical treatment or",
-            "consultation with any healthcare professional. Any information",
-            "produced by this tool should be discussed with your psychiatrist",
-            "as this app does not take into account individual patient",
-            "characteristics, pre-existing medical conditions, any current",
-            "medical treatment or medications you may already be taking."
+            "The In Control of Effects app was designed to initiate a",
+            "discussion between you and your psychiatrist regarding",
+            "antipsychotic medications and the risk of side effects.",
+            "This may be useful if there are side effects that you are",
+            "unaware of or would like to avoid."
+        ),
+        tags$p(
+            "This app does not replace medical treatment or consultation with",
+            "any healthcare professional. Any information produced by this",
+            "tool should be discussed with your psychiatrist as this app",
+            "does not take into account individual patient characteristics",
+            "pre-existing medical conditions, any current medical treatment",
+            "or medications you may already be taking."
         ),
         tags$p(
             "If you are concerned about side effects or anything else",

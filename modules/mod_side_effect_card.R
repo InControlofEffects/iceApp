@@ -61,34 +61,29 @@ mod_se_server <- function(input, output, session, session_db) {
     # toggle classes when checkbox selected
     observeEvent(input$checked, {
         if (input$checked) {
-
             # add selected css class
             browsertools::add_css(
                 elem = paste0("#", id, "-sideEffects"),
                 css = "selected"
             )
-
             # log selection
-            session_db$capture_action(
-                event = "side_effect_selection",
-                id = id,
-                desc = "user selected side effect"
-            )
-
+            # session_db$capture_action(
+            #     event = "side_effect_selection",
+            #     id = id,
+            #     desc = "user selected side effect"
+            # )
         } else {
-
             # remove selected css class
             browsertools::remove_css(
                 elem = paste0("#", id, "-sideEffects"),
                 css = "selected"
             )
-
             # log removal
-            session_db$capture_action(
-                event = "side_effect_selection",
-                id = id,
-                desc = "user deselected side effect"
-            )
+            # session_db$capture_action(
+            #     event = "side_effect_selection",
+            #     id = id,
+            #     desc = "user deselected side effect"
+            # )
         }
     })
 

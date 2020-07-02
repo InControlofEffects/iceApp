@@ -37,11 +37,11 @@ mod_navigation_ui <- function(id, buttons) {
             "Submit",
             rheroicons::outline$arrow_circle_right(aria_hidden = TRUE)
         ),
-        restart = tags$button(
-            id = ns("restartApp"),
+        done = tags$button(
+            id = ns("done"),
             class = "shiny-bound-input action-button primary",
-            "Restart",
-            rheroicons::outline$refresh(aria_hidden = TRUE)
+            rheroicons::outline$check_circle(aria_hidden = TRUE),
+            "Done"
         ),
         quit = tags$button(
             id = ns("quitApp"),
@@ -112,15 +112,16 @@ mod_nav_server <- function(input, output, session, counter, session_db) {
     })
 
     # restart
-    observeEvent(input$restartApp, {
+    observeEvent(input$done, {
 
         # fade page
         utils$fadePage()
 
         # log to database
-        session_db$capture_click("navigation", "app restarted")
+        session_db$capture_click("navigation", "user clicked the final button")
 
         # update counter
-        counter(1)
+        new_count <- counter() + 1
+        counter(new_count)
     })
 }

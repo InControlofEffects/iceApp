@@ -169,7 +169,7 @@ mod_login_server <- function(input, output, session, data, logged, session_db) {
 
                 # login + capture event
                 session_db$capture_action(
-                    event = "app_state",
+                    event = "session",
                     id = "login",
                     desc = "user logged in successfully"
                 )
