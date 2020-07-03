@@ -11,74 +11,134 @@
 #'      use `myObject$log_action()` to send data to the database
 #'
 #'      Use tests/test_analytics.R to log data to the database
+#'
+#'      Usage
+#'      1. Create new class
+#'              myobject <- analytics$new()
+#'      2. Capture some action
+#'              myobject$capture_action(
+#'                  event = "login",
+#'                  id = "app_login",
+#'                  desc = "user logged in"
+#'              )
+#'      3. Capture Click
+#'              myobject$capture_click(
+#'                  btn = "toggle001",
+#'                  desc = "user clicked toggle 001"
+#'              )
+#'      4. Capture Error
+#'              myobject$capture_error(
+#'                  error = "form001_submit",
+#'                  message = "password was incorrect"
+#'              )
+#'      5. Capture Selections (for saving user inputs)
+#'              myobject$capture_selections(data)
+#'      6. Capture Results (for saving medications results)
+#'              myobject$capture_results(data)
+#'      7. update attempts
+#'              myobject$update_attempts()
+#'      8. Disconnect (from database)
+#'              myobject$disconnect()
 #'////////////////////////////////////////////////////////////////////////////
 analytics <- R6::R6Class(
     "ice_analytics",
     public = list(
 
         # $new()
-        initialize = function(mode = "dev", user_type = "user") {
+        initialize = function(mode = "dev", user_type = "user", log = TRUE) {
 
-            # define props
-            private$.id <- private$.new_id()
-            private$.mode <- mode
-            private$.time <- Sys.time()
-            private$.user_type <- user_type
+            # send log status to private as other methods will need it
+            private$.log <- log
 
-            # connect to database
-            private$.db_connect()
+            # only when connected
+            if (log) {
 
-            # write session info
-            private$.write_session_info()
+                # display message
+                browsertools::console_log("Logging Initiated")
+
+                # define props
+                private$.id <- private$.new_id()
+                private$.mode <- mode
+                private$.time <- Sys.time()
+                private$.user_type <- user_type
+                private$.log <- log
+
+                # connect to database
+                private$.db_connect()
+
+                # write session info
+                private$.write_session_info()
+            }
+
+            # if logging is disabled
+            if (!log) {
+                browsertools::console_warn(
+                    "Logging is disabled for this session"
+                )
+            }
         },
 
         # capture action (a generic write function)
         capture_action = function(event, id, desc) {
-            private$.write_action(
-                event = event,
-                event_id = id,
-                event_desc = desc
-            )
+            if (private$.log) {
+                private$.write_action(
+                    event = event,
+                    event_id = id,
+                    event_desc = desc
+                )
+            }
         },
 
         # log button clicks
         capture_click = function(btn, desc) {
-            private$.write_action(
-                event = "click",
-                event_id = btn,
-                event_desc = desc
-            )
+            if (private$.log) {
+                private$.write_action(
+                    event = "click",
+                    event_id = btn,
+                    event_desc = desc
+                )
+            }
         },
 
         # log errors
         capture_error = function(error, message) {
-            private$.write_action(
-                event = "error",
-                event_id = error,
-                event_desc = message
-            )
+            if (private$.log) {
+                private$.write_action(
+                    event = "error",
+                    event_id = error,
+                    event_desc = message
+                )
+            }
         },
 
         # log user selections
         capture_selections = function(selections) {
-            private$.write_selections(data = selections)
+            if (private$.log) {
+                private$.write_selections(data = selections)
+            }
         },
 
         #' log results
         #' @param results returned object from the user preferences function
         capture_results = function(results) {
-            private$.write_results(data = results)
+            if (private$.log) {
+                private$.write_results(data = results)
+            }
         },
 
         # update session attempts
         update_attempts = function() {
-            private$.attempts <- private$.attempts + 1
-            private$.write_session_info()
+            if (private$.log) {
+                private$.attempts <- private$.attempts + 1
+                private$.write_session_info()
+            }
         },
 
         # disconnect
         disconnect = function() {
-            private$.db_disconnect()
+            if (private$.log) {
+                private$.db_disconnect()
+            }
         }
     ),
     private = list(
@@ -91,6 +151,7 @@ analytics <- R6::R6Class(
         .time = NA,
         .user_type = NA,
         .attempts = 1,
+        .log = TRUE,
 
         # connect to database
         .db_connect = function() {
