@@ -2,7 +2,7 @@
 #' FILE: mod_navigation.R
 #' AUTHOR: David Ruvolo
 #' CREATED: 2020-06-27
-#' MODIFIED: 2020-06-30
+#' MODIFIED: 2020-07-01
 #' PURPOSE: app application
 #' STATUS: in.progress
 #' PACKAGES: NA
@@ -75,53 +75,39 @@ mod_navigation_ui <- function(id, buttons) {
 }
 
 #' mod_nav_server
-#' @param input require shiny object
-#' @param output require shiny object
-#' @param session require shiny object
+#' @param id a unique ID per module instance
 #' @param counter a reactive counter that manages the page to render
 #' @param session_db an R6 object that is used for saving data to the db
-mod_nav_server <- function(input, output, session, counter, session_db) {
-    ns <- session$ns
+mod_nav_server <- function(id, counter, session_db) {
+    moduleServer(
+        id,
+        function(input, output, session) {
+            # onClick: previous page navigation button
+            observeEvent(input$previousPage, {
+                utils$fadePage()
+                session_db$capture_click(
+                    "navigation",
+                    "previous button clicked"
+                )
+                counter(counter() - 1)
+            })
 
-    # page previous
-    observeEvent(input$previousPage, {
+            # onClick: next page navigation button
+            observeEvent(input$nextPage, {
+                utils$fadePage()
+                session_db$capture_click("navigation", "next button clicked")
+                counter(counter() + 1)
+            })
 
-        # make sure page is faded out
-        utils$fadePage()
-
-        # log click to the database
-        session_db$capture_click("navigation", "previous button clicked")
-
-        # increment counter
-        new_count <- counter() - 1
-        counter(new_count)
-    })
-
-    # next page
-    observeEvent(input$nextPage, {
-
-        # make sure page fades out
-        utils$fadePage()
-
-        # log click to database
-        session_db$capture_click("navigation", "next button clicked")
-
-        # increment page
-        new_count <- counter() + 1
-        counter(new_count)
-    })
-
-    # restart
-    observeEvent(input$done, {
-
-        # fade page
-        utils$fadePage()
-
-        # log to database
-        session_db$capture_click("navigation", "user clicked the final button")
-
-        # update counter
-        new_count <- counter() + 1
-        counter(new_count)
-    })
+            # onClick: done button click
+            observeEvent(input$done, {
+                utils$fadePage()
+                session_db$capture_click(
+                    "navigation",
+                    "user clicked the final button"
+                )
+                counter(counter() + 1)
+            })
+        }
+    )
 }

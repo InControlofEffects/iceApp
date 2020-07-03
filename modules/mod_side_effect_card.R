@@ -2,7 +2,7 @@
 #' FILE: mod_side_effect_card.R
 #' AUTHOR: David Ruvolo
 #' CREATED: 2020-06-27
-#' MODIFIED: 2020-06-30
+#' MODIFIED: 2020-07-03
 #' PURPOSE: side effects card component + server module
 #' STATUS: in.progress
 #' PACKAGES: NA
@@ -44,70 +44,103 @@ mod_side_effect_ui <- function(id, title, text) {
 }
     
 #' mod_se_server
-#' @param input required shiny object
-#' @param output required shiny object
-#' @param session required shiny object
+#' @param id unique ID for this module
 #' @param session_db an R6 object used for sending data to the db
-mod_se_server <- function(input, output, session, session_db) {
+mod_se_server <- function(id, session_db) {
+    moduleServer(
+        id,
+        function(input, output, session) {
 
-    # parse module ID
-    ns <- session$ns
-    id <- gsub(
-        pattern = "-<environment>",
-        replacement = "",
-        x = ns(input)[[1]]
-    )
+            # parse module ID
+            ns <- session$ns
+            id <- gsub(
+                pattern = "-<environment>",
+                replacement = "",
+                x = ns(input)[[1]]
+            )
 
-    # toggle classes when checkbox selected
-    observeEvent(input$checked, {
-        if (input$checked) {
-            # add selected css class
-            browsertools::add_css(
-                elem = paste0("#", id, "-sideEffects"),
-                css = "selected"
-            )
-            # log selection
-            # session_db$capture_action(
-            #     event = "side_effect_selection",
-            #     id = id,
-            #     desc = "user selected side effect"
-            # )
-        } else {
-            # remove selected css class
-            browsertools::remove_css(
-                elem = paste0("#", id, "-sideEffects"),
-                css = "selected"
-            )
-            # log removal
-            # session_db$capture_action(
-            #     event = "side_effect_selection",
-            #     id = id,
-            #     desc = "user deselected side effect"
-            # )
+            # toggle classes when checkbox selected
+            observeEvent(input$checked, {
+                if (input$checked) {
+                    # add selected css class
+                    browsertools::add_css(
+                        elem = paste0("#", id, "-sideEffects"),
+                        css = "selected"
+                    )
+                    # log selection (log selections, but do worry about
+                    # deselection at this point as there are unwanted
+                    # side effects using reactive values that reset inputs
+                    # For now, log user selections as these can be compared
+                    # with the final selected input
+                    session_db$capture_action(
+                        event = "side_effect_selection",
+                        id = id,
+                        desc = "user selected side effect"
+                    )
+                } else {
+                    # remove selected css class
+                    browsertools::remove_css(
+                        elem = paste0("#", id, "-sideEffects"),
+                        css = "selected"
+                    )
+                    # log removal: keep this here until there is a solution
+                    #' session_db$capture_action(
+                    #'     event = "side_effect_selection",
+                    #'     id = id,
+                    #'     desc = "user deselected side effect"
+                    #' )
+                }
+            })
+
+             # toggle expandable content
+            isOpen <- reactiveVal(FALSE)
+            observeEvent(input$toggle, {
+
+                # toggle class
+                browsertools::toggle_css(
+                    elem = paste0("#", id, "-toggle"),
+                    css = "rotated"
+                )
+
+                # toggle hidden content
+                browsertools::toggle_css(
+                    elem = paste0("#", id, "-content"),
+                    css = "expanded"
+                )
+
+                # toggle hidden aria
+                if (isOpen()) {
+                    browsertools::set_element_attribute(
+                        elem = paste0("#", id, "-content"),
+                        attr = "aria-hidden",
+                        value = "true"
+                    )
+                    browsertools::set_element_attribute(
+                        elem = paste0("#", id, "-toggle"),
+                        attr = "aria-expanded",
+                        value = "false"
+                    )
+                    isOpen(FALSE)
+                } else {
+                    browsertools::remove_element_attribute(
+                        elem = paste0("#", id, "-content"),
+                        attr = "aria-hidden"
+                    )
+                    browsertools::set_element_attribute(
+                        elem = paste0("#", id, "-toggle"),
+                        attr = "aria-expanded",
+                        value = "true"
+                    )
+                    isOpen(TRUE)
+                }
+
+                # log action
+                session_db$capture_action(
+                    event = "side_effect_definition",
+                    id  = id,
+                    desc = "user toggled definition"
+                )
+            }, ignoreInit = TRUE)
         }
-    })
-
-    # toggle expandable content
-    observeEvent(input$toggle, {
-
-        # toggle rotate class for toggle icon
-        browsertools::toggle_css(
-            elem = paste0("#", id, "-toggle"),
-            css = "rotated"
-        )
-
-        # toggle class that reveals/hides content
-        browsertools::toggle_elem(
-            elem = paste0("#", id, "-content"),
-            css = "expanded"
-        )
-
-        # log toggle
-        session_db$capture_action(
-            event = "side_effect_definition",
-            id  = id,
-            desc = "user toggled definition"
-        )
-
-    })
+    )
 }
