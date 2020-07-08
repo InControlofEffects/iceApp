@@ -2,7 +2,7 @@
 #' FILE: utils_progress_bar.R
 #' AUTHOR: David Ruvolo
 #' CREATED: 2020-06-27
-#' MODIFIED: 2020-06-27
+#' MODIFIED: 2020-07-07
 #' PURPOSE: utils object
 #' STATUS: single object with nested methods for use in the app
 #' PACKAGES: NA
@@ -23,6 +23,18 @@ utils$updateProgressBar <- function(elem = "bar", now, max) {
             elem = elem,
             now = now,
             max = max
+        )
+    )
+}
+
+# function to update document title
+utils$set_document_title <- function(title) {
+    stopifnot(is.character(title))
+    session <- shiny::getDefaultReactiveDomain()
+    session$sendCustomMessage(
+        type = "set_document_title",
+        message = list(
+            title = title
         )
     )
 }

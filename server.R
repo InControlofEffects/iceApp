@@ -2,7 +2,7 @@
 #' FILE: server.R
 #' AUTHOR: David Ruvolo
 #' CREATED: 2017-09-09
-#' MODIFIED: 2020-06-27
+#' MODIFIED: 2020-07-03
 #' PURPOSE: Shiny server
 #' STATUS: in.progress
 #' PACKAGES: see global
@@ -11,31 +11,33 @@
 server <- function(input, output, session) {
 
     # init session analytics
-    session_db <- analytics$new()
+    session_db <- analytics$new(log = FALSE)
 
     # set app reactiveVals
-    logged <- reactiveVal(T)
+    logged <- reactiveVal(FALSE)
     navigation <- reactiveVal(1)
+    quitApp <- reactiveVal(FALSE)
 
     # page navigation
-    callModule(mod_nav_server, "instructions-a", navigation, session_db)
-    callModule(mod_nav_server, "instructions-b", navigation, session_db)
-    callModule(mod_nav_server, "instructions-c", navigation, session_db)
-    callModule(mod_nav_server, "sideEffects", navigation, session_db)
-    callModule(mod_nav_server, "results", navigation, session_db)
-    callModule(mod_nav_server, "quit", navigation, session_db)
+    mod_nav_server("instructions-a", navigation, session_db)
+    mod_nav_server("instructions-b", navigation, session_db)
+    mod_nav_server("instructions-c", navigation, session_db)
+    mod_nav_server("sideEffects", navigation, session_db)
+    mod_nav_server("results", navigation, session_db)
+    mod_nav_server("quit", navigation, session_db)
+
 
     # side effect cards pass reset state and reactive object
-    callModule(mod_se_server, "akathisia")
-    callModule(mod_se_server, "anticholinergic")
-    callModule(mod_se_server, "antiparkinson")
-    callModule(mod_se_server, "prolactin")
-    callModule(mod_se_server, "qtc")
-    callModule(mod_se_server, "sedation")
-    callModule(mod_se_server, "weight_gain")
+    mod_se_server("akathisia", session_db)
+    mod_se_server("anticholinergic", session_db)
+    mod_se_server("antiparkinson", session_db)
+    mod_se_server("prolactin", session_db)
+    mod_se_server("qtc", session_db)
+    mod_se_server("sedation", session_db)
+    mod_se_server("weight_gain", session_db)
 
     # call module
-    callModule(mod_login_server, "signin-form", accounts, logged, session_db)
+    mod_login_server("signin-form", accounts, logged, session_db)
 
     # output pages
     observe({
@@ -46,9 +48,13 @@ server <- function(input, output, session) {
             # update progress bar
             utils$updateProgressBar(now = navigation(), max = length(pages))
 
-            # show buttons
-            browsertools::show_elem(elem = "#restart")
-            browsertools::show_elem(elem = "#logout")
+            # update document title
+            browsertools::set_document_title(
+                title = paste0(
+                    attributes(pages)$title, " | ",
+                    attributes(pages[[navigation()]])$title
+                )
+            )
 
             # render page
             browsertools::scroll_to()
@@ -57,8 +63,10 @@ server <- function(input, output, session) {
             })
         }
 
-        # if unlogged, render signin page
+        # if unlogged, render signin page (on app load)
         if (!logged()) {
+
+            # reset progress bar
             utils$updateProgressBar(now = 0, max = length(pages))
             browsertools::scroll_to()
             output$current_page <- renderUI({
@@ -70,17 +78,7 @@ server <- function(input, output, session) {
         }
     })
 
-    # onClick: navigation bar restart
-    observeEvent(input$restart, {
-        session_db$update_attempts()
-        navigation(1)
-    })
-
-    # onClick: navigation bar logout
-    observeEvent(input$logout, {
-        navigation(1)
-        logged(FALSE)
-    })
+    #'//////////////////////////////////////
 
     # onSubmit: find recommendations
     observeEvent(input$`sideEffects-submit`, {
@@ -102,9 +100,8 @@ server <- function(input, output, session) {
         # if sum of selections is zero
         if (sum(choice[1, ]) == 0) {
 
-            # resetCheckboxes + show error
+            # show error (no need to reset inputs since nothing was selected)
             browsertools::scroll_to()
-            utils$side_effects$reset_side_effects()
             utils$side_effects$show_error_message(
                 "No selections were made. You must select one side effect"
             )
@@ -118,6 +115,7 @@ server <- function(input, output, session) {
             utils$side_effects$show_error_message(
                 "Too many selections were made. You may select one side effect."
             )
+
         } else {
 
             # exclude cases where selection has NA values
@@ -126,7 +124,6 @@ server <- function(input, output, session) {
                     incontrolofeffects_rx$side_effect == selected_side_effect &
                     !is.na(incontrolofeffects_rx$value)
                 ), ]
-
             # run user inputs
             raw_results <- as.data.frame(
                 user_preferences(
@@ -144,18 +141,17 @@ server <- function(input, output, session) {
                 rx_rec_c = raw_results[3, "name"],
                 rx_avoid_a = raw_results[length(raw_results), "name"],
                 rx_avoid_b = raw_results[length(raw_results) - 1, "name"],
-                rx_avoid_c = raw_results[length(raw_results) - 2, "name"],
+                rx_avoid_c = raw_results[length(raw_results) - 2, "name"]
             )
 
             # reset side effects
             utils$side_effects$reset_side_effects()
 
             # onSuccess: increment page
-            next_page <- navigation() + 1
-            navigation(next_page)
+            navigation(navigation() + 1)
 
             # set write delay
-            delay <- 125
+            delay <- 175
 
             #'//////////////////////////////////////
             # write recommended medication #1
@@ -202,10 +198,64 @@ server <- function(input, output, session) {
             )
 
             # log results to db
+            session_db$capture_selections(choice)
             session_db$capture_results(results)
 
         }
-
     })
 
+    #'//////////////////////////////////////
+
+    # onClick: navigation bar restart
+    observeEvent(input$appRestart, {
+
+        # log action before updating attempts
+        session_db$capture_action(
+            event = "session",
+            id = "app_restart",
+            desc = "user clicked restart menu button"
+        )
+
+        # update attempts and navigation
+        session_db$update_attempts()
+        navigation(1)
+    })
+
+    # onClick: navigation bar logout
+    observeEvent(input$appLogout, {
+
+        # reset navigation value
+        navigation(1)
+
+        # log user out and send to database
+        session_db$capture_action(
+            event = "session",
+            id = "app_logout",
+            desc = "user clicked the log out button"
+        )
+
+        # set logged to FALSE
+        logged(FALSE)
+    })
+
+    # on sesssion end
+    session$onSessionEnded(function() {
+
+        # make sure session_db is disconnected if not already
+        tryCatch({
+
+            # log quit
+            session_db$capture_action(
+                event = "session",
+                id = "app_quit",
+                desc = "application closed"
+            )
+
+            # disconnect
+            session_db$disconnect()
+
+        }, error = function(e) {
+            cat("User already disconnected\n")
+        })
+    })
 }
