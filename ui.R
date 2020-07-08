@@ -2,7 +2,7 @@
 #' FILE: ui.R
 #' AUTHOR: David Ruvolo
 #' CREATED: 2020-06-27
-#' MODIFIED: 2020-06-27
+#' MODIFIED: 2020-07-08
 #' PURPOSE: Shiny UI
 #' STATUS: in.progreess
 #' PACKAGES: see global
@@ -56,12 +56,18 @@ ui <- tagList(
     ),
     tags$nav(
         class = "navbar",
+        `aria-label` = "in control of effects",
         tags$ul(
             class = "menu",
+            role = "menu",
             tags$li(
-                class = "menu-item brand-item",
-                tags$h1(
-                    class = "menu-title",
+                id = "item-brand-link",
+                role = "none",
+                class = "menu-item",
+                tags$a(
+                    role = "menu-item",
+                    class = "menu-link",
+                    tabindex = "0",
                     tag(
                         `_tag_name` = "svg",
                         list(
@@ -106,13 +112,39 @@ ui <- tagList(
                 )
             ),
             tags$li(
-                class = "menu-item menu-toggle",
+                id = "item-restart-app",
+                role = "none",
+                class = "menu-item",
                 tags$button(
-                    id = "menuToggle",
-                    class = "action-button shiny-bound-input",
-                    `aria-expanded` = "false",
-                    tags$span("menu"),
-                    rheroicons::outline$dots_vertical(aria_hidden = TRUE)
+                    role = "menuitem",
+                    id = "appRestart",
+                    class = "action-button shiny-bound-input menu-button",
+                    rheroicons::outline$refresh(
+                        class = "menu-button-icon",
+                        aria_hidden = TRUE
+                    ),
+                    tags$span(
+                        class = "menu-button-label",
+                        "Restart"
+                    )
+                )
+            ),
+            tags$li(
+                id = "item-signout-app",
+                role = "none",
+                class = "menu-item",
+                tags$button(
+                    id = "appSignout",
+                    role = "menuitem",
+                    class = "action-button shiny-bound-input menu-button",
+                    rheroicons::outline$logout(
+                        class = "menu-button-icon",
+                        aria_hidden = TRUE
+                    ),
+                    tags$span(
+                        class = "menu-button-label",
+                        "Sign out"
+                    )
                 )
             )
         )
@@ -129,50 +161,6 @@ ui <- tagList(
             `aria-valuemin` = "0",
             `aria-valuemax` = "1",
             `aria-valuetext` = ""
-        )
-    ),
-    tags$aside(
-        id = "sidebar",
-        class = "sidebar",
-        `aria-labelledby` = "sidebar-title",
-        `aria-hidden` = "true",
-        tags$div(
-            class = "sidebar-content",
-            tags$span(
-                id = "sidebar-title",
-                class = "browsertools-hidden",
-                "application menu"
-            ),
-            tags$ul(
-                class = "menu",
-                tags$li(
-                    class = "menu-item",
-                    tags$button(
-                        id = "restart",
-                        class = "action-button shiny-bound-input",
-                        rheroicons::outline$refresh(aria_hidden = TRUE),
-                        tags$span("restart")
-                    )
-                ),
-                tags$li(
-                    class = "menu-item",
-                    tags$button(
-                        id = "logout",
-                        class = "action-button shiny-bound-input",
-                        rheroicons::outline$logout(aria_hidden = TRUE),
-                        tags$span("sign out")
-                    )
-                )
-            ),
-            tags$p(
-                "Return to",
-                tags$a(
-                    id = "quit-link",
-                    class = "shiny-bound-input action-link",
-                    href = "https://incontrolofeffects.com",
-                    "main site."
-                )
-            )
         )
     ),
     tags$main(class = "main", id = "main", uiOutput("current_page")),

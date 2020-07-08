@@ -2,7 +2,7 @@
 // FILE: index.js
 // AUTHOR: David Ruvolo
 // CREATED: 2019-11-11
-// MODIFIED: 2020-06-26
+// MODIFIED: 2020-07-07
 // PURPOSE: main js file for app
 // DEPENDENCIES: NA
 // STATUS: working
@@ -10,35 +10,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 import "./scss/index.scss"
-
-////////////////////////////////////////
-
-// menu toggle
-const menu = document.getElementById("menuToggle");
-const sidebar = document.getElementById("sidebar");
-const sidebarBtns = document.querySelectorAll(".sidebar .menu button, .sidebar .menu a");
-
-// toggle sidebar state
-function toggle_sidebar () {
-    if ([...sidebar.classList].indexOf("sidebar-revealed") > -1) {
-        sidebar.classList.remove("sidebar-revealed");
-        sidebar.setAttribute("aria-hidden", "true");
-        menu.setAttribute("aria-expanded", "false");
-    } else {
-        sidebar.classList.add("sidebar-revealed");
-        sidebar.removeAttribute("aria-hidden");
-        menu.setAttribute("aria-expanded", "true");
-    }
-}
-
-// bind menu toggle to sidebar buttons
-sidebarBtns.forEach(btn => btn.addEventListener("click", toggle_sidebar));
-
-// menu toggle click
-menu.addEventListener("click", (event) => {
-    toggle_sidebar();
-});
-
 
 ////////////////////////////////////////
 
@@ -113,23 +84,39 @@ Shiny.addCustomMessageHandler("updateProgressBar", function (data) {
 
 ////////////////////////////////////////
 
+// handler that updates the document title
+Shiny.addCustomMessageHandler("set_document_title", function(data) {
+    document.title = data.title;
+});
+
+////////////////////////////////////////
+
 // input binding for accordion
-// const accordionToggle = new Shiny.inputBinding();
 const accordionToggle = new Shiny.InputBinding();
 $.extend(accordionToggle, {
     find: function(scope) {
         return $(scope).find(".accordion-button");
     },
+    initialize: function(el) {
+        return null;
+    },
     getValue: function(el) {
         return null;
     },
-    setValue: function(el) {
-        return null;
-    },
-    subscribe: function(el, callback) {
-        $(el).on("change.accordionToggle", function(e) {
-            var id = $(el).attr("data-group");
-            $(`section.accordion-section[data-group='${id}']`)[0].classList.toggle("browsertools-hidden");
+    subscribe: function(el) {
+        $(el).on("click", function(e) {
+            var btn = $(this);
+            var id = btn.attr("data-group");
+            var section = $(document).find(`section.accordion-section[data-group='${id}']`);
+            if (section.hasClass("browsertools-hidden")) {
+                section.removeClass("browsertools-hidden");
+                section.removeAttr("aria-hidden");
+                btn.attr("aria-expanded", "true");
+            } else {
+                section.addClass("browsertools-hidden");
+                section.attr("aria-hidden", "true");
+                btn.attr("aria-expanded", "false")
+            }
         });
     },
     unsubscribe: function(el) {
@@ -139,12 +126,6 @@ $.extend(accordionToggle, {
 
 // register
 Shiny.inputBindings.register(accordionToggle);
-
-// cue trigger
-$(document).on("click", "button.accordion-button", function(e) {
-    var el = $(e.target);
-    el.trigger("change");
-});
 
 
 ////////////////////////////////////////

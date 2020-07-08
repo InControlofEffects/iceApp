@@ -15,56 +15,86 @@
         padding: 0;
         margin: 0;
         display: grid;
-        grid-template-columns: 4fr 1fr;
+        grid-template-columns: 75% repeat(2, 12.5%);
         grid-column-gap: 0;
-        grid-template-areas: "brand menu";
+        grid-template-areas: "brand refresh signout";
+
+        // define breakpoints
+        $first: 762px;
+        $second: 972px;
+        $third: 1224px;
+        @media (min-width: $first) {
+            grid-template-columns: 3fr repeat(2, 1fr);
+        }
+
+        @media (min-width: $second) {
+            grid-template-columns: 4fr repeat(2, 1fr);
+        }
+
+        @media (min-width: $third) {
+            grid-template-columns: 6fr repeat(2, 1fr);
+        }
 
         // all menu items
         .menu-item {
             display: flex;
             align-items: center;
-            justify-content: flex-start;
-            padding: 12px;
+            justify-content: center;
+            padding: 12px 0;
             margin: 0;
 
             // reset button styles
-            button {
+            .menu-button {
                 padding: 0;
                 margin: 0;
+                padding-bottom: 4px;
                 border-radius: 0;
                 box-shadow: none;
                 display: flex;
                 justify-content: flex-end;
                 align-items: center;
 
-                span {
+                .menu-button-label {
                     font-size: 11pt;
                     margin-top: 6px;
-                    margin-right: 8px;
+                    margin-left: 8px;
                     text-transform: uppercase;
                     letter-spacing: 2px;
                     font-weight: bold;
                     color: $primary;
+
+                    // when the screen size is below a specific point
+                    // visually hide the icon labels
+                    @media (max-width: $first) {
+                        @include visuallyHidden;
+                    }
                 }
 
-                .rheroicons {
+                .menu-button-icon {
                     width: 25px;
                     height: 25px;
                     color: $primary;
                 }
+
+                &:hover, &:focus {
+                    text-decoration: none;
+                    border-bottom: 2px solid $primary;
+                }
             }
 
             // styling for first link, i.e., the branding link + logo
-            &.brand-item {
-                .menu-title {
-                    margin: 0;
-                    line-height: 1;
+            &#item-brand-link {
+                justify-content: flex-start;
+                padding-left: 12px;
+                
+                .menu-link {
                     font-size: 11pt;
                     text-transform: uppercase;
                     font-weight: bold;
                     letter-spacing: 2px;
                     color: $primary;
-
+                    box-shadow: none;
+                    
                     .logo {
                         position: relative;
                         display: inline-block;
@@ -72,37 +102,27 @@
                         height: 22px;
                         top: 4px;
                     }
+
+                    &:hover, &:focus {
+                        box-shadow: inset 0 -2px 0 0 currentColor;
+                    }
                 }
             }
 
-            // grid arrange menu items
-            &:nth-child(1) {
-                -ms-grid-column: 1;
-                -ms-grid-row: 1;
-                grid-column: 1;
-                grid-row: 1;
-                grid-area: brand;
+            // styling for the restart button
+            &#item-restart-app {
+
+                .menu-button {
+                    grid-area: refresh;
+                }
             }
 
-            &:nth-child(2) {
-                -ms-grid-column: 2;
-                -ms-grid-row: 1;
-                grid-column: 2;
-                grid-row: 1;
-                grid-area: menu;
-                display: flex;
-                justify-content: flex-end;
-                align-items: center;
-            }
-        }
-    }
-}
+            // sytling for sign out button
+            &#item-signout-app {
 
-@media (min-width: 512px) {
-    .navbar {
-        .brand-link {
-            .menu-link {
-                font-size: 16pt;
+                .menu-button {
+                    grid-area: signout;
+                }
             }
         }
     }
