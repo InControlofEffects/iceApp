@@ -38,3 +38,19 @@ $default-margin-bottom: 18px;
 // borders
 $default-border-width: 2px;
 $default-border-radius: 6px;
+
+// breakpoints
+$breakpoint: 972px;
+
+
+// mixins
+@mixin visuallyHidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    clip: rect(0, 0, 0, 0);
+    clip: rect(0 0 0 0);
+    overflow: hidden;
+    white-space: nowrap;
+}

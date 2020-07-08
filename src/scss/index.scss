@@ -20,22 +20,9 @@
 		transform: scaleX(0);
 		transform-origin: 0 center;
 		transition: all 1s ease-in-out;
-	}
-}
-
-
-// media query for reduced motion
-@media (prefers-reduced-motion) {
-
-	// progress bar
-	#bar-container {
-		#bar {
-			transition-duration: 0;
+		
+		@media (prefers-reduced-motion) {
+			transition: all 1ms ease-in-out;
 		}
 	}
-
-	// disable reset fades
-    .fadeIn, .fadeOut {
-        animation: none;
-    }
 }
