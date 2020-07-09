@@ -34,63 +34,89 @@ mod_login_ui <- function(id, class) {
         tags$form(
             id = ns("page"),
             class = css,
-            rheroicons::solid$user_circle(
-                id = "signin-icon",
-                aria_hidden = TRUE
+            tag(
+                `_tag_name` = "svg",
+                list(
+                    class = "logo",
+                    width = "45",
+                    height = "44",
+                    viewBox = "0 0 45 44",
+                    version = "1.1",
+                    xmlns = "http://www.w3.org/2000/svg",
+                    `xmlns:xlink` = "http://www.w3.org/1999/xlink",
+                    `aria_hidden` = "true",
+                    tag(
+                        `_tag_name` = "g",
+                        list(
+                            stroke = "none",
+                            `stroke-width` = "1",
+                            fill = "none",
+                            `fill-rule` = "evenodd",
+                            tag(
+                                `_tag_name` = "circle",
+                                list(
+                                    fill = "#4655A8",
+                                    cx = "15",
+                                    cy = "15",
+                                    r = "15"
+                                )
+                            ),
+                            tag(
+                                `_tag_name` = "circle",
+                                list(
+                                    fill = "#C7CCE4",
+                                    cx = "30",
+                                    cy = "29",
+                                    r = "15"
+                                )
+                            )
+                        )
+                    )
+                )
             ),
-            tags$h2(
+            tags$legend(
                 id = "signin-form-title",
-                "Welcome, please sign in"
+                "Sign in"
             ),
-            tags$div(
-                id = ns("signin-error"),
-                class = "error-box browsertools-hidden",
-                role = "alert",
-                `aria-hidden` = "true",
-                rheroicons::outline$exclamation(aria_hidden = TRUE),
-                tags$span(
-                    id = ns("signin-error-message"),
-                    class = "error-box-text"
-                )
-            ),
+
+            #'//////////////////////////////////////
+
+            #' Username: label, input, error
             tags$label(`for` = ns("username"), "Username"),
-            browsertools::hidden(
-                tags$span(
-                    id = "username-status",
-                    class = "error-text"
-                )
+            tags$span(
+                id = "username-status",
+                class = "error-text",
+                role = "alert"
             ),
             tags$input(
                 id = ns("username"),
                 type = "text",
-                class = "form-control shiny-bound-input"
+                class = "form-control shiny-bound-input",
+                `aria-describedby` = "username-status"
             ),
+
+            #'//////////////////////////////////////
+
+            #' Password: label, input, error
             tags$label(`for` = ns("password"), "Password"),
-            browsertools::hidden(
-                tags$span(
-                    id = "password-status",
-                    class = "error-text"
-                )
+            tags$span(
+                id = "password-status",
+                class = "error-text",
+                role = "alert"
             ),
             tags$input(
                 id = ns("password"),
                 type = "password",
-                class = "form-control shiny-bound-input"
+                class = "form-control shiny-bound-input",
+                `aria-describedby` = "password-status"
             ),
+
+            # form submit
             tags$button(
                 id = ns("login"),
                 class = "action-button shiny-bound-input primary",
                 type = "submit",
                 "Sign In"
-            ),
-            tags$p(
-                id = "return-link",
-                "Or return to the ",
-                tags$a(
-                    href = "https://incontrolofeffects.com",
-                    "main"
-                ),
-                "site."
             )
         )
     )
@@ -109,58 +135,21 @@ mod_login_server <- function(id, data, logged, session_db) {
 
             # build object containing namespace IDs (for use in js)
             elems <- list(
-                error_elem = paste0("#", ns("signin-error")),
-                error_text = paste0("#", ns("signin-error-message")),
-                user_input = paste0("#", ns("username")),
-                pass_input = paste0("#", ns("password")),
-                user_status = "#username-status",
-                password_status = "#password-status"
+                user_input = ns("username"),
+                pass_input = ns("password")
             )
 
             # reset signin form error messages
-            reset_signin_errors <- function() {
-                browsertools::inner_text(elems$error_text, "")
-                browsertools::hide_elem(elems$error_elem)
-                browsertools::hide_elem(elems$user_status)
-                browsertools::hide_elem(elems$password_status)
-                browsertools::remove_css(elems$user_input, "invalid")
-                browsertools::remove_css(elems$pass_input, "invalid")
+            reset_form <- function(elem = "signin-form-page") {
+                session$sendCustomMessage("reset_form", list(elem = elem))
             }
 
             # send new message
-            send_signin_error <- function(string, status, status_text) {
-                browsertools::show_elem(elems$error_elem)
-                browsertools::inner_text(elems$error_text, string)
-
-                # show status messages for individual inputs or all of them
-                if (status == "both") {
-
-                    # make sure status elements are visisble
-                    browsertools::show_elem(elems$user_status)
-                    browsertools::show_elem(elems$password_status)
-
-                    # modify inner text
-                    browsertools::inner_text(elems$user_status, status_text)
-                    browsertools::inner_text(elems$password_status, status_text)
-
-                    # add invalid css class
-                    browsertools::add_css(elems$user_input, "invalid")
-                    browsertools::add_css(elems$pass_input, "invalid")
-                }
-
-                # show username invalid elements
-                if (status == "username") {
-                    browsertools::show_elem(elems$user_status)
-                    browsertools::inner_text(elems$user_status, status_text)
-                    browsertools::add_css(elems$user_input, "invalid")
-                }
-
-                # show password invalid elements
-                if (status == "password") {
-                    browsertools::show_elem(elems$password_status)
-                    browsertools::inner_text(elems$password_status, status_text)
-                    browsertools::add_css(elems$pass_input, "invalid")
-                }
+            show_error <- function(elem, error) {
+                session$sendCustomMessage(
+                    "show_error",
+                    list(elem = elem, error = error)
+                )
             }
 
             # on submit
@@ -173,7 +162,7 @@ mod_login_server <- function(id, data, logged, session_db) {
                 )
 
                 # reset existing errors (if applicable)
-                reset_signin_errors()
+                reset_form()
 
                 # find user and passwords
                 usr <- which(data$username == input$username)
@@ -184,28 +173,29 @@ mod_login_server <- function(id, data, logged, session_db) {
                     # send + log error
                     e <- "Username and password is missing"
                     session_db$capture_error("login", tolower(e))
-                    send_signin_error(e, "both", "Missing")
+                    show_error(elems$user_input, "ERROR: Username is missing")
+                    show_error(elems$pass_input, "ERROR: Password is missing")
 
                 } else if (input$username == "" && !(input$password == "")) {
 
                     # send + log error
                     e <- "Username is missing"
                     session_db$capture_error("login", tolower(e))
-                    send_signin_error(e, "username", "Missing")
+                    show_error(elems$user_input, "ERROR: Username is missing")
 
                 } else if (!(input$username == "") && input$password == "") {
 
                     # send + log error
                     e <- "Password is missing"
                     session_db$capture_error("login", tolower(e))
-                    send_signin_error(e, "password", "Missing")
+                    show_error(elems$pass_input, "ERROR: Password is missing")
 
                 } else if (!length(usr)) {
 
                     # send + log error
                     e <- "The username is incorrect"
                     session_db$capture_error("login", tolower(e))
-                    send_signin_error(e, "username", "Incorrect")
+                    show_error(elems$user_input, "ERROR: Username is incorrect")
 
                 } else if (length(usr)) {
                     if (
@@ -232,14 +222,18 @@ mod_login_server <- function(id, data, logged, session_db) {
                         # send + log error
                         e <- "The username or password is incorrect"
                         session_db$capture_error("login", tolower(e))
-                        send_signin_error(e, "both", "Incorrect")
+                        show_error(
+                            elems$pass_input,
+                            "ERROR: Password is incorrect"
+                        )
                     }
                 } else {
 
                     # send and log error
                     e <- "An error has occurred. Please try again."
                     session_db$capture_error("login", tolower(e))
-                    send_signin_error(e, "both", "Error")
+                    show_error(elems$user_input, "ERROR: Something went wrong")
+                    show_error(elems$pass_input, "ERROR: Something went wrong")
                 }
             })
         }

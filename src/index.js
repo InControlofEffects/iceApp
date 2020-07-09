@@ -9,9 +9,28 @@
 // COMMENTS: NA
 ////////////////////////////////////////////////////////////////////////////////
 
+
+// import scss
 import "./scss/index.scss"
 
 ////////////////////////////////////////
+
+// sign in form handlers
+import { reset_form, show_error } from "./js/_form_validation"
+
+// reset form
+Shiny.addCustomMessageHandler("reset_form", function(data) {
+    reset_form(data.elem);
+});
+
+// show Error
+Shiny.addCustomMessageHandler("show_error", function(data) {
+    show_error(data.elem, data.error);
+});
+
+////////////////////////////////////////
+
+
 
 // reset side effects
 function reset_side_effects() {
@@ -91,41 +110,9 @@ Shiny.addCustomMessageHandler("set_document_title", function(data) {
 
 ////////////////////////////////////////
 
-// input binding for accordion
-const accordionToggle = new Shiny.InputBinding();
-$.extend(accordionToggle, {
-    find: function(scope) {
-        return $(scope).find(".accordion-button");
-    },
-    initialize: function(el) {
-        return null;
-    },
-    getValue: function(el) {
-        return null;
-    },
-    subscribe: function(el) {
-        $(el).on("click", function(e) {
-            var btn = $(this);
-            var id = btn.attr("data-group");
-            var section = $(document).find(`section.accordion-section[data-group='${id}']`);
-            if (section.hasClass("browsertools-hidden")) {
-                section.removeClass("browsertools-hidden");
-                section.removeAttr("aria-hidden");
-                btn.attr("aria-expanded", "true");
-            } else {
-                section.addClass("browsertools-hidden");
-                section.attr("aria-hidden", "true");
-                btn.attr("aria-expanded", "false")
-            }
-        });
-    },
-    unsubscribe: function(el) {
-        $(el).off(".accordionToggle");
-    }
-});
-
 // register
-Shiny.inputBindings.register(accordionToggle);
+import Accordion from "./js/_accordion"
+Shiny.inputBindings.register(Accordion);
 
 
 ////////////////////////////////////////

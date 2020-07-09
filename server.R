@@ -222,7 +222,7 @@ server <- function(input, output, session) {
     })
 
     # onClick: navigation bar logout
-    observeEvent(input$appLogout, {
+    observeEvent(input$appSignout, {
 
         # reset navigation value
         navigation(1)
