@@ -2,7 +2,7 @@
 #' FILE: mod_navigation.R
 #' AUTHOR: David Ruvolo
 #' CREATED: 2020-06-27
-#' MODIFIED: 2020-07-01
+#' MODIFIED: 2020-07-10
 #' PURPOSE: app application
 #' STATUS: in.progress
 #' PACKAGES: NA
@@ -19,35 +19,53 @@ mod_navigation_ui <- function(id, buttons) {
 
     # define buttons
     btns <- list(
+
+        #' move back to previous page
         previous = tags$button(
             id = ns("previousPage"),
             class = "shiny-bound-input action-button default",
             rheroicons::outline$chevron_left(aria_hidden = TRUE),
             "Previous"
         ),
+
+        #' move to next page
         "next" = tags$button(
             id = ns("nextPage"),
             class = "shiny-bound-input action-button primary",
             "Next",
             rheroicons::outline$chevron_right(aria_hidden = TRUE)
         ),
+
+        #' move to next page, but for starting side effects selection
+        begin = tags$button(
+            id = ns("begin"),
+            class = "shiny-bound-input action-button primary",
+            "Begin",
+            rheroicons::outline$chevron_right(aria_hidden = TRUE)
+        ),
+
+        #' submit side effects
         submit = tags$button(
             id = ns("submit"),
             class = "shiny-bound-input action-button primary",
             "Submit",
-            rheroicons::outline$arrow_circle_right(aria_hidden = TRUE)
+            rheroicons::solid$arrow_circle_right(aria_hidden = TRUE)
         ),
+
+        #' Previous, but for revisting side effects page from results
+        reselect = tags$button(
+            id = ns("reselect"),
+            class = "shiny-bound-input action-button default",
+            rheroicons::outline$chevron_left(aria_hidden = TRUE),
+            "Previous"
+        ),
+
+        #' next page, but for post-results
         done = tags$button(
             id = ns("done"),
             class = "shiny-bound-input action-button primary",
-            rheroicons::outline$check_circle(aria_hidden = TRUE),
-            "Done"
-        ),
-        quit = tags$button(
-            id = ns("quitApp"),
-            class = "shiny-bound-input action-button primary",
-            "Quit",
-            rheroicons::outline$logout(aria_hidden = TRUE)
+            "Done",
+            rheroicons::solid$check_circle(aria_hidden = TRUE)
         )
     )
 
@@ -107,6 +125,27 @@ mod_nav_server <- function(id, counter, session_db) {
                     "user clicked the final button"
                 )
                 counter(counter() + 1)
+            })
+
+            # onClick: begin
+            observeEvent(input$begin, {
+                utils$fadePage()
+                session_db$capture_click(
+                    "navigation",
+                    "started side effects selection"
+                )
+                counter(counter() + 1)
+            })
+
+            # onClick: reselect side effects + update attempts
+            observeEvent(input$reselect, {
+                utils$fadePage()
+                session_db$update_attempts()
+                session_db$capture_click(
+                    "navigation",
+                    "restarting side effect selection"
+                )
+                counter(counter() - 1)
             })
         }
     )

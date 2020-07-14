@@ -2,7 +2,7 @@
 #' FILE: mod_login.R
 #' AUTHOR: David Ruvolo
 #' CREATED: 2020-06-27
-#' MODIFIED: 2020-07-03
+#' MODIFIED: 2020-07-14
 #' PURPOSE: module for login page
 #' STATUS: working
 #' PACKAGES: NA
@@ -209,12 +209,11 @@ mod_login_server <- function(id, data, logged, session_db) {
                         shiny::updateTextInput(session, "username", value = "")
                         shiny::updateTextInput(session, "password", value = "")
 
-                        # login + capture event
-                        session_db$capture_action(
-                            event = "session",
-                            id = "login",
-                            desc = "user logged in successfully"
-                        )
+                        # update user type in sessions table
+                        type <- data$type[usr]
+                        session_db$capture_login(type = type)
+
+                        # change state
                         logged(TRUE)
 
                     } else {

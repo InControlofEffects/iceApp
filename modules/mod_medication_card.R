@@ -42,6 +42,3 @@ mod_medication_card_ui <- function(id, title = "", type = "recommended") {
     return(parent)
 
 }
-
-## To be copied in the server
-# callModule(mod_medication_card_server, "medication_card_ui_1")
