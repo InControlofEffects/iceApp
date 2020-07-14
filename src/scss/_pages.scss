@@ -1,5 +1,3 @@
-$min-height: calc(100vh - 60px);
-
 #main {
     display: flex;
     justify-content: center;
@@ -7,8 +5,7 @@ $min-height: calc(100vh - 60px);
     width: 100%;
     padding: 0;
     margin: 0;
-    margin-top: 35px;
-    min-height: $min-height;
+    min-height: 100vh;
     background-color: #ffffff;
 
     // define page, i.e., each "slide"
@@ -18,27 +15,32 @@ $min-height: calc(100vh - 60px);
         width: 85%;
         height: auto;
         margin: 0 auto;
-        margin-top: 50px;
+        margin-top: 125px;
         margin-bottom: 54px;
         background-color: #ffffff;
     }
 
-    // text with inline icons
+    // page text
     p {
+
+        // icons
         .rheroicons {
             display: inline-block;
             position: relative;
             top: 4px;
             &.rheroicons_outline {
                 stroke: $primary;
+
+                &.rheroicons_logout {
+                    transform: scale(-1, 1)
+                }
             }
         }
-    }
 
-    #results-title::after {
-        content: "?";
-        position: relative;
-        right: 10px;
+        // app name mentions
+        strong {
+            color: $primary;
+        }
     }
 
     // error boxes
@@ -85,26 +87,29 @@ $min-height: calc(100vh - 60px);
         width: 100vw;
         height: calc(100vh - 40px);
         margin: 0;
-        // background-color: $light;
         background-color: $semi-light;
-
+        
         .form {
             background-color: #ffffff;
             padding: 16px;
+            width: 100%;
             max-width: 325px;
             margin-bottom: 6px;
             border-radius: $default-border-radius;
 
-            h2 {
-                font-size: 18pt;
-            }
-
-            .rheroicons_user_circle {
+            .logo {
                 display: block;
                 margin: 0 auto;
-                width: 50px;
-                height: 50px;
+                margin-bottom: 12px;
+                width: 45px;
+                height: 45px;
                 fill: $primary;
+            }
+
+            legend {
+                text-align: center;
+                font-size: 18pt;
+                color: $dark;
             }
 
             .form-control {
@@ -112,13 +117,9 @@ $min-height: calc(100vh - 60px);
             }
 
             button[type=submit] {
+                margin-top: 12px;
                 width: 100%;
             }
-        }
-
-        p {
-            font-size: 11pt;
-            text-align: center;
         }
     }
 }
@@ -136,12 +137,12 @@ $min-height: calc(100vh - 60px);
             margin-top: 0;
 
             &.page-extra-top-spacing {
-                margin-top: 50px;
+                margin-top: 125px;
             }
         }
 
         #signin {
-            min-height: calc(100vh - 77.5px);
+            min-height: 100vh;
 
             .form {
                 min-width: 350px;
