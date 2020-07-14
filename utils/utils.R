@@ -2,7 +2,7 @@
 #' FILE: utils_progress_bar.R
 #' AUTHOR: David Ruvolo
 #' CREATED: 2020-06-27
-#' MODIFIED: 2020-07-07
+#' MODIFIED: 2020-07-14
 #' PURPOSE: utils object
 #' STATUS: single object with nested methods for use in the app
 #' PACKAGES: NA
@@ -73,4 +73,48 @@ utils$side_effects$reset_side_effects <- function() {
     updateCheckboxInput(session, "sedation-checked", value = 0)
     updateCheckboxInput(session, "weight_gain-checked", value = 0)
     session$sendCustomMessage("reset_side_effects", "")
+}
+
+# write site effects to UI
+utils$side_effects$write_side_effects <- function(results, delay = 175) {
+    browsertools::inner_text(
+        elem = "#rec-rx-a-result-title",
+        string = results$rx_rec_a,
+        delay = delay
+    )
+
+    # write recommended medication #2
+    browsertools::inner_text(
+        elem = "#rec-rx-b-result-title",
+        string = results$rx_rec_b,
+        delay = delay
+    )
+
+    # write recommended medication #3
+    browsertools::inner_text(
+        elem = "#rec-rx-c-result-title",
+        string = results$rx_rec_c,
+        delay = delay
+    )
+
+    # write avoid medication # 1
+    browsertools::inner_text(
+        elem = "#avoid-rx-a-result-title",
+        string = results$rx_avoid_a,
+        delay = delay
+    )
+
+    # write avoid medication # 2
+    browsertools::inner_text(
+        elem = "#avoid-rx-b-result-title",
+        string = results$rx_avoid_b,
+        delay = delay
+    )
+
+    # write avoid medication # 3
+    browsertools::inner_text(
+        elem = "#avoid-rx-c-result-title",
+        string = results$rx_avoid_c,
+        delay = delay
+    )
 }
