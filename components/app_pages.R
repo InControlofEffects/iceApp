@@ -2,7 +2,7 @@
 #' FILE: utils_app_pages.R
 #' AUTHOR: David Ruvolo
 #' CREATED: 2020-06-27
-#' MODIFIED: 2020-07-10
+#' MODIFIED: 2020-07-14
 #' PURPOSE: application subpages
 #' STATUS: working
 #' PACKAGES: shiny;
@@ -402,7 +402,7 @@ pages$results <- tags$article(
         mod_medication_card_ui(id = "avoid-rx-b", type = "avoid"),
         mod_medication_card_ui(id = "avoid-rx-c", type = "avoid")
     ),
-    mod_navigation_ui(id = "results", buttons = c("previous", "done"))
+    mod_navigation_ui(id = "results", buttons = c("reselect", "done"))
 )
 
 # set attributes of current page

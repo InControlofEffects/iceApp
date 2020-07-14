@@ -15,7 +15,7 @@ server <- function(input, output, session) {
 
     # set app reactiveVals
     logged <- reactiveVal(TRUE)
-    navigation <- reactiveVal(5)
+    navigation <- reactiveVal(1)
 
     # page navigation
     mod_nav_server("instructions-a", navigation, session_db)
