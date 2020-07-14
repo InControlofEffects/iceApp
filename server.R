@@ -2,7 +2,7 @@
 #' FILE: server.R
 #' AUTHOR: David Ruvolo
 #' CREATED: 2017-09-09
-#' MODIFIED: 2020-07-03
+#' MODIFIED: 2020-07-14
 #' PURPOSE: Shiny server
 #' STATUS: in.progress
 #' PACKAGES: see global
@@ -14,18 +14,17 @@ server <- function(input, output, session) {
     session_db <- analytics$new(log = FALSE)
 
     # set app reactiveVals
-    logged <- reactiveVal(FALSE)
-    navigation <- reactiveVal(1)
-    quitApp <- reactiveVal(FALSE)
+    logged <- reactiveVal(TRUE)
+    navigation <- reactiveVal(5)
 
     # page navigation
     mod_nav_server("instructions-a", navigation, session_db)
     mod_nav_server("instructions-b", navigation, session_db)
     mod_nav_server("instructions-c", navigation, session_db)
+    mod_nav_server("instructions-d", navigation, session_db)
     mod_nav_server("sideEffects", navigation, session_db)
     mod_nav_server("results", navigation, session_db)
     mod_nav_server("quit", navigation, session_db)
-
 
     # side effect cards pass reset state and reactive object
     mod_se_server("akathisia", session_db)
@@ -36,7 +35,7 @@ server <- function(input, output, session) {
     mod_se_server("sedation", session_db)
     mod_se_server("weight_gain", session_db)
 
-    # call module
+    # call sign in form module
     mod_login_server("signin-form", accounts, logged, session_db)
 
     # output pages
@@ -47,6 +46,10 @@ server <- function(input, output, session) {
 
             # update progress bar
             utils$updateProgressBar(now = navigation(), max = length(pages))
+
+            # show menu buttons
+            browsertools::remove_css("#item-restart-app", "item-hidden")
+            browsertools::remove_css("#item-signout-app", "item-hidden")
 
             # update document title
             browsertools::set_document_title(
@@ -68,7 +71,15 @@ server <- function(input, output, session) {
 
             # reset progress bar
             utils$updateProgressBar(now = 0, max = length(pages))
+
+            # hide menu buttons
+            browsertools::add_css("#item-restart-app", "item-hidden")
+            browsertools::add_css("#item-signout-app", "item-hidden")
+
+            # reset scroll
             browsertools::scroll_to()
+
+            # render signin page
             output$current_page <- renderUI({
                 tags$article(
                     id = "signin",
@@ -102,6 +113,7 @@ server <- function(input, output, session) {
 
             # show error (no need to reset inputs since nothing was selected)
             browsertools::scroll_to()
+            browsertools::console_error("No selections were detected.")
             utils$side_effects$show_error_message(
                 "No selections were made. You must select one side effect"
             )
@@ -111,6 +123,9 @@ server <- function(input, output, session) {
             # throw error when more than 1 selection was made
             # reset side effects + show error
             browsertools::scroll_to()
+            browsertools::console_error(
+                "User selected more than 1 option. Only 1 is allowed"
+            )
             utils$side_effects$reset_side_effects()
             utils$side_effects$show_error_message(
                 "Too many selections were made. You may select one side effect."
@@ -118,16 +133,24 @@ server <- function(input, output, session) {
 
         } else {
 
+            # log message to browser that selections are valid
+            browsertools::console_log("Selections are valid")
+
             # exclude cases where selection has NA values
-            selected_side_effect <- names(choice)[choice[1, ] == 1]
-            filtered_df <- incontrolofeffects_rx[(
-                    incontrolofeffects_rx$side_effect == selected_side_effect &
-                    !is.na(incontrolofeffects_rx$value)
-                ), ]
-            # run user inputs
+            #' selected_side_effect <- names(choice)[choice[1, ] == 1]
+            #' filtered_df <- incontrolofeffects_rx[(
+            #'         incontrolofeffects_rx$side_effect == selected_side_effect
+            #'         & !is.na(incontrolofeffects_rx$value)
+            #'     ), ]
+
+            # generate new scores for each medication based on the user's
+            # preferences for side effects. Run against the reference dataset
+            # `incontrolofeffects_rx`. Note for future: removing NA cases is
+            # not required. Doing so has no effect on the returned score.
+            # Use `filtered df` for limiting countries when the time comes.
             raw_results <- as.data.frame(
                 user_preferences(
-                    data = filtered_df,
+                    data = incontrolofeffects_rx,
                     weights = choice[1, ],
                     return_all = FALSE
                 )
@@ -139,9 +162,9 @@ server <- function(input, output, session) {
                 rx_rec_a = raw_results[1, "name"],
                 rx_rec_b = raw_results[2, "name"],
                 rx_rec_c = raw_results[3, "name"],
-                rx_avoid_a = raw_results[length(raw_results), "name"],
-                rx_avoid_b = raw_results[length(raw_results) - 1, "name"],
-                rx_avoid_c = raw_results[length(raw_results) - 2, "name"]
+                rx_avoid_a = raw_results[NROW(raw_results), "name"],
+                rx_avoid_b = raw_results[NROW(raw_results) - 1, "name"],
+                rx_avoid_c = raw_results[NROW(raw_results) - 2, "name"]
             )
 
             # reset side effects
@@ -150,52 +173,8 @@ server <- function(input, output, session) {
             # onSuccess: increment page
             navigation(navigation() + 1)
 
-            # set write delay
-            delay <- 175
-
-            #'//////////////////////////////////////
-            # write recommended medication #1
-            browsertools::inner_text(
-                elem = "#rec-rx-a-result-title",
-                string = results$rx_rec_a,
-                delay = delay
-            )
-
-            # write recommended medication #2
-            browsertools::inner_text(
-                elem = "#rec-rx-b-result-title",
-                string = results$rx_rec_b,
-                delay = delay
-            )
-
-            # write recommended medication #3
-            browsertools::inner_text(
-                elem = "#rec-rx-c-result-title",
-                string = results$rx_rec_c,
-                delay = delay
-            )
-
-            #'//////////////////////////////////////
-            # write avoid medication # 1
-            browsertools::inner_text(
-                elem = "#avoid-rx-a-result-title",
-                string = results$rx_avoid_a,
-                delay = delay
-            )
-
-            # write avoid medication # 2
-            browsertools::inner_text(
-                elem = "#avoid-rx-b-result-title",
-                string = results$rx_avoid_b,
-                delay = delay
-            )
-
-            # write avoid medication # 3
-            browsertools::inner_text(
-                elem = "#avoid-rx-c-result-title",
-                string = results$rx_avoid_c,
-                delay = delay
-            )
+            # write results with delay (time in milliseconds)
+            utils$side_effects$write_side_effects(results, delay = 175)
 
             # log results to db
             session_db$capture_selections(choice)
@@ -210,6 +189,7 @@ server <- function(input, output, session) {
     observeEvent(input$appRestart, {
 
         # log action before updating attempts
+        browsertools::console_log("Resetting application")
         session_db$capture_action(
             event = "session",
             id = "app_restart",
@@ -225,6 +205,7 @@ server <- function(input, output, session) {
     observeEvent(input$appSignout, {
 
         # reset navigation value
+        browsertools::console_log("User signed out")
         navigation(1)
 
         # log user out and send to database

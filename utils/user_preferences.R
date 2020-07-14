@@ -2,12 +2,28 @@
 #' FILE: utils_user_preferences.R
 #' AUTHOR: David Ruvolo
 #' CREATED: 2020-06-27
-#' MODIFIED: 2020-06-27
+#' MODIFIED: 2020-07-14
 #' PURPOSE: user preferences function
 #' STATUS: working
-#' PACKAGES: NA
-#' COMMENTS: NA
+#' PACKAGES: None; only base R is required
+#' COMMENTS: This function generates a new score for each medication based
+#' on user preferences for a given side effect. Lower scores indicate that the
+#' medication is more favorable (i.e., less likely to experience the side
+#' side effect whereas medications with higher scores are indicative of
+#' medications with a higher chance of causing the side effect that was
+#' selected.
 #'////////////////////////////////////////////////////////////////////////////
+
+#' user_preferences
+#' Generate favoribility scores based on user preferences for side effects.
+#' @param data`reference medication dataset
+#' @param weights an array of binary weights that indicate which side
+#'      effect the user would like to avoid
+#' @param return_all a logical argument that returns a trimmed dataset
+#'      or all columns
+#'
+#' The input dataset should be either the reference dataset or a filtered
+#' object based on some client-side input widgets.
 user_preferences <- function(data, weights, return_all = FALSE) {
 
     #' validate
@@ -60,7 +76,7 @@ user_preferences <- function(data, weights, return_all = FALSE) {
     user_prefs <- new_prefs(data = data, blank = TRUE)
     ref_data <- new_prefs(data = data, blank = FALSE)
 
-    #' Build a new score per city (i.e., weighted mean)
+    #' Build a new score per medication (i.e., weighted mean)
     #' Alternatively, we could use the weighted.mean function, but I want to
     #' keep the new scores in case we want to use them later. I am also leaving
     #' the function open in case we want to allow for multiple selections.
@@ -81,6 +97,7 @@ user_preferences <- function(data, weights, return_all = FALSE) {
 }
 
 #' Tests
+#' df <- readRDS("data/incontrolofeffects_rx.RDS")
 #' user_preferences(data = df, weights = c(0, 0, 0, 0, 0, 0, 0))
 #' user_preferences(data = df, weights = c(1, 0, 0, 0, 0, 0, 0))
 #' user_preferences(data = df, weights = c(0, 1, 0, 0, 0, 0, 0))
