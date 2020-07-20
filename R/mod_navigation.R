@@ -1,19 +1,14 @@
-#'////////////////////////////////////////////////////////////////////////////
-#' FILE: mod_navigation.R
-#' AUTHOR: David Ruvolo
-#' CREATED: 2020-06-27
-#' MODIFIED: 2020-07-10
-#' PURPOSE: app application
-#' STATUS: in.progress
-#' PACKAGES: NA
-#' COMMENTS: NA
-#'////////////////////////////////////////////////////////////////////////////
-
 #' mod_navigation_ui
+#'
 #' Create a navigation component by naming buttons
+#'
 #' @param id a unique ID for the component
-#' @param buttons the buttons you like to render (previous, next, submit,
-#'              restart, quit)
+#' @param buttons the buttons you like to render (previous, next, submit, etc.)
+#'
+#' @importFrom rheroicons outline solid
+#' @importFrom shiny tags
+#'
+#' @noRd
 mod_navigation_ui <- function(id, buttons) {
     ns <- NS(id)
 
@@ -93,58 +88,42 @@ mod_navigation_ui <- function(id, buttons) {
 }
 
 #' mod_nav_server
+#'
 #' @param id a unique ID per module instance
 #' @param counter a reactive counter that manages the page to render
-#' @param session_db an R6 object that is used for saving data to the db
-mod_nav_server <- function(id, counter, session_db) {
+#'
+#' @noRd
+mod_nav_server <- function(id, counter) {
     moduleServer(
         id,
         function(input, output, session) {
             # onClick: previous page navigation button
             observeEvent(input$previousPage, {
-                utils$fadePage()
-                session_db$capture_click(
-                    "navigation",
-                    "previous button clicked"
-                )
+                fade_page()
                 counter(counter() - 1)
             })
 
             # onClick: next page navigation button
             observeEvent(input$nextPage, {
-                utils$fadePage()
-                session_db$capture_click("navigation", "next button clicked")
+                fade_page()
                 counter(counter() + 1)
             })
 
             # onClick: done button click
             observeEvent(input$done, {
-                utils$fadePage()
-                session_db$capture_click(
-                    "navigation",
-                    "user clicked the final button"
-                )
+                fade_page()
                 counter(counter() + 1)
             })
 
             # onClick: begin
             observeEvent(input$begin, {
-                utils$fadePage()
-                session_db$capture_click(
-                    "navigation",
-                    "started side effects selection"
-                )
+                fade_page()
                 counter(counter() + 1)
             })
 
             # onClick: reselect side effects + update attempts
             observeEvent(input$reselect, {
-                utils$fadePage()
-                session_db$update_attempts()
-                session_db$capture_click(
-                    "navigation",
-                    "restarting side effect selection"
-                )
+                fade_page()
                 counter(counter() - 1)
             })
         }

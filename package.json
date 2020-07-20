@@ -1,14 +1,14 @@
 {
-  "name": "ice-app",
+  "name": "iceApp",
   "version": "2.0.0",
   "description": "a shiny app for the decision of antipsychotic treatments based on side effects",
   "author": "davidruvolo51",
   "license": "MIT",
   "scripts": {
     "shiny": "Rscript -e \"shiny::runApp(launch.browser = FALSE, port = 8000)\"",
-    "dev": "parcel src/index.js -d www -o www/ice.min.js --no-source-maps",
-    "build": "parcel build src/index.js -d www -o www/ice.min.js --no-source-maps",
-    "clean": "rm -rf www/ice.min.*"
+    "dev": "parcel inst/src/index.js -d inst/app/www -o inst/app/www/ice.min.js --no-source-maps",
+    "build": "parcel build inst/src/index.js -d isnt/app/www -o inst/app/www/ice.min.js --no-source-maps",
+    "clean": "rm -rf www/ice.min.* .cache"
   },
   "keywords": [
     "r",
@@ -16,10 +16,10 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/InControlofEffects/ice-app.git"
+    "url": "git+https://github.com/InControlofEffects/iceApp.git"
   },
   "bugs": {
-    "url": "https://github.com/InControlofEffects/ice-app/issues"
+    "url": "https://github.com/InControlofEffects/iceApp/issues"
   },
   "devDependencies": {
     "parcel": "1.12.4",
