@@ -22,41 +22,47 @@
 			width: 70%;
 			background-color: #ffffff;
 
-			// label
-			.card-input {
-				position: relative;
-				display: block;
-				color: $dark;
-				cursor: pointer;
+			input[type="checkbox"] {
+				position: absolute;
+				width: 1px;
+				height: 1px;
+				clip: rect(0, 0, 0, 0);
+				clip: rect(0 0 0 0);
+				margin: -1px;
+				overflow: hidden;
+				white-space: nowrap;
 
-				// span for word breaks
-				span {
+				+ .card-label {
 					display: inline-block;
+					position: relative;
 					box-shadow: inset 0 -2px 0 0 transparent;
 					word-break: keep-all;
-					-webkit-hyphens: auto;
-					-moz-hyphens: auto;
 					hyphens: auto;
+					cursor: pointer;
+					color: currentColor;
+					
+					.rheroicons {
+						position: absolute;
+						opacity: 0;
+						top: 4px;
+						left: -28px;
+					}
 				}
 
-				// css only checkmark
-				&::before {
-					content: " ";
-					position: absolute;
-					top: 14px;
-					left: -24px;
-					border-left: 3px solid currentColor;
-					border-bottom: 3px solid currentColor;
-					height: 6px;
-					width: 12px;
-					transform: rotate(-45deg);
-					transform-origin: center center;
-					opacity: 0;
+				&:checked {
+					+ .card-label {
+						color: #ffffff;
+						
+						.rheroicons {
+							opacity: 1;
+						}
+					}
 				}
 
-				// focus
-				.checkboxes:focus + span {
-					box-shadow: inset 0 -2px 0 0 $primary;
+				&:focus {
+					+ .card-label {
+						box-shadow: inset 0 -2px 0 0 $primary;
+					}
 				}
 			}
 
@@ -95,7 +101,8 @@
 				}
 
 				// hovered or focused
-				&:hover, &:focus {
+				&:hover,
+				&:focus {
 					background-color: $primary;
 					color: #ffffff;
 				}
@@ -104,32 +111,12 @@
 			// content
 			.card-content {
 				color: currentColor;
-				margin: 0;
-				max-height: 0;
-
-				position: absolute;
-				width: 1px;
-				height: 1px;
-				clip: rect(0, 0, 0, 0);
-				clip: rect(0 0 0 0);
-				overflow: hidden;
-				
+				max-height: 2000px;
+				display: none;
 
 				// text
 				p {
-					// width: 90%;
 					padding: 0;
-					margin: 0;
-				}
-
-				// when expanded
-				&.expanded {
-					position: static;
-					width: auto;
-					height: auto;
-					max-height: 2000px;
-					clip: auto;
-					overflow: auto;
 				}
 			}
 
@@ -208,56 +195,11 @@
 					content: counter(medications) ". ";
 				}
 			}
-
-			// hover + focus
-			// &:hover,
-			// &:focus {
-			// 	background-color: $primary;
-
-			// 	// text
-			// 	p {
-			// 		color: white;
-			// 	}
-
-			// 	// icons
-			// 	.icon {
-			// 		// recommended medications
-			// 		&.icon-checkmark {
-			// 			path {
-			// 				stroke: white;
-			// 			}
-			// 		}
-
-			// 		// avoid medications
-			// 		&.icon-warning {
-			// 			// adjust <path>
-			// 			path {
-			// 				// exclaimation line - !
-			// 				&#exclaimation-line {
-			// 					stroke: $primary;
-			// 				}
-
-			// 				// triangle
-			// 				&#Triangle {
-			// 					fill: white;
-			// 				}
-			// 			}
-
-			// 			// adjust <circle>
-			// 			circle {
-			// 				&#exclaimation-dot {
-			// 					fill: $primary;
-			// 				}
-			// 			}
-			// 		}
-			// 	}
-			// }
 		}
 	}
 }
 
 @media (min-width: 512px) {
-
 	// set widths for card sets
 	.card-group {
 		&.side-effect-cards {
@@ -271,6 +213,4 @@
 			}
 		}
 	}
-
-	
 }

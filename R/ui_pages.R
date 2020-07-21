@@ -9,7 +9,8 @@ pages <- list()
 # define list attributes
 attr(pages, "title") <- "In Control of Effects"
 
-#'//////////////////////////////////////
+
+
 
 # Instructions page 1
 pages$instructions_a <- tags$article(
@@ -39,7 +40,9 @@ pages$instructions_a <- tags$article(
 # set attributes of current page
 attr(pages$instructions_a, "title") <- "Welcome!"
 
-#'//////////////////////////////////////
+
+
+
 
 # Instructions Page 2
 pages$instructions_b <- tags$article(
@@ -69,7 +72,10 @@ pages$instructions_b <- tags$article(
 # set attributes of page
 attr(pages$instructions_b, "title") <- "How to use this app"
 
-#'//////////////////////////////////////
+
+
+
+
 
 # Instructions Page 3
 pages$instructions_c <- tags$article(
@@ -101,7 +107,10 @@ pages$instructions_c <- tags$article(
 # set attributes of current page
 attr(pages$instructions_c, "title") <- "How to select side effects"
 
-#'//////////////////////////////////////
+
+
+
+
 
 pages$instructions_d <- tags$article(
     id = "instructions-d",
@@ -132,9 +141,21 @@ pages$instructions_d <- tags$article(
 # set attributes
 attr(pages$instructions_d, "title") <- "What this app does not do"
 
-#'//////////////////////////////////////
+
+
+
+
+
 
 # Side Effects Page
+# The order of the side effects by IDs is listed below.
+# - akathisia       : Restlessness
+# - anticholinergic : Dry Mouth and Constipation
+# - antiparkinson   : Stiffness and Tremor
+# - prolactic       : Sexual Dysfunction
+# - qtc             : Irregular Heartbeat
+# - sedation        : Feeling Sleepy of Drowsy
+# - weight_gain     : Weight Gain
 pages$side_effects <- tags$article(
     id = "side-effects",
     class = "page fadeIn card-page page-extra-top-spacing",
@@ -147,43 +168,16 @@ pages$side_effects <- tags$article(
         id = "side-effects-selection-title",
         "Click or tap the name of the side effect you would like to avoid."
     ),
-    tags$div(
-        class = "error-box browsertools-hidden",
-        id = "side-effects-error-box",
-        role = "alert",
-        `aria-hidden` = "true",
-        rheroicons::outline$exclamation(aria_hidden = TRUE),
-        tags$span(
-            id = "side-effects-error-message",
-            class = "error-box-text"
-        )
-    ),
+    error_box(id = "side-effects-error"),
     tags$form(
         id = "side-effects-selection",
         class = "card-group side-effect-cards",
         `aria-labelledby` = "side-effects-selection-title",
         tags$fieldset(
-            class = "filled-fieldset",
-            # The order of the side effects by IDs is listed below.
-            # - akathisia
-            # - anticholinergic
-            # - antiparkinson
-            # - prolactic
-            # - qtc
-            # - sedation
-            # - weight_gain
-            #
-            # However, side effects are arranged in alphabetical order
-            # by the common name.
-            # - Dry Mouth and Constipation
-            # - Feeling Sleepy or Drowsy
-            # - Irregular Heartbeat
-            # - Restlessness
-            # - Sexual Dysfunction
-            # - Stiffness and Tremor
-            # - Weight Gain
+            id = "sideEffects",
+            class = "filled-fieldset checkboxgroup",
             # side effect: anticholinergic >> dry mouth and constipation
-            mod_side_effect_ui(
+            accordion_input(
                 id = "anticholinergic",
                 title = "Dry mouth and constipation",
                 text = paste0(
@@ -196,7 +190,7 @@ pages$side_effects <- tags$article(
                 )
             ),
             # side effects: sedation >> feeling sleepy or drowsy
-            mod_side_effect_ui(
+            accordion_input(
                 id = "sedation",
                 title = "Feeling sleepy or drowsy",
                 text = paste0(
@@ -207,7 +201,7 @@ pages$side_effects <- tags$article(
                 )
             ),
             # side effects: qtc >> irregular heatbeat
-            mod_side_effect_ui(
+            accordion_input(
                 id = "qtc",
                 title = "Irregular heartbeat",
                 text = paste0(
@@ -219,7 +213,7 @@ pages$side_effects <- tags$article(
                 )
             ),
             # side effects: akathisia >> restlessness
-            mod_side_effect_ui(
+            accordion_input(
                 id = "akathisia",
                 title = "Restlessness",
                 text = paste0(
@@ -229,7 +223,7 @@ pages$side_effects <- tags$article(
                 )
             ),
             # side effect: prolactin >> sexual dysfunction
-            mod_side_effect_ui(
+            accordion_input(
                 id = "prolactin",
                 title = "Sexual dysfunction",
                 text = paste0(
@@ -244,7 +238,7 @@ pages$side_effects <- tags$article(
                 )
             ),
             # side effect: Antiparkinson >> Stiffness and tremors
-            mod_side_effect_ui(
+            accordion_input(
                 id = "antiparkinson",
                 title = "Stiffness and tremor",
                 text = paste0(
@@ -256,7 +250,7 @@ pages$side_effects <- tags$article(
                 )
             ),
             # side effects: weight change >> weight gain
-            mod_side_effect_ui(
+            accordion_input(
                 id = "weight_gain",
                 title = "Weight gain",
                 text = paste0(
@@ -351,7 +345,8 @@ pages$side_effects <- tags$article(
 # set attributes of current page
 attr(pages$side_effects, "title") <- "Select Side Effects"
 
-#'//////////////////////////////////////
+
+
 
 # Results Page
 pages$results <- tags$article(
@@ -391,7 +386,9 @@ pages$results <- tags$article(
 # set attributes of current page
 attr(pages$results, "title") <- "Results"
 
-#'//////////////////////////////////////
+
+
+
 
 # Quit Page
 pages$quit <- tags$article(

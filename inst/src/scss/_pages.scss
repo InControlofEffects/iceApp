@@ -45,7 +45,7 @@
 
     // error boxes
     .error-box {
-        display: flex;
+        display: none;
         justify-content: flex-start;
         align-items: center;
         background-color: $error-accent;
