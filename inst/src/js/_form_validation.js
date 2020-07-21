@@ -13,7 +13,7 @@
 // Reset Form
 // Define a function that clears form inputs and resets invalid input elements
 // @param elem the ID of the form to reset
-function reset_form(elem) {
+function reset_login_form(elem) {
 
     // find form
     const form = document.getElementById(elem);
@@ -23,19 +23,13 @@ function reset_form(elem) {
     if (inputs.length) {
         inputs.forEach(el => el.removeAttribute("aria-invalid"));
     }
-
-    // clear error messages
-    const errors = form.querySelectorAll(".error-text");
-    if (errors.length) {
-        errors.forEach(el => el.innerText = "");
-    }
 }
 
 // showError
 // Define a function that shows an input element and error message
 // @param elem an ID of the input to make invalid
 // @param error an error message to display
-function show_error(elem, error) {
+function show_login_error(elem, error) {
 
     // find input and add invalid attribute
     const input = document.getElementById(elem);
@@ -59,6 +53,6 @@ function show_error(elem, error) {
 
 // export
 module.exports = {
-    reset_form: reset_form,
-    show_error: show_error
+    reset_login_form: reset_login_form,
+    show_login_error: show_login_error
 }

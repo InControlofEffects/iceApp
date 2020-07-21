@@ -14,6 +14,7 @@ usethis::use_package("shiny")
 usethis::use_package("browsertools")
 usethis::use_package("rheroicons")
 usethis::use_package("iceData")
+usethis::use_package("sodium")
 
 # add modules (to R/)
 golem::add_module(name = "mod_accordion")
@@ -21,6 +22,7 @@ golem::add_module(name = "mod_login")
 golem::add_module(name = "mod_medication_card")
 golem::add_module(name = "mod_navigation")
 golem::add_module(name = "mod_side_effect_card")
+golem::add_module(name = "mod_errors")
 
 # add interal dataset
 usethis::use_data_raw(name = "accounts")

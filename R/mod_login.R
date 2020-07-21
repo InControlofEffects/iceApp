@@ -1,12 +1,6 @@
-#'////////////////////////////////////////////////////////////////////////////
-#' FILE: mod_login.R
-#' AUTHOR: David Ruvolo
-#' CREATED: 2020-06-27
-#' MODIFIED: 2020-07-14
-#' PURPOSE: module for login page
-#' STATUS: working
-#' PACKAGES: NA
-#' COMMENTS:
+#' Login Screen
+#'
+#' @description
 #' This script provides two modules: the login UI and the login Server
 #' The UI component renders form with the two input elements for username and
 #' password. A back to main page link is also provided.
@@ -17,11 +11,12 @@
 #' database. When all errors are eliminated and the user has provided valid
 #' credentials, then the app state is changed (i.e., logged in) and the state
 #' is noted in the database.
-#'////////////////////////////////////////////////////////////////////////////
-
-#' ui component
+#'
 #' @param id a unique ID for this instance of the login UI
 #' @param class a css class to include in the rendering of the of UI
+#'
+#' @importFrom shiny tags tag NS
+#' @noRd
 mod_login_ui <- function(id, class) {
     ns <- NS(id)
 
@@ -78,10 +73,6 @@ mod_login_ui <- function(id, class) {
                 id = "signin-form-title",
                 "Sign in"
             ),
-
-            #'//////////////////////////////////////
-
-            #' Username: label, input, error
             tags$label(`for` = ns("username"), "Username"),
             tags$span(
                 id = "username-status",
@@ -94,10 +85,6 @@ mod_login_ui <- function(id, class) {
                 class = "form-control shiny-bound-input",
                 `aria-describedby` = "username-status"
             ),
-
-            #'//////////////////////////////////////
-
-            #' Password: label, input, error
             tags$label(`for` = ns("password"), "Password"),
             tags$span(
                 id = "password-status",
@@ -110,8 +97,6 @@ mod_login_ui <- function(id, class) {
                 class = "form-control shiny-bound-input",
                 `aria-describedby` = "password-status"
             ),
-
-            # form submit
             tags$button(
                 id = ns("login"),
                 class = "action-button shiny-bound-input primary",
@@ -123,11 +108,14 @@ mod_login_ui <- function(id, class) {
 }
 
 #' login Server Function
+#'
 #' @param id unique ID for an instance of a module
 #' @param data an object containing the user accounts
 #' @param logged a reactive object that manages the app logged in state
-#' @param session_db a R6 object used for sending data to the database
-mod_login_server <- function(id, data, logged, session_db) {
+#'
+#' @importFrom sodium password_verify
+#' @noRd
+mod_login_server <- function(id, data, logged) {
     moduleServer(
         id,
         function(input, output, session) {
@@ -141,27 +129,22 @@ mod_login_server <- function(id, data, logged, session_db) {
 
             # reset signin form error messages
             reset_form <- function(elem = "signin-form-page") {
-                session$sendCustomMessage("reset_form", list(elem = elem))
+                session$sendCustomMessage(
+                    type = "reset_login_form",
+                    message = list(elem = elem)
+                )
             }
 
             # send new message
             show_error <- function(elem, error) {
                 session$sendCustomMessage(
-                    "show_error",
-                    list(elem = elem, error = error)
+                    type = "show_login_error",
+                    message = list(elem = elem, error = error)
                 )
             }
 
             # on submit
             observeEvent(input$login, {
-
-                # log click
-                session_db$capture_click(
-                    btn = "login",
-                    desc = "login button clicked"
-                )
-
-                # reset existing errors (if applicable)
                 reset_form()
 
                 # find user and passwords
@@ -171,30 +154,22 @@ mod_login_server <- function(id, data, logged, session_db) {
                 if (input$username == "" && input$password == "") {
 
                     # send + log error
-                    e <- "Username and password is missing"
-                    session_db$capture_error("login", tolower(e))
                     show_error(elems$user_input, "ERROR: Username is missing")
                     show_error(elems$pass_input, "ERROR: Password is missing")
 
                 } else if (input$username == "" && !(input$password == "")) {
 
                     # send + log error
-                    e <- "Username is missing"
-                    session_db$capture_error("login", tolower(e))
                     show_error(elems$user_input, "ERROR: Username is missing")
 
                 } else if (!(input$username == "") && input$password == "") {
 
                     # send + log error
-                    e <- "Password is missing"
-                    session_db$capture_error("login", tolower(e))
                     show_error(elems$pass_input, "ERROR: Password is missing")
 
                 } else if (!length(usr)) {
 
                     # send + log error
-                    e <- "The username is incorrect"
-                    session_db$capture_error("login", tolower(e))
                     show_error(elems$user_input, "ERROR: Username is incorrect")
 
                 } else if (length(usr)) {
@@ -209,18 +184,12 @@ mod_login_server <- function(id, data, logged, session_db) {
                         shiny::updateTextInput(session, "username", value = "")
                         shiny::updateTextInput(session, "password", value = "")
 
-                        # update user type in sessions table
-                        type <- data$type[usr]
-                        session_db$capture_login(type = type)
-
                         # change state
                         logged(TRUE)
 
                     } else {
 
                         # send + log error
-                        e <- "The username or password is incorrect"
-                        session_db$capture_error("login", tolower(e))
                         show_error(
                             elems$pass_input,
                             "ERROR: Password is incorrect"
@@ -229,8 +198,6 @@ mod_login_server <- function(id, data, logged, session_db) {
                 } else {
 
                     # send and log error
-                    e <- "An error has occurred. Please try again."
-                    session_db$capture_error("login", tolower(e))
                     show_error(elems$user_input, "ERROR: Something went wrong")
                     show_error(elems$pass_input, "ERROR: Something went wrong")
                 }
