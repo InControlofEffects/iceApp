@@ -1,1 +1,0 @@
-CREATE VIEW "side_effects" AS SELECT (
