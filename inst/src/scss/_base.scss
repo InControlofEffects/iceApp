@@ -1,6 +1,6 @@
 html,
 body {
-	font-family: "Helvetica", "Gill Sans", "Gill Sans MT", Calibri, sans-serif;
+	font-family: Helvetica, Arial, sans-serif;
 	font-size: $font-size;
 	margin: 0;
 	padding: 0;
@@ -10,24 +10,10 @@ body {
 	overflow-x: hidden;
 }
 
-nav,
-header,
-footer,
-article,
-section,
-figure,
-form,
-fieldset {
-	display: block;
-	margin: 0;
-	padding: 0;
-}
-
 h1,
 h2,
 h3,
-h4
-legend {
+h4{
 	color: $dark;
 	line-height: $line-height-headings;
 	padding: 0;
@@ -48,7 +34,6 @@ h2 {
 
 p,
 li,
-label,
 figcaption {
 	color: $text;
 	line-height: $line-height-text;
@@ -80,12 +65,6 @@ ol {
 		margin-bottom: $default-margin-bottom;
 		color: $text;
 	}
-}
-
-// images
-img {
-	display: block;
-	width: 100%;
 }
 
 fieldset {

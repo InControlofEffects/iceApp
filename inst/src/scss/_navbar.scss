@@ -6,7 +6,6 @@
     top: 0;
     z-index: 999;
     background-color: #ffffff;
-    border-bottom: 1px solid $light;
     box-shadow: $box-shadow;
 
     // navigation list - menu
@@ -15,7 +14,7 @@
         padding: 0;
         margin: 0;
         display: grid;
-        grid-template-columns: 75% repeat(2, 12.5%);
+        grid-template-columns: 300px repeat(2, 1fr);
         grid-column-gap: 0;
         grid-template-areas: "brand refresh signout";
 

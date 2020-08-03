@@ -2,7 +2,7 @@
 // FILE: _form_validation.js
 // AUTHOR: David Ruvolo
 // CREATED: 2020-07-09
-// MODIFIED: 2020-07-09
+// MODIFIED: 2020-07-22
 // PURPOSE: Form Validation for Sign in page
 // DEPENDENCIES: NA
 // STATUS: in.progress
@@ -42,7 +42,7 @@ function show_login_error(elem, error) {
 
     // set listener for blur and not empty
     input.addEventListener("keypress", function _keyup(e) {
-        if (e.target.value.length > 3) {
+        if (e.target.value.length > 2) {
             input.removeAttribute("aria-invalid");
             errorElem.innerText = "";
             input.removeEventListener("keypress", _keyup, true);

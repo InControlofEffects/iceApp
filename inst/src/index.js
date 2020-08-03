@@ -2,7 +2,7 @@
 // FILE: index.js
 // AUTHOR: David Ruvolo
 // CREATED: 2019-11-11
-// MODIFIED: 2020-07-20
+// MODIFIED: 2020-07-22
 // PURPOSE: main js file for app
 // DEPENDENCIES: NA
 // STATUS: working
@@ -15,8 +15,6 @@ import "./scss/index.scss"
 // import js
 import { reset_login_form, show_login_error} from "./js/_form_validation"
 import update_progress_bar from "./js/_progress"
-import Accordion from "./js/_accordion"
-import InputCard from "./js/_inputCard"
 import {update_error_box, reset_error_box, reset_error_text, update_error_text} from "./js/_errors"
 
 ////////////////////////////////////////
@@ -78,8 +76,4 @@ Shiny.addCustomMessageHandler("fade_page", function(data) {
     p.classList.add("fadeOut");
     p.classList.remove("fadeIn");
 });
-
-// register input bindings
-Shiny.inputBindings.register(Accordion);
-Shiny.inputBindings.register(InputCard);
 

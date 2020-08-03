@@ -43,49 +43,48 @@ hide_se_error <- function() {
 #' @param data results to write
 #' @param delay time to wait before writing the results
 #'
-#' @importFrom browsertools inner_text
 #' @noRd
 write_se_results <- function(data, delay = 200) {
 
     # write recommended medication #1
-    inner_text(
+    browsertools::inner_text(
         elem = "#rec-rx-a-result-title",
-        string = data$rx_rec_a,
+        content =  data$rx_rec_a,
         delay = delay
     )
 
     # write recommended medication #2
-    inner_text(
+    browsertools::inner_text(
         elem = "#rec-rx-b-result-title",
-        string = data$rx_rec_b,
+        content =  data$rx_rec_b,
         delay = delay
     )
 
     # write recommended medication #3
-    inner_text(
+    browsertools::inner_text(
         elem = "#rec-rx-c-result-title",
-        string = data$rx_rec_c,
+        content =  data$rx_rec_c,
         delay = delay
     )
 
     # write avoid medication # 1
-    inner_text(
+    browsertools::inner_text(
         elem = "#avoid-rx-a-result-title",
-        string = data$rx_avoid_a,
+        content =  data$rx_avoid_a,
         delay = delay
     )
 
     # write avoid medication # 2
-    inner_text(
+    browsertools::inner_text(
         elem = "#avoid-rx-b-result-title",
-        string = data$rx_avoid_b,
+        content =  data$rx_avoid_b,
         delay = delay
     )
 
     # write avoid medication # 3
-    inner_text(
+    browsertools::inner_text(
         elem = "#avoid-rx-c-result-title",
-        string = data$rx_avoid_c,
+        content =  data$rx_avoid_c,
         delay = delay
     )
 }

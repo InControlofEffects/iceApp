@@ -136,7 +136,7 @@ mod_login_server <- function(id, data, logged) {
             }
 
             # send new message
-            show_error <- function(elem, error) {
+            show_login_error <- function(elem, error) {
                 session$sendCustomMessage(
                     type = "show_login_error",
                     message = list(elem = elem, error = error)
@@ -154,23 +154,23 @@ mod_login_server <- function(id, data, logged) {
                 if (input$username == "" && input$password == "") {
 
                     # send + log error
-                    show_error(elems$user_input, "ERROR: Username is missing")
-                    show_error(elems$pass_input, "ERROR: Password is missing")
+                    show_login_error(elems$user_input, "ERROR: Username is missing")
+                    show_login_error(elems$pass_input, "ERROR: Password is missing")
 
                 } else if (input$username == "" && !(input$password == "")) {
 
                     # send + log error
-                    show_error(elems$user_input, "ERROR: Username is missing")
+                    show_login_error(elems$user_input, "ERROR: Username is missing")
 
                 } else if (!(input$username == "") && input$password == "") {
 
                     # send + log error
-                    show_error(elems$pass_input, "ERROR: Password is missing")
+                    show_login_error(elems$pass_input, "ERROR: Password is missing")
 
                 } else if (!length(usr)) {
 
                     # send + log error
-                    show_error(elems$user_input, "ERROR: Username is incorrect")
+                    show_login_error(elems$user_input, "ERROR: Username is incorrect")
 
                 } else if (length(usr)) {
                     if (
@@ -181,8 +181,8 @@ mod_login_server <- function(id, data, logged) {
                     ) {
 
                         # reset and log
-                        shiny::updateTextInput(session, "username", value = "")
-                        shiny::updateTextInput(session, "password", value = "")
+                        updateTextInput(session, "username", value = "")
+                        updateTextInput(session, "password", value = "")
 
                         # change state
                         logged(TRUE)
@@ -190,7 +190,7 @@ mod_login_server <- function(id, data, logged) {
                     } else {
 
                         # send + log error
-                        show_error(
+                        show_login_error(
                             elems$pass_input,
                             "ERROR: Password is incorrect"
                         )
@@ -198,8 +198,8 @@ mod_login_server <- function(id, data, logged) {
                 } else {
 
                     # send and log error
-                    show_error(elems$user_input, "ERROR: Something went wrong")
-                    show_error(elems$pass_input, "ERROR: Something went wrong")
+                    show_login_error(elems$user_input, "ERROR: Something went wrong")
+                    show_login_error(elems$pass_input, "ERROR: Something went wrong")
                 }
             })
         }

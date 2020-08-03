@@ -2,7 +2,7 @@
 @import "_base", "_inputs", "_buttons", "_navbar", "_pages", "_cards";
 
 // progress bar
-#bar-container {
+.progressbar__container {
 	position: fixed;
 	display: block;
 	width: 100%;
@@ -14,15 +14,61 @@
 	z-index: 100;
 
 	// style the actual bar - id + class are the same
-	#bar {
+	.progressbar__bar {
 		height: 10px;
 		background-color: $primary;
 		transform: scaleX(0);
 		transform-origin: 0 center;
 		transition: all 1s ease-in-out;
-		
+
 		@media (prefers-reduced-motion) {
 			transition: all 1ms ease-in-out;
+		}
+	}
+}
+
+
+// settings accordion component
+#settings {
+	box-shadow: none;
+	max-width: 812px;
+
+	.accordion__heading {
+		.accordion__toggle {
+			.toggle__label {
+				width: auto;
+			}
+			.toggle__icon {
+				top: 0;
+			}
+		}
+	}
+
+	.accordion__content {
+		padding: 12px 0;
+	}
+}
+
+
+// additional styling for side effects
+.accordion.accordion__input {
+	&.side-effect-accordion {
+		margin: 0 auto;
+		margin-bottom: 2em;
+		max-width: 636px;
+		padding: 16px;
+
+		&.accordion__checked {
+			.accordion__content {
+				color: $light;
+				p {
+					color: $light;
+				}
+			}
+		}
+
+		&:last-child {
+			margin-bottom: 0;
 		}
 	}
 }

@@ -15,7 +15,7 @@ mod_navigation_ui <- function(id, buttons) {
     # define buttons
     btns <- list(
 
-        #' move back to previous page
+        # move back to previous page
         previous = tags$button(
             id = ns("previousPage"),
             class = "shiny-bound-input action-button default",
@@ -23,7 +23,7 @@ mod_navigation_ui <- function(id, buttons) {
             "Previous"
         ),
 
-        #' move to next page
+        # move to next page
         "next" = tags$button(
             id = ns("nextPage"),
             class = "shiny-bound-input action-button primary",
@@ -31,7 +31,7 @@ mod_navigation_ui <- function(id, buttons) {
             rheroicons::outline$chevron_right(aria_hidden = TRUE)
         ),
 
-        #' move to next page, but for starting side effects selection
+        # move to next page, but for starting side effects selection
         begin = tags$button(
             id = ns("begin"),
             class = "shiny-bound-input action-button primary",
@@ -39,7 +39,7 @@ mod_navigation_ui <- function(id, buttons) {
             rheroicons::outline$chevron_right(aria_hidden = TRUE)
         ),
 
-        #' submit side effects
+        # submit side effects
         submit = tags$button(
             id = ns("submit"),
             class = "shiny-bound-input action-button primary",
@@ -47,7 +47,7 @@ mod_navigation_ui <- function(id, buttons) {
             rheroicons::solid$arrow_circle_right(aria_hidden = TRUE)
         ),
 
-        #' Previous, but for revisting side effects page from results
+        # Previous, but for revisting side effects page from results
         reselect = tags$button(
             id = ns("reselect"),
             class = "shiny-bound-input action-button default",
@@ -55,7 +55,7 @@ mod_navigation_ui <- function(id, buttons) {
             "Previous"
         ),
 
-        #' next page, but for post-results
+        # next page, but for post-results
         done = tags$button(
             id = ns("done"),
             class = "shiny-bound-input action-button primary",

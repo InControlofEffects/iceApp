@@ -8,7 +8,7 @@ app_server <- function(input, output, session) {
 
     # set primary reactiveValues
     logged <- reactiveVal(TRUE)
-    navigation <- reactiveVal(1)
+    navigation <- reactiveVal(5)
 
     # page navigation for each subpage navigation component
     mod_nav_server("instructions-a", navigation)
@@ -21,15 +21,6 @@ app_server <- function(input, output, session) {
 
     # call sign in form module
     mod_login_server("signin-form", accounts, logged)
-
-    # side effect cards pass reset state and reactive object
-    mod_se_server("akathisia")
-    mod_se_server("anticholinergic")
-    mod_se_server("antiparkinson")
-    mod_se_server("prolactin")
-    mod_se_server("qtc")
-    mod_se_server("sedation")
-    mod_se_server("weight_gain")
 
     # output pages
     observe({
@@ -86,17 +77,17 @@ app_server <- function(input, output, session) {
     observeEvent(input$`sideEffects-submit`, {
 
         # hide mssage
-        utils$side_effects$hide_error_message()
+        reset_error_box(id = "side-effects-error")
 
-        # validate input
+        # Gather Selections convert TRUE to 1
         choice <- data.frame(
-            akathisia = ifelse(input$`akathisia-checked`, 1, 0),
-            anticholinergic = ifelse(input$`anticholinergic-checked`, 1, 0),
-            antiparkinson = ifelse(input$`antiparkinson-checked`, 1, 0),
-            prolactin = ifelse(input$`prolactin-checked`, 1, 0),
-            qtc = ifelse(input$`qtc-checked`, 1, 0),
-            sedation = ifelse(input$`sedation-checked`, 1, 0),
-            weight_gain = ifelse(input$`weight_gain-checked`, 1, 0)
+            akathisia = as.numeric(input$akathisia),
+            anticholinergic = as.numeric(input$anticholinergic),
+            antiparkinson = as.numeric(input$antiparkinson),
+            prolactin = as.numeric(input$prolactin),
+            qtc = as.numeric(input$qtc),
+            sedation = as.numeric(input$sedation),
+            weight_gain = as.numeric(input$weight_gain)
         )
 
         # if sum of selections is zero
@@ -104,35 +95,43 @@ app_server <- function(input, output, session) {
 
             # show error (no need to reset inputs since nothing was selected)
             browsertools::scroll_to()
-            browsertools::console_error("No selections were detected.")
-            utils$side_effects$show_error_message(
-                "No selections were made. You must select one side effect"
+            browsertools::console_error("Side Effects: No options selected")
+            update_error_box(
+                id = "side-effects-error",
+                error = "No selections were made. Please select a side effect"
             )
 
         } else  if (sum(choice[1, ]) > 1) {
 
             # throw error when more than 1 selection was made
-            # reset side effects + show error
             browsertools::scroll_to()
-            browsertools::console_error(
-                "User selected more than 1 option. Only 1 is allowed"
-            )
-            utils$side_effects$reset_side_effects()
-            utils$side_effects$show_error_message(
-                "Too many selections were made. You may select one side effect."
+            update_error_box(
+                id = "side-effects-error",
+                error = "Too many selections were made. Please select 1 option."
             )
 
+            # reset inputs
+            iceComponents::reset_accordion_input("akathisia")
+            iceComponents::reset_accordion_input("anticholinergic")
+            iceComponents::reset_accordion_input("antiparkinson")
+            iceComponents::reset_accordion_input("prolactin")
+            iceComponents::reset_accordion_input("qtc")
+            iceComponents::reset_accordion_input("sedation")
+            iceComponents::reset_accordion_input("weight_gain")
+
+            # log issue to browser
+            browsertools::console_error("Side Effects: Selections > 1")
         } else {
 
             # log message to browser that selections are valid
             browsertools::console_log("Selections are valid")
 
             # exclude cases where selection has NA values
-            #' selected_side_effect <- names(choice)[choice[1, ] == 1]
-            #' filtered_df <- incontrolofeffects_rx[(
-            #'         incontrolofeffects_rx$side_effect == selected_side_effect
-            #'         & !is.na(incontrolofeffects_rx$value)
-            #'     ), ]
+            # selected_side_effect <- names(choice)[choice[1, ] == 1]
+            # filtered_df <- incontrolofeffects_rx[(
+            #         incontrolofeffects_rx$side_effect == selected_side_effect
+            #         & !is.na(incontrolofeffects_rx$value)
+            #     ), ]
 
             # generate new scores for each medication based on the user's
             # preferences for side effects. Run against the reference dataset
@@ -158,13 +157,13 @@ app_server <- function(input, output, session) {
             )
 
             # reset side effects
-            utils$side_effects$reset_side_effects()
+            # reset_accordion_input()
 
             # onSuccess: increment page
             navigation(navigation() + 1)
 
             # write results with delay (time in milliseconds)
-            utils$side_effects$write_side_effects(results, delay = 175)
+            write_se_results(results, delay = 225)
 
         }
     })
@@ -179,6 +178,4 @@ app_server <- function(input, output, session) {
         navigation(1)
         logged(FALSE)
     })
-
-
 }

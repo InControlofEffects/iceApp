@@ -123,6 +123,7 @@
         }
     }
 }
+
 @media (min-width: 972px) {
     #main {
         display: flex;
@@ -131,10 +132,11 @@
         background-color: $light;
 
         .page {
-            max-width: 912px;
-            padding: 1em;
+            max-width: 972px;
+            padding: 1.5em;
             border-radius: 6px;
             margin-top: 0;
+            box-sizing: content-box;
 
             &.page-extra-top-spacing {
                 margin-top: 125px;

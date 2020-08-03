@@ -8,7 +8,7 @@
 #'
 #' @importFrom shiny getDefaultReactiveDomain
 #' @noRd
-update_progress_bar <- function(elem = "bar", now, max) {
+update_progress_bar <- function(elem = "appProgress", now, max) {
     session <- getDefaultReactiveDomain()
     session$sendCustomMessage(
         type = "update_progress_bar",

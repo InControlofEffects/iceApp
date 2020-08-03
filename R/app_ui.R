@@ -104,19 +104,15 @@ app_ui <- function(request) {
                 )
             )
         ),
-        tags$figure(
-            id = "bar-container",
-            class = "progressBar",
-            tags$figcaption(class = "browsertools-hidden", "Progress bar"),
-            tags$div(
-                id = "bar",
-                class = "bar",
-                role = "progressbar",
-                `aria-valuenow` = "0",
-                `aria-valuemin` = "0",
-                `aria-valuemax` = "1",
-                `aria-valuetext` = ""
-            )
+        tags$div(
+            id = "appProgress",
+            class = "progressbar__container",
+            role = "progressbar",
+            `aria-valuenow` = "1",
+            `aria-valuemin` = "0",
+            `aria-valuemax` = "7",
+            `aria-valuetext` = "page 1 of 7",
+            tags$div(class = "progressbar__bar")
         ),
         tags$main(class = "main", id = "main", uiOutput("current_page")),
         golem_js_assets()
@@ -130,7 +126,6 @@ app_ui <- function(request) {
 #'
 #' @import shiny
 #' @importFrom golem add_resource_path
-#' @importFrom browsertools use_browsertools
 #' @noRd
 golem_helmet <- function() {
 
@@ -178,6 +173,9 @@ golem_helmet <- function() {
             href = "www/ice.min.css"
         ),
         tags$title("In Control of Effects"),
+
+        # load dependencies
+        iceComponents::use_iceComponents(),
         browsertools::use_browsertools()
     )
 }

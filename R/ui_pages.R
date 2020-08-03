@@ -175,12 +175,12 @@ pages$side_effects <- tags$article(
         `aria-labelledby` = "side-effects-selection-title",
         tags$fieldset(
             id = "sideEffects",
-            class = "filled-fieldset checkboxgroup",
             # side effect: anticholinergic >> dry mouth and constipation
-            accordion_input(
-                id = "anticholinergic",
+            iceComponents::accordion_input(
+                inputId = "anticholinergic",
                 title = "Dry mouth and constipation",
-                text = paste0(
+                class = "accordion__style__a side-effect-accordion",
+                content = tags$p(
                     "Antipsychotic medications can block acetylcholine",
                     " a type of chemical in the brain.",
                     " Blocking it can affect involuntary muscle",
@@ -190,10 +190,11 @@ pages$side_effects <- tags$article(
                 )
             ),
             # side effects: sedation >> feeling sleepy or drowsy
-            accordion_input(
-                id = "sedation",
+            iceComponents::accordion_input(
+                inputId = "sedation",
                 title = "Feeling sleepy or drowsy",
-                text = paste0(
+                class = "accordion__style__a side-effect-accordion",
+                content = tags$p(
                     "Antipsychotic medications can effect a chemical in",
                     " the brain known as histamine. Low levels of",
                     " histamine can lead to feeling sleepy, tired or",
@@ -201,10 +202,11 @@ pages$side_effects <- tags$article(
                 )
             ),
             # side effects: qtc >> irregular heatbeat
-            accordion_input(
-                id = "qtc",
+            iceComponents::accordion_input(
+                inputId = "qtc",
                 title = "Irregular heartbeat",
-                text = paste0(
+                class = "accordion__style__a side-effect-accordion",
+                content = tags$p(
                     "Some antipsychotic medications can cause changes ",
                     "to the pace or rhythm of heartbeats. In some cases, ",
                     "this can lead to dizziness, shortness of breath, ",
@@ -213,20 +215,22 @@ pages$side_effects <- tags$article(
                 )
             ),
             # side effects: akathisia >> restlessness
-            accordion_input(
-                id = "akathisia",
+            iceComponents::accordion_input(
+                inputId = "akathisia",
                 title = "Restlessness",
-                text = paste0(
+                class = "accordion__style__a side-effect-accordion",
+                content = tags$p(
                     "Antipsychotic medications can effect dopamine",
                     " levels in the brain, which may result in feelings",
                     " of restlessness or an inability to sit still."
                 )
             ),
             # side effect: prolactin >> sexual dysfunction
-            accordion_input(
-                id = "prolactin",
+            iceComponents::accordion_input(
+                inputId = "prolactin",
                 title = "Sexual dysfunction",
-                text = paste0(
+                class = "accordion__style__a side-effect-accordion",
+                content = tags$p(
                     "Antipsychotic medications increase a hormone called",
                     " prolactin. In women, prolactin plays an important",
                     " part in pregnancy and an increased level of",
@@ -238,10 +242,11 @@ pages$side_effects <- tags$article(
                 )
             ),
             # side effect: Antiparkinson >> Stiffness and tremors
-            accordion_input(
-                id = "antiparkinson",
+            iceComponents::accordion_input(
+                inputId = "antiparkinson",
                 title = "Stiffness and tremor",
-                text = paste0(
+                class = "accordion__style__a side-effect-accordion",
+                content = tags$p(
                     "Antipsychotic medications act by blocking, to a",
                     " different degree, a chemical in the brain called",
                     " dopamine. Low levels of dopamine may result in",
@@ -250,92 +255,28 @@ pages$side_effects <- tags$article(
                 )
             ),
             # side effects: weight change >> weight gain
-            accordion_input(
-                id = "weight_gain",
+            iceComponents::accordion_input(
+                inputId = "weight_gain",
                 title = "Weight gain",
-                text = paste0(
+                class = "accordion__style__a side-effect-accordion",
+                content = tags$p(
                     "Some antipsychotic medications may lead you ",
                     "to put on weight through an increase in appetite ",
                     "and a recurring feeling of hunger."
                 )
             )
         ),
-        # additional options
-        tags$h3(
-            id = "additional-options-title",
-            class = "accordion-title",
-            `data-group` = "accordion-1",
-            tags$button(
-                id = "additional-options",
-                class = "accordion-button shiny-bound-input action-button",
-                `data-group` = "accordion-1",
-                `aria-expanded` = "false",
-                "Additional Options",
-                rheroicons::outline$cog()
-            )
-        ),
-        tags$section(
-            id = "additional-options-fieldset",
-            class = "accordion-section browsertools-hidden",
-            `data-group` = "accordion-1",
-            tags$fieldset(
-                id = "licensed-countries",
-                class = "checkbox-group",
-                tags$legend("Limit results by country"),
-                # Germany
-                tags$div(
-                    class = "checkbox-input",
-                    tags$input(
-                        id = "countries-germany",
-                        name = "countries",
-                        value = "Germany",
-                        type = "checkbox",
-                        checked = ""
-                    ),
-                    tags$label(
-                        `for` = "countries-germany",
-                        rheroicons::outline$check_circle(
-                            aria_hidden = TRUE
-                        ),
-                        "Germany"
-                    )
-                ),
-                # United Kingdom
-                tags$div(
-                    class = "checkbox-input",
-                    tags$input(
-                        id = "countries-uk",
-                        name = "countries",
-                        value = "UK",
-                        type = "checkbox",
-                        checked = ""
-                    ),
-                    tags$label(
-                        `for` = "countries-uk",
-                        rheroicons::outline$check_circle(
-                            aria_hidden = TRUE
-                        ),
-                        "United Kingdom"
-                    )
-                ),
-                # USA
-                tags$div(
-                    class = "checkbox-input",
-                    tags$input(
-                        id = "countries-usa",
-                        name = "countries",
-                        value = "UK",
-                        type = "checkbox",
-                        checked = ""
-                    ),
-                    tags$label(
-                        `for` = "countries-usa",
-                        rheroicons::outline$check_circle(
-                            aria_hidden = TRUE
-                        ),
-                        "United States"
-                    )
-                )
+        # accordion: additional options for side effects
+        iceComponents::accordion(
+            inputId = "settings",
+            title = "Settings",
+            content = iceComponents::checkbox_group(
+                inputId = "countries-filter",
+                title = "Limit Results by Country",
+                caption = "The availability of medications may vary by country. You can limit the results to one or more countries.",
+                choices = c("Germany", "United Kingdom", "United States"),
+                values = c("Germany", "UK", "USA"),
+                checked = TRUE
             )
         )
     ),
