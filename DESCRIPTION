@@ -7,14 +7,24 @@ License: MIT + file LICENSE
 Imports: 
     config,
     golem,
-    shiny,
-    htmltools,
+    shiny (>= 1.5.0),
+    htmltools (>= 0.5.0),
     processx,
-    browsertools,
-    rheroicons,
-    iceData
+    browsertools (>= 0.1.72),
+    rheroicons (>= 0.1.4),
+    iceData (>= 0.0.1),
+    sodium (>= 1.1),
+    iceComponents (>= 0.0.1),
+    pkgload
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 7.1.0
 Suggests: 
     testthat
+Depends: 
+    R (>= 2.10)
+Remotes:
+    davidruvolo51/browsertools,
+    davidruvolo51/rheroicons,
+    InControlofEffects/iceComponents,
+    InControlofEffects/iceData

@@ -7,8 +7,8 @@
   "scripts": {
     "shiny": "Rscript -e \"shiny::runApp(launch.browser = FALSE, port = 8000)\"",
     "dev": "parcel inst/src/index.js -d inst/app/www -o inst/app/www/ice.min.js --no-source-maps",
-    "build": "parcel build inst/src/index.js -d isnt/app/www -o inst/app/www/ice.min.js --no-source-maps",
-    "clean": "rm -rf www/ice.min.* .cache"
+    "build": "parcel build inst/src/index.js -d inst/app/www -o inst/app/www/ice.min.js --no-source-maps",
+    "clean": "rm -rf inst/app/www/ice.min.* .cache"
   },
   "keywords": [
     "r",
