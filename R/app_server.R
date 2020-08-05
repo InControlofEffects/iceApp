@@ -10,6 +10,9 @@ app_server <- function(input, output, session) {
     logged <- reactiveVal(TRUE)
     navigation <- reactiveVal(5)
 
+    # call login module
+    mod_login_server("signin-form", accounts, logged)
+
     # page navigation for each subpage navigation component
     mod_nav_server("instructions-a", navigation)
     mod_nav_server("instructions-b", navigation)
@@ -18,9 +21,6 @@ app_server <- function(input, output, session) {
     mod_nav_server("sideEffects", navigation)
     mod_nav_server("results", navigation)
     mod_nav_server("quit", navigation)
-
-    # call sign in form module
-    mod_login_server("signin-form", accounts, logged)
 
     # output pages
     observe({
@@ -73,14 +73,14 @@ app_server <- function(input, output, session) {
         }
     })
 
-    # onSubmit: find recommendations
+    # onSubmit: generate recommendations
     observeEvent(input$`sideEffects-submit`, {
 
-        # hide mssage
+        # hide existing error messages
         reset_error_box(id = "side-effects-error")
 
-        # Gather Selections convert TRUE to 1
-        choice <- data.frame(
+        # gather inputs
+        selections <- data.frame(
             akathisia = as.numeric(input$akathisia),
             anticholinergic = as.numeric(input$anticholinergic),
             antiparkinson = as.numeric(input$antiparkinson),
@@ -90,82 +90,39 @@ app_server <- function(input, output, session) {
             weight_gain = as.numeric(input$weight_gain)
         )
 
-        # if sum of selections is zero
-        if (sum(choice[1, ]) == 0) {
+        # validate inputs
+        response <- validate_side_effects(data = selections)
 
-            # show error (no need to reset inputs since nothing was selected)
-            browsertools::scroll_to()
-            browsertools::console_error("Side Effects: No options selected")
-            update_error_box(
-                id = "side-effects-error",
-                error = "No selections were made. Please select a side effect"
-            )
+        # process response
+        if (response$ok) {
 
-        } else  if (sum(choice[1, ]) > 1) {
-
-            # throw error when more than 1 selection was made
-            browsertools::scroll_to()
-            update_error_box(
-                id = "side-effects-error",
-                error = "Too many selections were made. Please select 1 option."
-            )
-
-            # reset inputs
-            iceComponents::reset_accordion_input("akathisia")
-            iceComponents::reset_accordion_input("anticholinergic")
-            iceComponents::reset_accordion_input("antiparkinson")
-            iceComponents::reset_accordion_input("prolactin")
-            iceComponents::reset_accordion_input("qtc")
-            iceComponents::reset_accordion_input("sedation")
-            iceComponents::reset_accordion_input("weight_gain")
-
-            # log issue to browser
-            browsertools::console_error("Side Effects: Selections > 1")
-        } else {
-
-            # log message to browser that selections are valid
-            browsertools::console_log("Selections are valid")
-
-            # exclude cases where selection has NA values
-            # selected_side_effect <- names(choice)[choice[1, ] == 1]
-            # filtered_df <- incontrolofeffects_rx[(
-            #         incontrolofeffects_rx$side_effect == selected_side_effect
-            #         & !is.na(incontrolofeffects_rx$value)
-            #     ), ]
-
-            # generate new scores for each medication based on the user's
-            # preferences for side effects. Run against the reference dataset
-            # `incontrolofeffects_rx`. Note for future: removing NA cases is
-            # not required. Doing so has no effect on the returned score.
-            # Use `filtered df` for limiting countries when the time comes.
-            raw_results <- as.data.frame(
-                iceData::user_preferences(
-                    data = iceData::meds,
-                    weights = choice[1, ],
-                    return_all = FALSE
-                )
-            )
-
-            # reduce results to desired elements
-            results <- data.frame(
-                rx_rec_a = raw_results[1, "name"],
-                rx_rec_b = raw_results[2, "name"],
-                rx_rec_c = raw_results[3, "name"],
-                rx_avoid_a = raw_results[NROW(raw_results), "name"],
-                rx_avoid_b = raw_results[NROW(raw_results) - 1, "name"],
-                rx_avoid_c = raw_results[NROW(raw_results) - 2, "name"]
-            )
-
-            # reset side effects
-            # reset_accordion_input()
-
-            # onSuccess: increment page
+            # advance to  results page
             navigation(navigation() + 1)
 
             # write results with delay (time in milliseconds)
-            write_se_results(results, delay = 225)
-
+            write_se_results(response$data$recs, delay = 250)
         }
+
+        # process failed response
+        if (!response$ok) {
+            browsertools::console_error(response$error$log)
+            update_error_box(
+                id = "side-effects-error",
+                error = response$error$msg
+            )
+        }
+
+        # reset inputs as the last step
+        iceComponents::reset_accordion_input("akathisia")
+        iceComponents::reset_accordion_input("anticholinergic")
+        iceComponents::reset_accordion_input("antiparkinson")
+        iceComponents::reset_accordion_input("prolactin")
+        iceComponents::reset_accordion_input("qtc")
+        iceComponents::reset_accordion_input("sedation")
+        iceComponents::reset_accordion_input("weight_gain")
+
+        # scroll to top of page
+        browsertools::scroll_to()
     })
 
     # onClick: application restart
