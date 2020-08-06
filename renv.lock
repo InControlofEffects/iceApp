@@ -74,15 +74,15 @@
     },
     "browsertools": {
       "Package": "browsertools",
-      "Version": "0.1.72",
+      "Version": "0.1.73",
       "Source": "GitHub",
       "RemoteType": "github",
       "RemoteHost": "api.github.com",
       "RemoteRepo": "browsertools",
       "RemoteUsername": "davidruvolo51",
       "RemoteRef": "HEAD",
-      "RemoteSha": "440017dc32d2007ba72a8cbe73cc67cd498af173",
-      "Hash": "c008ff77b026867f7d4f657d3da71ce4"
+      "RemoteSha": "fb80b57f7562717e3155320224e0710ee49bda81",
+      "Hash": "ce65f8e8bf35f8a9ac4e32bcbb8df04b"
     },
     "callr": {
       "Package": "callr",
@@ -293,10 +293,10 @@
       "RemoteType": "github",
       "RemoteHost": "api.github.com",
       "RemoteRepo": "iceData",
-      "RemoteUsername": "inControlofEffects",
+      "RemoteUsername": "InControlofEffects",
       "RemoteRef": "HEAD",
       "RemoteSha": "976b2cb98586d5a3365d1c0431cdf0e82f86a8a9",
-      "Hash": "0ad8689e0ad990fb38bcfdf0c2d47c17"
+      "Hash": "33a748243b7bae569e6764674220a6c0"
     },
     "ini": {
       "Package": "ini",
@@ -460,9 +460,9 @@
       "RemoteHost": "api.github.com",
       "RemoteRepo": "rheroicons",
       "RemoteUsername": "davidruvolo51",
-      "RemoteRef": "prod",
+      "RemoteRef": "HEAD",
       "RemoteSha": "d8c8cf30079cd70b739e09e8dac4e7d0a312c079",
-      "Hash": "b2505a7cb799ad08edde8d9c535368c6"
+      "Hash": "ecbbf6f81e1c6e151e5e480aadb03f7a"
     },
     "rlang": {
       "Package": "rlang",

@@ -13,6 +13,12 @@
 renv::init(settings = list(snapshot.type = "explicit"))
 renv::snapshot()
 
+# install packages from GitHub
+remotes::install_github("davidruvolo51/browsertools")
+remotes::install_github("davidruvolo51/rheroicons")
+remotes::install_github("InControlofEffects/iceComponents")
+remotes::install_github("InControlofEffects/iceData", auth_token = "")
+
 
 # add packages
 usethis::use_package("shiny", min_version = TRUE)
@@ -24,10 +30,11 @@ usethis::use_package("iceComponents", min_version = TRUE)
 usethis::use_package("sodium", min_version = TRUE)
 
 # add modules (to R/)
-golem::add_module(name = "mod_login")
-golem::add_module(name = "mod_medication_card")
-golem::add_module(name = "mod_navigation")
-golem::add_module(name = "mod_errors")
+golem::add_module(name = "login")
+golem::add_module(name = "medication_card")
+golem::add_module(name = "navigation")
+golem::add_module(name = "errors")
+golem::add_module(name = "validate_effects")
 
 # add interal dataset
 usethis::use_data_raw(name = "accounts")

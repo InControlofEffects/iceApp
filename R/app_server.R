@@ -8,7 +8,7 @@ app_server <- function(input, output, session) {
 
     # set primary reactiveValues
     logged <- reactiveVal(TRUE)
-    navigation <- reactiveVal(5)
+    navigation <- reactiveVal(1)
 
     # call login module
     mod_login_server("signin-form", accounts, logged)
