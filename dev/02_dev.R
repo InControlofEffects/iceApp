@@ -2,7 +2,7 @@
 #' FILE: 02_dev.R
 #' AUTHOR: David Ruvolo
 #' CREATED: 2020-07-20
-#' MODIFIED: 2020-08-03
+#' MODIFIED: 2020-08-12
 #' PURPOSE: manage scripts, packages, files, data, etc.
 #' STATUS: ongoing
 #' PACKAGES: usethis; renv; golem
@@ -12,6 +12,7 @@
 # revn init
 renv::init(settings = list(snapshot.type = "explicit"))
 renv::snapshot()
+renv::restore()
 
 # install packages from GitHub
 remotes::install_github("davidruvolo51/browsertools")
