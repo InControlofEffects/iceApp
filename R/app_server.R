@@ -7,7 +7,7 @@
 app_server <- function(input, output, session) {
 
     # set primary reactiveValues
-    logged <- reactiveVal(TRUE)
+    logged <- reactiveVal(FALSE)
     navigation <- reactiveVal(1)
 
     # call login module

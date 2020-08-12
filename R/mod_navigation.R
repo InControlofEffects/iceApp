@@ -5,7 +5,6 @@
 #' @param id a unique ID for the component
 #' @param buttons the buttons you like to render (previous, next, submit, etc.)
 #'
-#' @importFrom rheroicons outline solid
 #' @importFrom shiny tags
 #'
 #' @noRd
@@ -19,7 +18,10 @@ mod_navigation_ui <- function(id, buttons) {
         previous = tags$button(
             id = ns("previousPage"),
             class = "shiny-bound-input action-button default",
-            rheroicons::outline$chevron_left(aria_hidden = TRUE),
+            rheroicons::icons$chevron_left(
+                type = "outline",
+                aria_hidden = TRUE
+            ),
             "Previous"
         ),
 
@@ -28,7 +30,10 @@ mod_navigation_ui <- function(id, buttons) {
             id = ns("nextPage"),
             class = "shiny-bound-input action-button primary",
             "Next",
-            rheroicons::outline$chevron_right(aria_hidden = TRUE)
+            rheroicons::icons$chevron_right(
+                type = "outline",
+                aria_hidden = TRUE
+            )
         ),
 
         # move to next page, but for starting side effects selection
@@ -36,7 +41,10 @@ mod_navigation_ui <- function(id, buttons) {
             id = ns("begin"),
             class = "shiny-bound-input action-button primary",
             "Begin",
-            rheroicons::outline$chevron_right(aria_hidden = TRUE)
+            rheroicons::icons$chevron_right(
+                type = "outline",
+                aria_hidden = TRUE
+            )
         ),
 
         # submit side effects
@@ -44,14 +52,20 @@ mod_navigation_ui <- function(id, buttons) {
             id = ns("submit"),
             class = "shiny-bound-input action-button primary",
             "Submit",
-            rheroicons::solid$arrow_circle_right(aria_hidden = TRUE)
+            rheroicons::icons$arrow_circle_right(
+                type = "solid",
+                aria_hidden = TRUE
+            )
         ),
 
         # Previous, but for revisting side effects page from results
         reselect = tags$button(
             id = ns("reselect"),
             class = "shiny-bound-input action-button default",
-            rheroicons::outline$chevron_left(aria_hidden = TRUE),
+            rheroicons::icons$chevron_left(
+                type = "outline",
+                aria_hidden = TRUE
+            ),
             "Previous"
         ),
 
@@ -60,7 +74,10 @@ mod_navigation_ui <- function(id, buttons) {
             id = ns("done"),
             class = "shiny-bound-input action-button primary",
             "Done",
-            rheroicons::solid$check_circle(aria_hidden = TRUE)
+            rheroicons::icons$check_circle(
+                type = "solid",
+                aria_hidden = TRUE
+            )
         )
     )
 

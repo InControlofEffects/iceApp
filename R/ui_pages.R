@@ -56,9 +56,9 @@ pages$instructions_b <- tags$article(
     tags$p(
         "To navigate pages in this app, press the next or previous button.",
         "You can also restart the app from the beginning by pressing the",
-        "restart", rheroicons::outline$refresh(), "button located at the top",
+        "restart", rheroicons::icons$refresh(), "button located at the top",
         "of the screen. If you would like exit the app, click the sign out",
-        rheroicons::outline$logout(), "button."
+        rheroicons::icons$logout(), "button."
     ),
     tags$p(
         "Press next to continue"
@@ -94,7 +94,7 @@ pages$instructions_c <- tags$article(
     ),
     tags$p(
         "You can also view more information about each side effect by tapping",
-        "or clicking the open icon", rheroicons::outline$chevron_down(),
+        "or clicking the open icon", rheroicons::icons$chevron_down(),
         ". When you have made your selection, press the submit button to view",
         "the results."
     ),

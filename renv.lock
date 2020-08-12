@@ -275,7 +275,7 @@
     },
     "iceComponents": {
       "Package": "iceComponents",
-      "Version": "0.0.1",
+      "Version": "0.0.2",
       "Source": "GitHub",
       "Remotes": "davidruvolo51/rheroicons",
       "RemoteType": "github",
@@ -283,8 +283,8 @@
       "RemoteRepo": "iceComponents",
       "RemoteUsername": "InControlofEffects",
       "RemoteRef": "HEAD",
-      "RemoteSha": "b307f82b9f4cb1cf761555a6c2527976b2138bf1",
-      "Hash": "553594baa7a5c69cd35636a01d33f56a"
+      "RemoteSha": "be49cf8ab348d5b519803d641d70fb340ff82174",
+      "Hash": "6ed82776c0598ccb5a9810f83caecfee"
     },
     "iceData": {
       "Package": "iceData",
@@ -454,15 +454,15 @@
     },
     "rheroicons": {
       "Package": "rheroicons",
-      "Version": "0.1.4",
+      "Version": "0.1.5",
       "Source": "GitHub",
       "RemoteType": "github",
       "RemoteHost": "api.github.com",
       "RemoteRepo": "rheroicons",
       "RemoteUsername": "davidruvolo51",
       "RemoteRef": "HEAD",
-      "RemoteSha": "d8c8cf30079cd70b739e09e8dac4e7d0a312c079",
-      "Hash": "ecbbf6f81e1c6e151e5e480aadb03f7a"
+      "RemoteSha": "2bb4a41a78a2f1578ab42fefbb83b2adc865b426",
+      "Hash": "9c02003d9e96e2204b20b9c19e422130"
     },
     "rlang": {
       "Package": "rlang",

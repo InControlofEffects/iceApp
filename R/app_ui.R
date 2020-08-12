@@ -22,46 +22,7 @@ app_ui <- function(request) {
                         tags$a(
                             class = "menu-link",
                             href = "https://incontrolofeffects.com",
-                            tag(
-                                `_tag_name` = "svg",
-                                list(
-                                    class = "logo",
-                                    width = "45",
-                                    height = "44",
-                                    viewBox = "0 0 45 44",
-                                    version = "1.1",
-                                    xmlns = "http://www.w3.org/2000/svg",
-                                    `xmlns:xlink` = "http://www.w3.org/1999/xlink",
-                                    `aria_hidden` = "true",
-                                    tag(
-                                        `_tag_name` = "g",
-                                        list(
-                                            stroke = "none",
-                                            `stroke-width` = "1",
-                                            fill = "none",
-                                            `fill-rule` = "evenodd",
-                                            tag(
-                                                `_tag_name` = "circle",
-                                                list(
-                                                    fill = "#4655A8",
-                                                    cx = "15",
-                                                    cy = "15",
-                                                    r = "15"
-                                                )
-                                            ),
-                                            tag(
-                                                `_tag_name` = "circle",
-                                                list(
-                                                    fill = "#C7CCE4",
-                                                    cx = "30",
-                                                    cy = "29",
-                                                    r = "15"
-                                                )
-                                            )
-                                        )
-                                    )
-                                )
-                            ),
+                            app__logo(),
                             "In Control of Effects"
                         )
                     )
@@ -74,7 +35,8 @@ app_ui <- function(request) {
                         role = "menuitem",
                         id = "appRestart",
                         class = "action-button shiny-bound-input menu-button",
-                        rheroicons::outline$refresh(
+                        rheroicons::icons$refresh(
+                            type = "outline",
                             class = "menu-button-icon",
                             aria_hidden = TRUE
                         ),
@@ -92,7 +54,8 @@ app_ui <- function(request) {
                         id = "appSignout",
                         role = "menuitem",
                         class = "action-button shiny-bound-input menu-button",
-                        rheroicons::outline$logout(
+                        rheroicons::icons$logout(
+                            type = "outline",
                             class = "menu-button-icon",
                             aria_hidden = TRUE
                         ),

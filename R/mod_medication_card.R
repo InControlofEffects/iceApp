@@ -5,7 +5,6 @@
 #' @param title name of the medication
 #' @param type define card type (avoid or suggested)
 #' @importFrom shiny NS tagList tags
-#' @importFrom rheroicons solid
 #' @noRd
 mod_medication_card_ui <- function(id, title = "", type = "recommended") {
     ns <- NS(id)
@@ -22,7 +21,7 @@ mod_medication_card_ui <- function(id, title = "", type = "recommended") {
         )
         parent$children <- tagList(
             title,
-            rheroicons::solid$check(aria_hidden = TRUE)
+            rheroicons::icons$check(type = "solid", aria_hidden = TRUE)
         )
     }
 
@@ -34,7 +33,7 @@ mod_medication_card_ui <- function(id, title = "", type = "recommended") {
         )
         parent$children <- tagList(
             title,
-            rheroicons::solid$exclamation(aria_hidden = TRUE)
+            rheroicons::icons$exclamation(type = "solid", aria_hidden = TRUE)
         )
     }
 

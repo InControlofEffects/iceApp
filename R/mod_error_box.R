@@ -6,7 +6,6 @@
 #' @param class pass css class names
 #'
 #' @importFrom shiny tags
-#' @importFrom rheroicons outline
 #' @noRd
 error_box <- function(id, class = NULL) {
 
@@ -16,7 +15,7 @@ error_box <- function(id, class = NULL) {
         class = "error-box",
         role = "alert",
         hidden = "",
-        rheroicons::outline$exclamation(aria_hidden = TRUE),
+        rheroicons::icons$exclamation(type = "outline", aria_hidden = TRUE),
         tags$span(
             id = paste0(id, "-error-message"),
             class = "error-box-text"
