@@ -1,0 +1,72 @@
+html,
+body {
+	font-family: Helvetica, Arial, sans-serif;
+	font-size: $font-size;
+	margin: 0;
+	padding: 0;
+}
+
+body {
+	overflow-x: hidden;
+}
+
+h1,
+h2,
+h3,
+h4{
+	color: $dark;
+	line-height: $line-height-headings;
+	padding: 0;
+	margin: 0;
+	margin-top: 16px;
+	margin-bottom: 6px;
+}
+
+h1 {
+	width: 90%;
+	font-size: $h1-font-size;
+}
+
+h2 {
+	width: 90%;
+	font-size: $h2-font-size;
+}
+
+p,
+li,
+figcaption {
+	color: $text;
+	line-height: $line-height-text;
+	padding: 0;
+	margin: 0;
+	font-size: $font-size;
+}
+
+p {
+	margin-bottom: 12px;
+}
+
+a {
+	text-decoration: none;
+	padding: 0;
+	margin: 0;
+	color: $primary;
+	box-shadow: inset 0 -1px 0 0 currentColor;
+	cursor: pointer;
+}
+
+// ordered and unordered lists
+ul,
+ol {
+	padding: 0;
+	margin: 0;
+
+	li {
+		margin-bottom: $default-margin-bottom;
+		color: $text;
+	}
+}
+
+fieldset {
+	border: none;
+}

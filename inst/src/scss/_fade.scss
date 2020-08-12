@@ -1,0 +1,34 @@
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes fadeOut {
+    from {
+        opacity: 1;
+    }
+    to {
+        opacity: 0;
+    }
+}
+
+$timing: 1.5s;
+
+
+.fadeIn {
+    animation: fadeIn $timing forwards;
+}
+
+.fadeOut {
+    animation: fadeOut $timing forwards;
+}
+
+@media (prefers-reduced-motion) {
+    .fadeOut, .fadeIn {
+        animation-duration: 1ms;
+    }
+}

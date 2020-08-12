@@ -1,0 +1,140 @@
+.navbar {
+    position: fixed;
+    width: 100%;
+    padding: 0;
+    margin: 0;
+    top: 0;
+    z-index: 999;
+    background-color: #ffffff;
+    box-shadow: $box-shadow;
+
+    // navigation list - menu
+    .menu {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        display: grid;
+        grid-template-columns: 300px repeat(2, 1fr);
+        grid-column-gap: 0;
+        grid-template-areas: "brand refresh signout";
+
+        // define breakpoints
+        $first: 762px;
+        $second: 972px;
+        $third: 1224px;
+        @media (min-width: $first) {
+            grid-template-columns: 3fr repeat(2, 1fr);
+        }
+
+        @media (min-width: $second) {
+            grid-template-columns: 4fr repeat(2, 1fr);
+        }
+
+        @media (min-width: $third) {
+            grid-template-columns: 6fr repeat(2, 1fr);
+        }
+
+        // all menu items
+        .menu-item {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 12px 0;
+            margin: 0;
+
+            &.item-hidden {
+                display: none;
+            }
+
+            // reset button styles
+            .menu-button {
+                padding: 0;
+                margin: 0;
+                padding-bottom: 4px;
+                border-radius: 0;
+                box-shadow: none;
+                display: flex;
+                justify-content: flex-end;
+                align-items: center;
+
+                .menu-button-label {
+                    font-size: 11pt;
+                    margin-top: 6px;
+                    margin-left: 8px;
+                    text-transform: uppercase;
+                    letter-spacing: 2px;
+                    font-weight: bold;
+                    color: $primary;
+
+                    // when the screen size is below a specific point
+                    // visually hide the icon labels
+                    @media (max-width: $first) {
+                        @include visuallyHidden;
+                    }
+                }
+
+                .menu-button-icon {
+                    width: 25px;
+                    height: 25px;
+                    color: $primary;
+                }
+
+                &:hover, &:focus {
+                    text-decoration: none;
+                    border-bottom: 2px solid $primary;
+                }
+            }
+
+            // styling for first link, i.e., the branding link + logo
+            &#item-brand-link {
+                justify-content: flex-start;
+                padding-left: 12px;
+                margin: 0;
+
+                h1 {
+                    padding: 0;
+                    margin: 0;
+                    line-height: 1;
+                }
+                
+                .menu-link {
+                    font-size: 11pt;
+                    text-transform: uppercase;
+                    font-weight: bold;
+                    letter-spacing: 2px;
+                    color: $primary;
+                    box-shadow: none;
+                    padding-bottom: 4px;
+                    
+                    .logo {
+                        position: relative;
+                        display: inline-block;
+                        width: 22px;
+                        height: 22px;
+                        top: 4px;
+                    }
+
+                    &:hover, &:focus {
+                        box-shadow: inset 0 -2px 0 0 currentColor;
+                    }
+                }
+            }
+
+            // styling for the restart button
+            &#item-restart-app {
+
+                .menu-button {
+                    grid-area: refresh;
+                }
+            }
+
+            // sytling for sign out button
+            &#item-signout-app {
+
+                .menu-button {
+                    grid-area: signout;
+                }
+            }
+        }
+    }
+}

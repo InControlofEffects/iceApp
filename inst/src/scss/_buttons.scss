@@ -1,0 +1,198 @@
+button {
+	display: block;
+	position: relative;
+	margin: 12px 0;
+	padding: 8px 16px;
+	background-clip: border-box;
+	background-color: transparent;
+	border: 2px solid transparent;
+	font-size: 12pt;
+	text-transform: uppercase;
+	letter-spacing: 2px;
+	font-weight: 600;
+	text-align: center;
+	cursor: pointer;
+	border-radius: 4px;
+
+	p {
+		font-weight: normal;
+		text-transform: none;
+		letter-spacing: normal;
+		font-size: 16pt;
+	}
+
+	// define button styles
+	&.primary {
+		background-color: $primary;
+		color: white;
+	}
+
+	&.secondary {
+		background-color: $primary-light;
+		color: $primary;
+	}
+
+	&.default {
+		background-color: transparent;
+		color: $primary;
+		border-color: $primary;
+	}
+
+	// button icon if applicable
+	.rheroicons {
+		display: inline-block;
+		position: relative;
+		top: 3px;
+		width: 18px;
+		height: 18px;
+
+		&.rheroicons_logout {
+			transform: scale(-1, 1);
+		}
+	}
+
+	// icon only button
+	&.icon-only {
+		display: inline-block;
+		position: relative;
+		width: 50px;
+		height: 50px;
+		padding: 0;
+		margin: 0;
+
+		.icon {
+			position: relative;
+			top: 2px;
+			width: 35px;
+			height: 35px;
+		}
+
+		&:hover {
+			box-shadow: none;
+		}
+
+		&:focus {
+			border-color: $primary;
+			box-shadow: $primary-box-shadow;
+		}
+	}
+
+	// hover events
+	&:hover {
+		// @include boxShadow($primary-box-shadow);
+		text-decoration: underline;
+	}
+
+	// focus events
+	&:focus {
+		// @include boxShadow($primary-box-shadow);
+		text-decoration: underline;
+	}
+}
+
+// page navigation buttons
+.navigation-wrapper {
+	display: block;
+	padding: 0;
+	margin: 0;
+	margin-top: 16px;
+
+	.navigation-button-list {
+		list-style: none;
+		display: block;
+		width: 100%;
+		margin: 0;
+		padding: 0;
+		display: flex;
+		flex-wrap: wrap-reverse;
+
+		&.single-button-list {
+			.navigation-item {
+				display: block;
+				width: 100%;
+				margin: 0;
+
+				button {
+					width: 100%;
+					margin: 0;
+				}
+			}
+		}
+
+		&.multi-button-list {
+			.navigation-item {
+				display: block;
+				width: 100%;
+				
+				button {
+					width: 100%;
+					margin: 0;
+					margin-bottom: 16px;
+					
+					&:last-child {
+						margin-bottom: 0;
+					}
+				}
+
+			}
+		}
+	}
+}
+
+@media (min-width: 636px) {
+	.navigation-wrapper {
+		.navigation-button-list {
+			&.single-button-list {
+				align-items: center;
+				justify-content: flex-end;
+
+				.navigation-item {
+					display: flex;
+					justify-content: flex-end;
+					button {
+						width: 250px;
+						margin: 0;
+
+						&:nth-child(1) {
+							margin: 0;
+						}
+					}
+				}
+			}
+
+			&.multi-button-list {
+				.navigation-item {
+					display: inline-block;
+					width: 50%;
+					margin: 0;
+
+					button {
+						width: 250px;
+						margin: 0;
+
+						&:nth-child(1) {
+							margin: 0;
+						}
+					}
+					&:nth-child(1) {
+						display: flex;
+						justify-content: flex-start;
+					}
+					&:nth-child(2) {
+						display: flex;
+						justify-content: flex-end;
+					}
+				}
+			}
+		}
+	}
+}
+
+@media (min-width: 972px) {
+	.navigation-wrapper {
+		width: 100%;
+		max-width: 972px;
+		margin: 0;
+		padding: 1em 0;
+	}
+}

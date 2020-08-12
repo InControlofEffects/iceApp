@@ -1,22 +1,35 @@
 {
-  "name": "ice-app",
-  "version": "1.0.0",
-  "description": "shiny app for the decision of antipsychotic treatments and side effects",
+  "name": "iceApp",
+  "version": "2.0.0",
+  "description": "a shiny app for the decision of antipsychotic treatments based on side effects",
+  "author": "davidruvolo51",
+  "license": "MIT",
   "scripts": {
-    "develop": "sass --watch www/css/index.scss:www/css/styles.min.css --style compressed"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/davidruvolo51/ice-app.git"
+    "shiny": "Rscript -e \"shiny::runApp(launch.browser = FALSE, port = 8000)\"",
+    "dev": "parcel inst/src/index.js -d inst/app/www -o inst/app/www/ice.min.js --no-source-maps",
+    "build": "parcel build inst/src/index.js -d inst/app/www -o inst/app/www/ice.min.js --no-source-maps",
+    "clean": "rm -rf inst/app/www/ice.min.* .cache"
   },
   "keywords": [
-    "shiny",
-    "r"
+    "r",
+    "shiny"
   ],
-  "author": "David Ruvolo",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/davidruvolo51/ice-app/issues"
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/InControlofEffects/iceApp.git"
   },
-  "homepage": "https://github.com/davidruvolo51/ice-app#readme"
+  "bugs": {
+    "url": "https://github.com/InControlofEffects/iceApp/issues"
+  },
+  "devDependencies": {
+    "parcel": "1.12.4",
+    "@babel/core": "^7.10.3",
+    "@babel/cli": "^7.10.3",
+    "@babel/preset-env": "^7.10.3",
+    "babel-preset-minify": "^0.5.1",
+    "sass": "^1.26.8",
+    "postcss-modules": "^2.0.0",
+    "autoprefixer": "^9.8.2",
+    "cssnano": "^4.1.10"
+  }
 }

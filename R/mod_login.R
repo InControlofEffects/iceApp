@@ -1,0 +1,168 @@
+#' Login Screen
+#'
+#' @description
+#' This script provides two modules: the login UI and the login Server
+#' The UI component renders form with the two input elements for username and
+#' password. A back to main page link is also provided.
+#'
+#' The server logic runs only when the submit button is clicked. When clicked,
+#' a series of server-side form validation is executed. If there are any
+#' errors, a message is sent to the client and the error is added to the
+#' database. When all errors are eliminated and the user has provided valid
+#' credentials, then the app state is changed (i.e., logged in) and the state
+#' is noted in the database.
+#'
+#' @param id a unique ID for this instance of the login UI
+#' @param class a css class to include in the rendering of the of UI
+#'
+#' @importFrom shiny tags tag NS
+#' @noRd
+mod_login_ui <- function(id, class) {
+    ns <- NS(id)
+
+    # process css
+    css <- "form"
+    if (!is.null(class)) css <- paste0("form ", class)
+
+    # define html
+    tagList(
+        tags$form(
+            id = ns("page"),
+            class = css,
+            app__logo(),
+            tags$legend(
+                id = "signin-form-title",
+                "Sign in"
+            ),
+            tags$label(`for` = ns("username"), "Username"),
+            tags$span(
+                id = "username-status",
+                class = "error-text",
+                role = "alert"
+            ),
+            tags$input(
+                id = ns("username"),
+                type = "text",
+                class = "form-control shiny-bound-input",
+                `aria-describedby` = "username-status"
+            ),
+            tags$label(`for` = ns("password"), "Password"),
+            tags$span(
+                id = "password-status",
+                class = "error-text",
+                role = "alert"
+            ),
+            tags$input(
+                id = ns("password"),
+                type = "password",
+                class = "form-control shiny-bound-input",
+                `aria-describedby` = "password-status"
+            ),
+            tags$button(
+                id = ns("login"),
+                class = "action-button shiny-bound-input primary",
+                type = "submit",
+                "Sign In"
+            )
+        )
+    )
+}
+
+#' login Server Function
+#'
+#' @param id unique ID for an instance of a module
+#' @param data an object containing the user accounts
+#' @param logged a reactive object that manages the app logged in state
+#'
+#' @importFrom sodium password_verify
+#' @noRd
+mod_login_server <- function(id, data, logged) {
+    moduleServer(
+        id,
+        function(input, output, session) {
+            ns <- session$ns
+
+            # build object containing namespace IDs (for use in js)
+            elems <- list(
+                user_input = ns("username"),
+                pass_input = ns("password")
+            )
+
+            # reset signin form error messages
+            reset_form <- function(elem = "signin-form-page") {
+                session$sendCustomMessage(
+                    type = "reset_login_form",
+                    message = list(elem = elem)
+                )
+            }
+
+            # send new message
+            show_login_error <- function(elem, error) {
+                session$sendCustomMessage(
+                    type = "show_login_error",
+                    message = list(elem = elem, error = error)
+                )
+            }
+
+            # on submit
+            observeEvent(input$login, {
+                reset_form()
+
+                # find user and passwords
+                usr <- which(data$username == input$username)
+
+                # if there is no match for user
+                if (input$username == "" && input$password == "") {
+
+                    # send + log error
+                    show_login_error(elems$user_input, "ERROR: Username is missing")
+                    show_login_error(elems$pass_input, "ERROR: Password is missing")
+
+                } else if (input$username == "" && !(input$password == "")) {
+
+                    # send + log error
+                    show_login_error(elems$user_input, "ERROR: Username is missing")
+
+                } else if (!(input$username == "") && input$password == "") {
+
+                    # send + log error
+                    show_login_error(elems$pass_input, "ERROR: Password is missing")
+
+                } else if (!length(usr)) {
+
+                    # send + log error
+                    show_login_error(elems$user_input, "ERROR: Username is incorrect")
+
+                } else if (length(usr)) {
+                    if (
+                        sodium::password_verify(
+                            hash = data$password[usr],
+                            password = input$password
+                        )
+                    ) {
+
+                        # reset and log
+                        updateTextInput(session, "username", value = "")
+                        updateTextInput(session, "password", value = "")
+
+                        # change state
+                        logged(TRUE)
+
+                    } else {
+
+                        # send + log error
+                        show_login_error(
+                            elems$pass_input,
+                            "ERROR: Password is incorrect"
+                        )
+                    }
+                } else {
+
+                    # send and log error
+                    show_login_error(elems$user_input, "ERROR: Something went wrong")
+                    show_login_error(elems$pass_input, "ERROR: Something went wrong")
+                }
+            })
+        }
+    )
+}
