@@ -12,10 +12,12 @@
         position: relative;
         background-color: #ffffff;
         padding: 24px;
-        width: 100%;
+        width: 90%;
+        margin: 0 auto;
         max-width: 325px;
         margin-bottom: 6px;
         border-radius: $default-border-radius;
+        box-sizing: border-box;
         z-index: 1;
 
         // input: text-based
