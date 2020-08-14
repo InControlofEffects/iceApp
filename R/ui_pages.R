@@ -348,7 +348,9 @@ pages$quit <- tags$article(
         "related to your medical care, consult your healthcare provider."
     ),
     tags$p(
-        "You may now close this window."
+        "You may now close this window or return to", tags$a(
+            href = "incontrolofeffects.com", "incontrolfofeffects.com"
+        ), "."
     )
 )
 
