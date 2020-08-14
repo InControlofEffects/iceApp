@@ -17,11 +17,11 @@
 #'
 #' @importFrom shiny tags tag NS
 #' @noRd
-mod_login_ui <- function(id, class) {
+mod_login_ui <- function(id, class = NULL) {
     ns <- NS(id)
 
     # process css
-    css <- "form"
+    css <- "form login__form"
     if (!is.null(class)) css <- paste0("form ", class)
 
     # define html
@@ -29,10 +29,11 @@ mod_login_ui <- function(id, class) {
         tags$form(
             id = ns("page"),
             class = css,
-            app__logo(),
-            tags$legend(
-                id = "signin-form-title",
-                "Sign in"
+            rheroicons::icons$user_circle(aria_hidden = TRUE),
+            tags$h2("Welcome"),
+            tags$p(
+                "Please sign in using the details provided to you by the",
+                "study coordinator."
             ),
             tags$label(`for` = ns("username"), "Username"),
             tags$span(
@@ -43,7 +44,8 @@ mod_login_ui <- function(id, class) {
             tags$input(
                 id = ns("username"),
                 type = "text",
-                class = "form-control shiny-bound-input",
+                class = "login__input shiny-bound-input",
+                onsubmit = "e.preventDefault()",
                 `aria-describedby` = "username-status"
             ),
             tags$label(`for` = ns("password"), "Password"),
@@ -55,7 +57,7 @@ mod_login_ui <- function(id, class) {
             tags$input(
                 id = ns("password"),
                 type = "password",
-                class = "form-control shiny-bound-input",
+                class = "login__input shiny-bound-input",
                 `aria-describedby` = "password-status"
             ),
             tags$button(
