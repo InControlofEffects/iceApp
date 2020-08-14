@@ -21,7 +21,7 @@ mod_medication_card_ui <- function(id, title = "", type = "recommended") {
         )
         parent$children <- tagList(
             title,
-            rheroicons::icons$check(type = "solid", aria_hidden = TRUE)
+            rheroicons::icons$check_circle(type = "solid", aria_hidden = TRUE)
         )
     }
 
