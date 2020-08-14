@@ -10,11 +10,13 @@
 
     // navigation list - menu
     .menu {
+        width: 95%;
         list-style: none;
         padding: 0;
-        margin: 0;
+        margin: 0 auto;
         display: grid;
-        grid-template-columns: 300px repeat(2, 1fr);
+        grid-template-columns: 280px repeat(2, 1fr);
+        // grid-template-columns: 4fr repeat(2, 1fr);
         grid-column-gap: 0;
         grid-template-areas: "brand refresh signout";
 
@@ -88,7 +90,6 @@
             // styling for first link, i.e., the branding link + logo
             &#item-brand-link {
                 justify-content: flex-start;
-                padding-left: 12px;
                 margin: 0;
 
                 h1 {

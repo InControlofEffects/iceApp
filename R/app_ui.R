@@ -17,14 +17,11 @@ app_ui <- function(request) {
                     id = "item-brand-link",
                     role = "none",
                     class = "menu-item",
-                    tags$h1(
-                        role = "menu-item",
-                        tags$a(
-                            class = "menu-link",
-                            href = "https://incontrolofeffects.com",
-                            app__logo(),
-                            "In Control of Effects"
-                        )
+                    tags$a(
+                        class = "menu-link",
+                        href = "https://incontrolofeffects.com",
+                        app__logo(),
+                        "In Control of Effects"
                     )
                 ),
                 tags$li(

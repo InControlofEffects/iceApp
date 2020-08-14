@@ -67,7 +67,8 @@ app_server <- function(input, output, session) {
             output$current_page <- renderUI({
                 tags$article(
                     id = "signin",
-                    mod_login_ui("signin-form", "form-ui")
+                    class = "signin_ui",
+                    mod_login_ui("signin-form")
                 )
             })
         }

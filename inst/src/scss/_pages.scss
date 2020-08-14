@@ -1,4 +1,4 @@
-#main {
+.main {
     display: flex;
     justify-content: center;
     align-items: flex-start;
@@ -78,54 +78,10 @@
         letter-spacing: 2px;   
         font-weight: 600;
     }
-
-    // sign in screen
-    #signin {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        width: 100vw;
-        height: calc(100vh - 40px);
-        margin: 0;
-        background-color: $semi-light;
-        
-        .form {
-            background-color: #ffffff;
-            padding: 16px;
-            width: 100%;
-            max-width: 325px;
-            margin-bottom: 6px;
-            border-radius: $default-border-radius;
-
-            .logo {
-                display: block;
-                margin: 0 auto;
-                margin-bottom: 12px;
-                width: 45px;
-                height: 45px;
-                fill: $primary;
-            }
-
-            legend {
-                text-align: center;
-                font-size: 18pt;
-                color: $dark;
-            }
-
-            .form-control {
-                width: 93%;
-            }
-
-            button[type=submit] {
-                margin-top: 12px;
-                width: 100%;
-            }
-        }
-    }
 }
 
 @media (min-width: 972px) {
-    #main {
+    .main {
         display: flex;
         justify-content: center;
         align-items: center;
@@ -140,14 +96,6 @@
 
             &.page-extra-top-spacing {
                 margin-top: 125px;
-            }
-        }
-
-        #signin {
-            min-height: 100vh;
-
-            .form {
-                min-width: 350px;
             }
         }
     }

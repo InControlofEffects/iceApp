@@ -12,77 +12,73 @@ mod_navigation_ui <- function(id, buttons) {
     ns <- NS(id)
 
     # define buttons
-    btns <- list(
+    btns <- list()
 
-        # move back to previous page
-        previous = tags$button(
-            id = ns("previousPage"),
-            class = "shiny-bound-input action-button default",
-            rheroicons::icons$chevron_left(
-                type = "outline",
-                aria_hidden = TRUE
-            ),
-            "Previous"
+    # move back to previous page
+    btns$previous <- tags$button(
+        id = ns("previousPage"),
+        class = "shiny-bound-input action-button default",
+        rheroicons::icons$chevron_left(
+            type = "outline",
+            aria_hidden = TRUE
         ),
+        "Previous"
+    )
 
-        # move to next page
-        "next" = tags$button(
-            id = ns("nextPage"),
-            class = "shiny-bound-input action-button primary",
-            "Next",
-            rheroicons::icons$chevron_right(
-                type = "outline",
-                aria_hidden = TRUE
-            )
-        ),
-
-        # move to next page, but for starting side effects selection
-        begin = tags$button(
-            id = ns("begin"),
-            class = "shiny-bound-input action-button primary",
-            "Begin",
-            rheroicons::icons$chevron_right(
-                type = "outline",
-                aria_hidden = TRUE
-            )
-        ),
-
-        # submit side effects
-        submit = tags$button(
-            id = ns("submit"),
-            class = "shiny-bound-input action-button primary",
-            "Submit",
-            rheroicons::icons$arrow_circle_right(
-                type = "solid",
-                aria_hidden = TRUE
-            )
-        ),
-
-        # Previous, but for revisting side effects page from results
-        reselect = tags$button(
-            id = ns("reselect"),
-            class = "shiny-bound-input action-button default",
-            rheroicons::icons$chevron_left(
-                type = "outline",
-                aria_hidden = TRUE
-            ),
-            "Previous"
-        ),
-
-        # next page, but for post-results
-        done = tags$button(
-            id = ns("done"),
-            class = "shiny-bound-input action-button primary",
-            "Done",
-            rheroicons::icons$check_circle(
-                type = "solid",
-                aria_hidden = TRUE
-            )
+    # move to next page
+    btns$`next` <- tags$button(
+        id = ns("nextPage"),
+        class = "shiny-bound-input action-button primary",
+        "Next",
+        rheroicons::icons$chevron_right(
+            type = "outline",
+            aria_hidden = TRUE
         )
     )
 
-    # define wrapper
-    parent <- tags$div(id = ns("nav"), class = "navigation-wrapper")
+    # move to next page, but for starting side effects selection
+    btns$begin <- tags$button(
+        id = ns("begin"),
+        class = "shiny-bound-input action-button primary",
+        "Begin",
+        rheroicons::icons$chevron_right(
+            type = "outline",
+            aria_hidden = TRUE
+        )
+    )
+
+    # submit side effects
+    btns$submit <- tags$button(
+        id = ns("submit"),
+        class = "shiny-bound-input action-button primary",
+        "Submit",
+        rheroicons::icons$chevron_right(
+            type = "solid",
+            aria_hidden = TRUE
+        )
+    )
+
+    # Previous, but for revisting side effects page from results
+    btns$reselect <- tags$button(
+        id = ns("reselect"),
+        class = "shiny-bound-input action-button default",
+        rheroicons::icons$chevron_left(
+            type = "outline",
+            aria_hidden = TRUE
+        ),
+        "Previous"
+    )
+
+    # next page, but for post-results
+    btns$done <- tags$button(
+        id = ns("done"),
+        class = "shiny-bound-input action-button primary",
+        "Done",
+        rheroicons::icons$chevron_right(
+            type = "solid",
+            aria_hidden = TRUE
+        )
+    )
 
     # validate and add buttons
     valid <- match(buttons, names(btns))
@@ -99,7 +95,7 @@ mod_navigation_ui <- function(id, buttons) {
     }
 
     # return
-    parent$children <- el
+    parent <- tags$div(id = ns("nav"), class = "navigation-wrapper", el)
     return(parent)
 
 }

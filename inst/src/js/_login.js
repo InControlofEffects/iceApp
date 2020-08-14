@@ -1,5 +1,5 @@
 ////////////////////////////////////////////////////////////////////////////////
-// FILE: _form_validation.js
+// FILE: _login.js
 // AUTHOR: David Ruvolo
 // CREATED: 2020-07-09
 // MODIFIED: 2020-07-22
@@ -8,7 +8,6 @@
 // STATUS: in.progress
 // COMMENTS: NA
 ////////////////////////////////////////////////////////////////////////////////
-
 
 // Reset Form
 // Define a function that clears form inputs and resets invalid input elements
