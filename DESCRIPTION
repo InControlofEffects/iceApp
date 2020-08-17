@@ -14,7 +14,7 @@ Imports:
     rheroicons (>= 0.1.5),
     iceData (>= 0.0.1),
     sodium (>= 1.1),
-    iceComponents (>= 0.0.2),
+    iceComponents (>= 0.0.21),
     pkgload
 Encoding: UTF-8
 LazyData: true

@@ -1,6 +1,6 @@
 {
   "R": {
-    "Version": "4.0.1",
+    "Version": "4.0.2",
     "Repositories": [
       {
         "Name": "CRAN",
@@ -275,7 +275,7 @@
     },
     "iceComponents": {
       "Package": "iceComponents",
-      "Version": "0.0.2",
+      "Version": "0.0.21",
       "Source": "GitHub",
       "Remotes": "davidruvolo51/rheroicons",
       "RemoteType": "github",
@@ -283,8 +283,8 @@
       "RemoteRepo": "iceComponents",
       "RemoteUsername": "InControlofEffects",
       "RemoteRef": "HEAD",
-      "RemoteSha": "be49cf8ab348d5b519803d641d70fb340ff82174",
-      "Hash": "6ed82776c0598ccb5a9810f83caecfee"
+      "RemoteSha": "9576c0428202eed2e6fda171fae500e18e7ef190",
+      "Hash": "abd4c2ffa6dc4491df3fe38542cf99f9"
     },
     "iceData": {
       "Package": "iceData",

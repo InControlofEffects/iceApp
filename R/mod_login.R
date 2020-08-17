@@ -29,36 +29,26 @@ mod_login_ui <- function(id, class = NULL) {
         tags$form(
             id = ns("page"),
             class = css,
-            rheroicons::icons$user_circle(aria_hidden = TRUE),
-            tags$h2("Welcome"),
+            tags$h1("Welcome"),
             tags$p(
                 "Please sign in using the details provided to you by the",
                 "study coordinator."
             ),
-            tags$label(`for` = ns("username"), "Username"),
-            tags$span(
-                id = "username-status",
-                class = "error-text",
-                role = "alert"
-            ),
-            tags$input(
-                id = ns("username"),
+            iceComponents::input(
+                inputId = ns("username"),
+                label = "Username",
                 type = "text",
-                class = "login__input shiny-bound-input",
-                onsubmit = "e.preventDefault()",
-                `aria-describedby` = "username-status"
+                icon = rheroicons::icons$user_circle(
+                    aria_hidden = TRUE
+                )
             ),
-            tags$label(`for` = ns("password"), "Password"),
-            tags$span(
-                id = "password-status",
-                class = "error-text",
-                role = "alert"
-            ),
-            tags$input(
-                id = ns("password"),
+            iceComponents::input(
+                inputId = ns("password"),
+                label = "Password",
                 type = "password",
-                class = "login__input shiny-bound-input",
-                `aria-describedby` = "password-status"
+                icon = rheroicons::icons$lock_closed(
+                    aria_hidden = TRUE
+                )
             ),
             tags$button(
                 id = ns("login"),
@@ -84,56 +74,51 @@ mod_login_server <- function(id, data, logged) {
         function(input, output, session) {
             ns <- session$ns
 
-            # build object containing namespace IDs (for use in js)
-            elems <- list(
-                user_input = ns("username"),
-                pass_input = ns("password")
-            )
-
-            # reset signin form error messages
-            reset_form <- function(elem = "signin-form-page") {
-                session$sendCustomMessage(
-                    type = "reset_login_form",
-                    message = list(elem = elem)
-                )
-            }
-
-            # send new message
-            show_login_error <- function(elem, error) {
-                session$sendCustomMessage(
-                    type = "show_login_error",
-                    message = list(elem = elem, error = error)
-                )
-            }
-
             # on submit
             observeEvent(input$login, {
-                reset_form()
+                iceComponents::clear_input(inputId = "username")
+                iceComponents::clear_input(inputId = "password")
 
                 # find user and passwords
                 usr <- which(data$username == input$username)
 
                 # if there is no match for user
-                if (input$username == "" && input$password == "") {
+                if (input$username == "" & input$password == "") {
 
                     # send + log error
-                    show_login_error(elems$user_input, "ERROR: Username is missing")
-                    show_login_error(elems$pass_input, "ERROR: Password is missing")
+                    iceComponents::invalidate_input(
+                        inputId = "username",
+                        error = "Username is missing"
+                    )
 
-                } else if (input$username == "" && !(input$password == "")) {
+                    iceComponents::invalidate_input(
+                        inputId = "password",
+                        error = "Password is missing"
+                    )
+
+                } else if (input$username == "" & !input$password == "") {
 
                     # send + log error
-                    show_login_error(elems$user_input, "ERROR: Username is missing")
+                    iceComponents::invalidate_input(
+                        inputId = "username",
+                        error = "Username is missing"
+                    )
 
-                } else if (!(input$username == "") && input$password == "") {
+                } else if (!input$username == "" & input$password == "") {
 
                     # send + log error
-                    show_login_error(elems$pass_input, "ERROR: Password is missing")
+                    iceComponents::invalidate_input(
+                        inputId = "password",
+                        error = "Password is missing"
+                    )
 
                 } else if (!length(usr)) {
 
                     # send + log error
-                    show_login_error(elems$user_input, "ERROR: Username is incorrect")
+                    iceComponents::invalidate_input(
+                        inputId = "username",
+                        error = "Username is incorrect"
+                    )
 
                 } else if (length(usr)) {
                     if (
@@ -144,8 +129,8 @@ mod_login_server <- function(id, data, logged) {
                     ) {
 
                         # reset and log
-                        updateTextInput(session, "username", value = "")
-                        updateTextInput(session, "password", value = "")
+                        iceComponents::reset_input(inputId = "username")
+                        iceComponents::reset_input(inputId = "password")
 
                         # change state
                         logged(TRUE)
@@ -153,16 +138,22 @@ mod_login_server <- function(id, data, logged) {
                     } else {
 
                         # send + log error
-                        show_login_error(
-                            elems$pass_input,
-                            "ERROR: Password is incorrect"
+                        iceComponents::invalidate_input(
+                            inputId = "password",
+                            error = "Password is incorrect"
                         )
                     }
                 } else {
 
                     # send and log error
-                    show_login_error(elems$user_input, "ERROR: Something went wrong")
-                    show_login_error(elems$pass_input, "ERROR: Something went wrong")
+                    iceComponents::invalidate_input(
+                        inputId = "username",
+                        error = "Something went wrong"
+                    )
+                    iceComponents::invalidate_input(
+                        inputId = "password",
+                        error = "Something went wrong"
+                    )
                 }
             })
         }

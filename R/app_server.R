@@ -56,6 +56,14 @@ app_server <- function(input, output, session) {
             # reset progress bar
             update_progress_bar(now = 0, max = length(pages))
 
+            # update document title
+            browsertools::set_document_title(
+                title = paste0(
+                    attributes(pages)$title, " | ",
+                    "Signin"
+                )
+            )
+
             # hide menu buttons
             browsertools::add_css("#item-restart-app", "item-hidden")
             browsertools::add_css("#item-signout-app", "item-hidden")
