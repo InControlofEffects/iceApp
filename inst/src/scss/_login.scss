@@ -20,39 +20,7 @@
         box-sizing: border-box;
         z-index: 1;
 
-        // input: text-based
-        input[type="text"],
-        input[type="password"] {
-            display: block;
-            font-size: 12pt;
-            color: $dark;
-            padding: 8px;
-            padding-left: 12px;
-            border: 2px solid transparent;
-            background-color: transparent;
-            margin-bottom: 16px;
-            box-shadow: inset 0 0 4px 0 #c5c5c5;
-            border-radius: 6px;
-
-            // focus events
-            &:focus {
-                border-color: $primary;
-            }
-
-            // invalid
-            &[aria-invalid="true"] {
-                border-color: $error;
-            }
-        }
-
-        .rheroicons_user_circle {
-            display: block;
-            width: 35px;
-            height: 35px;
-            margin: 0 auto;
-        }
-
-        h2 {
+        h1 {
             line-height: 1.1;
         }
 
@@ -62,18 +30,6 @@
             font-size: 14pt;
         }
 
-        label {
-            color: $text;
-        }
-
-        .error-text {
-            margin: 3px 0;
-        }
-
-        .login__input {
-            width: 93%;
-        }
-
         button[type="submit"] {
             margin-top: 21px;
             width: 100%;
@@ -81,10 +37,10 @@
     }
 }
 
-@media (min-width: 972px) {
+@media (min-width: 636px) {
     #signin {
         .form {
-            min-width: 350px;
+            min-width: 450px;
         }
     }
 }
