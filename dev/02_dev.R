@@ -2,7 +2,7 @@
 #' FILE: 02_dev.R
 #' AUTHOR: David Ruvolo
 #' CREATED: 2020-07-20
-#' MODIFIED: 2020-08-12
+#' MODIFIED: 2020-08-19
 #' PURPOSE: manage scripts, packages, files, data, etc.
 #' STATUS: ongoing
 #' PACKAGES: usethis; renv; golem
@@ -19,7 +19,7 @@ remotes::install_github("davidruvolo51/browsertools")
 remotes::install_github("davidruvolo51/rheroicons")
 remotes::install_github("InControlofEffects/iceComponents")
 remotes::install_github("InControlofEffects/iceData", auth_token = "")
-
+remotes::install_github("davidruvolo51/pkgbump")
 
 # add packages
 usethis::use_package("shiny", min_version = TRUE)
@@ -43,3 +43,14 @@ usethis::use_data_raw(name = "accounts")
 ## Tests ----
 ## Add one line by test you want to create
 usethis::use_test("app")
+
+
+# version number management
+pkgbump::set_pkgbump(
+    files = c(
+        "DESCRIPTION",
+        "package.json"
+    )
+)
+
+pkgbump::pkgbump(version = "0.0.1")
