@@ -15,13 +15,13 @@ app_server <- function(input, output, session) {
     mod_login_server("signin-form", accounts, logged, session_data)
 
     # page navigation for each subpage navigation component
-    mod_nav_server("instructions-a", navigation)
-    mod_nav_server("instructions-b", navigation)
-    mod_nav_server("instructions-c", navigation)
-    mod_nav_server("instructions-d", navigation)
-    mod_nav_server("sideEffects", navigation)
-    mod_nav_server("results", navigation)
-    mod_nav_server("quit", navigation)
+    mod_nav_server("instructions-a", navigation, session_data)
+    mod_nav_server("instructions-b", navigation, session_data)
+    mod_nav_server("instructions-c", navigation, session_data)
+    mod_nav_server("instructions-d", navigation, session_data)
+    mod_nav_server("sideEffects", navigation, session_data)
+    mod_nav_server("results", navigation, session_data)
+    mod_nav_server("quit", navigation, session_data)
 
     # output pages
     observe({
@@ -86,6 +86,11 @@ app_server <- function(input, output, session) {
     # onSubmit: generate recommendations
     observeEvent(input$`sideEffects-submit`, {
 
+        session_data$save_click(
+            btn = "side_effects_submit",
+            description = "side effect selections were submitted"
+        )
+
         # hide existing error messages
         reset_error_box(id = "side-effects-error")
 
@@ -103,6 +108,9 @@ app_server <- function(input, output, session) {
         # validate inputs
         response <- validate_side_effects(data = selections)
 
+        # save selections
+        session_data$save_selections(selections = selections)
+
         # process response
         if (response$ok) {
 
@@ -111,6 +119,19 @@ app_server <- function(input, output, session) {
 
             # write results with delay (time in milliseconds)
             write_se_results(response$data$recs, delay = 250)
+
+            # save click
+            session_data$save_click(
+                btn = "next_page",
+                description = paste0(
+                    "navigated to 'results' ",
+                    "(page ", navigation(), ")"
+                )
+            )
+
+            # save results
+            session_data$save_results(results = response$data$recs)
+
         }
 
         # process failed response
@@ -119,6 +140,10 @@ app_server <- function(input, output, session) {
             update_error_box(
                 id = "side-effects-error",
                 error = response$error$msg
+            )
+            session_data$save_error(
+                error = "sie_effects_error",
+                message = response$error$msg
             )
         }
 
@@ -138,11 +163,26 @@ app_server <- function(input, output, session) {
     # onClick: application restart
     observeEvent(input$appRestart, {
         navigation(1)
+
+        session_data$save_click(
+            btn = "app_restart",
+            description = paste0(
+                "application restarted, resetting to first page ",
+                "(page ", navigation(), ")"
+            )
+        )
     })
 
     # onClick: navigation bar logout
     observeEvent(input$appSignout, {
         navigation(1)
         logged(FALSE)
+        session_data$save_logout()
+    })
+
+
+    # on sesssion end
+    session$onSessionEnded(function() {
+        session_data$save_session_end()
     })
 }

@@ -16,6 +16,7 @@ session_analytics <- R6::R6Class(
 
             # set internal public variables
             private$.path <- path
+            private$.write_data()
         },
 
         # save state when user is logged in
@@ -27,7 +28,11 @@ session_analytics <- R6::R6Class(
                 time = Sys.time(),
                 id = "login",
                 item = "user logged in",
-                description = paste0("the user is now signed in as ", username)
+                description = paste0(
+                    "user signed in as '",
+                    username,
+                    "'"
+                )
             )
 
             private$.write_data()
@@ -40,7 +45,7 @@ session_analytics <- R6::R6Class(
                 time = Sys.time(),
                 id = "logout",
                 item = "user logout",
-                description = "the user is now logged out"
+                description = "user logged out"
             )
 
             private$.write_data()
@@ -100,7 +105,7 @@ session_analytics <- R6::R6Class(
                 time = Sys.time(),
                 id = "session",
                 item = "session ended",
-                description = "the app has stopped"
+                description = "user has stopped the app"
             )
 
             private$.write_data()
@@ -117,6 +122,7 @@ session_analytics <- R6::R6Class(
         .data = list(
             name = "iceApp_analytics",
             description = "analytics for the In Control of Effects webapp",
+            created = Sys.time(),
             username = NA,
             usertype = NA,
             logged = FALSE,
