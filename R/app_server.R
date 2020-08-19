@@ -9,9 +9,10 @@ app_server <- function(input, output, session) {
     # set primary reactiveValues
     logged <- reactiveVal(FALSE)
     navigation <- reactiveVal(1)
+    session_data <- session_analytics$new()
 
     # call login module
-    mod_login_server("signin-form", accounts, logged)
+    mod_login_server("signin-form", accounts, logged, session_data)
 
     # page navigation for each subpage navigation component
     mod_nav_server("instructions-a", navigation)

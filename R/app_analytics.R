@@ -1,7 +1,7 @@
 #' Analytics R6 class
 #'
 #' @noRd
-analytics <- R6::R6Class(
+session_analytics <- R6::R6Class(
     "Analytics",
     public = list(
         initialize = function() {
@@ -83,7 +83,7 @@ analytics <- R6::R6Class(
         },
 
         # log errors
-        save_errors = function(error, message) {
+        save_error = function(error, message) {
             private$.data$data[[length(private$.data$data) + 1]] <- list(
                 time = Sys.time(),
                 id = "errors",
@@ -139,35 +139,3 @@ analytics <- R6::R6Class(
         }
     )
 )
-
-
-x <- analytics$new()
-x$save_login(
-    username = "wallably",
-    usertype = "dev"
-)
-x$save_click(
-    btn = "next_button",
-    description = "next page clicked"
-)
-x$save_errors(
-    error = "server_error",
-    message = "something went wrong"
-)
-x$save_selections(
-    selections = data.frame(
-        x = 1,
-        y = 2,
-        z = 12
-    )
-)
-
-x$save_results(
-    results = data.frame(
-        a = 1453,
-        b = 1335,
-        x = 4441
-    )
-)
-x$save_logout()
-x$save_session_end()
