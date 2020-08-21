@@ -49,7 +49,8 @@ usethis::use_test("app")
 pkgbump::set_pkgbump(
     files = c(
         "DESCRIPTION",
-        "package.json"
+        "package.json",
+        "R/app_server.R"
     )
 )
 
