@@ -1,0 +1,25 @@
+{
+    "name": "name of the application",
+    "version": "current version of the application",
+    "session_id": "a unique identifier for the session (via session$token)",
+    "started" : "time the session was initiated",
+    "ended" : "time the session ended",
+    "logged" : "if FALSE, the user never signed into to the app",
+    "client" : {
+        "username" : "account name used to sign in",
+        "usertype" : "account type (i.e., dev, test, etc.)"
+    },
+    "meta" : {
+        "errors" : "total number of errors for the session",
+        "restarts" : "count of the number of times the restart button was clicked",
+        "sign_in_count" : "number of times the user signed in",
+        "sign_out_count" : "number of times the user signed out",
+        "se_submissions" : "number of times the user submitted side effects"
+    },
+    "data" : {
+        "time" : "time of event",
+        "id" : "an ID for the event",
+        "item" : "a name for the event",
+        "description" : "information about the event"
+    }
+}

@@ -19,3 +19,4 @@
 ^app\.R$
 ^rsconnect$
 ^dev$
+^\.pkgbump\.json$

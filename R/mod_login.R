@@ -65,10 +65,11 @@ mod_login_ui <- function(id, class = NULL) {
 #' @param id unique ID for an instance of a module
 #' @param data an object containing the user accounts
 #' @param logged a reactive object that manages the app logged in state
+#' @param analytics a session specific analytics module
 #'
 #' @importFrom sodium password_verify
 #' @noRd
-mod_login_server <- function(id, data, logged) {
+mod_login_server <- function(id, data, logged, analytics) {
     moduleServer(
         id,
         function(input, output, session) {
@@ -78,6 +79,12 @@ mod_login_server <- function(id, data, logged) {
             observeEvent(input$login, {
                 iceComponents::clear_input(inputId = "username")
                 iceComponents::clear_input(inputId = "password")
+
+                # save data
+                analytics$save_click(
+                    btn = "login",
+                    description = "login form data submitted"
+                )
 
                 # find user and passwords
                 usr <- which(data$username == input$username)
@@ -96,12 +103,23 @@ mod_login_server <- function(id, data, logged) {
                         error = "Password is missing"
                     )
 
+                    # log error
+                    analytics$save_error(
+                        error = "login_form",
+                        message = "username and password is missing"
+                    )
+
                 } else if (input$username == "" & !input$password == "") {
 
                     # send + log error
                     iceComponents::invalidate_input(
                         inputId = "username",
                         error = "Username is missing"
+                    )
+
+                    analytics$save_error(
+                        error = "login_form",
+                        message = "username is missing"
                     )
 
                 } else if (!input$username == "" & input$password == "") {
@@ -112,12 +130,22 @@ mod_login_server <- function(id, data, logged) {
                         error = "Password is missing"
                     )
 
+                    analytics$save_error(
+                        error = "login_form",
+                        message = "password is missing"
+                    )
+
                 } else if (!length(usr)) {
 
                     # send + log error
                     iceComponents::invalidate_input(
                         inputId = "username",
                         error = "Username is incorrect"
+                    )
+
+                    analytics$save_error(
+                        error = "login_form",
+                        message = "username is incorrect"
                     )
 
                 } else if (length(usr)) {
@@ -132,6 +160,11 @@ mod_login_server <- function(id, data, logged) {
                         iceComponents::reset_input(inputId = "username")
                         iceComponents::reset_input(inputId = "password")
 
+                        analytics$save_login(
+                            username = data$username[usr],
+                            usertype = data$type[usr]
+                        )
+
                         # change state
                         logged(TRUE)
 
@@ -141,6 +174,11 @@ mod_login_server <- function(id, data, logged) {
                         iceComponents::invalidate_input(
                             inputId = "password",
                             error = "Password is incorrect"
+                        )
+
+                        analytics$save_error(
+                            error = "login_form",
+                            message = "password is incorrect"
                         )
                     }
                 } else {
@@ -153,6 +191,10 @@ mod_login_server <- function(id, data, logged) {
                     iceComponents::invalidate_input(
                         inputId = "password",
                         error = "Something went wrong"
+                    )
+                    analytics$save_error(
+                        error = "login_form",
+                        message = "something went wrong"
                     )
                 }
             })

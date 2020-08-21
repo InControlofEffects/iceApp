@@ -104,9 +104,10 @@ mod_navigation_ui <- function(id, buttons) {
 #'
 #' @param id a unique ID per module instance
 #' @param counter a reactive counter that manages the page to render
+#' @param analytics an R6 class for managing application analytics
 #'
 #' @noRd
-mod_nav_server <- function(id, counter) {
+mod_nav_server <- function(id, counter, analytics) {
     moduleServer(
         id,
         function(input, output, session) {
@@ -114,30 +115,65 @@ mod_nav_server <- function(id, counter) {
             observeEvent(input$previousPage, {
                 fade_page()
                 counter(counter() - 1)
+                analytics$save_click(
+                    btn = "previous_page",
+                    description = paste0(
+                        "navigated to 'previous' ",
+                        "(page ", counter(), ")"
+                    )
+                )
             })
 
             # onClick: next page navigation button
             observeEvent(input$nextPage, {
                 fade_page()
                 counter(counter() + 1)
+                analytics$save_click(
+                    btn = "next_page",
+                    description = paste0(
+                        "navigated to 'next' ",
+                        "(page ", counter(), ")"
+                    )
+                )
             })
 
             # onClick: done button click
             observeEvent(input$done, {
                 fade_page()
                 counter(counter() + 1)
+                analytics$save_click(
+                    btn = "done_page",
+                    description = paste0(
+                        "navigated to 'done' ",
+                        "(page ", counter(), ")"
+                    )
+                )
             })
 
             # onClick: begin
             observeEvent(input$begin, {
                 fade_page()
                 counter(counter() + 1)
+                analytics$save_click(
+                    btn = "begin_page",
+                    description = paste0(
+                        "navigated to 'side effects' ",
+                        "(page ", counter(), ")"
+                    )
+                )
             })
 
             # onClick: reselect side effects + update attempts
             observeEvent(input$reselect, {
                 fade_page()
                 counter(counter() - 1)
+                analytics$save_click(
+                    btn = "previous_page",
+                    description = paste0(
+                        "navigated back to 'side effects' ",
+                        "(page ", counter(), ")"
+                    )
+                )
             })
         }
     )

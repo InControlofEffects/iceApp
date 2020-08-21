@@ -1,0 +1,10 @@
+{
+  "name": "pkgbump.config",
+  "updated": "2020-08-21 14:04:35",
+  "n": 3,
+  "files": ["DESCRIPTION", "package.json", "R/app_server.R"],
+  "patterns": {
+    "R": "version = .\\d+.\\d+.\\d+.|version=.\\d+.\\d+.\\d+.",
+    "DESCRIPTION": "Version:"
+  }
+}
