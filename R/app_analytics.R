@@ -4,7 +4,7 @@
 session_analytics <- R6::R6Class(
     "Analytics",
     public = list(
-        initialize = function() {
+        initialize = function(version, session = shiny::getDefaultReactiveDomain()) {
 
             # set and create new analytics file
             path <- paste0(
@@ -14,15 +14,18 @@ session_analytics <- R6::R6Class(
             )
             file.create(path)
 
-            # set internal public variables
+            # set private data
+            private$.data$session_id <- session$token
+            private$.data$version <- version
             private$.path <- path
             private$.write_data()
         },
 
-        # save state when user is logged in
+        # method: save state when user is logged in
         save_login = function(username, usertype) {
-            private$.data$username <- username
-            private$.data$usertype <- usertype
+            private$.data$client$username <- username
+            private$.data$client$usertype <- usertype
+            private$.data$meta$sign_in_count <- private$.data$meta$sign_in_count + 1
             private$.data$logged <- TRUE
             private$.data$data[[length(private$.data$data) + 1]] <- list(
                 time = Sys.time(),
@@ -38,9 +41,10 @@ session_analytics <- R6::R6Class(
             private$.write_data()
         },
 
-        # save logout
+        # method: save logout
         save_logout = function() {
-            private$.data$logged <- FALSE
+            # private$.data$logged <- FALSE
+            private$.data$meta$sign_out_count <- private$.data$meta$sign_out_count + 1
             private$.data$data[[length(private$.data$data) + 1]] <- list(
                 time = Sys.time(),
                 id = "logout",
@@ -51,7 +55,7 @@ session_analytics <- R6::R6Class(
             private$.write_data()
         },
 
-        # log button clicks
+        # method: save button clicks
         save_click = function(btn, description) {
             private$.data$data[[length(private$.data$data) + 1]] <- list(
                 time = Sys.time(),
@@ -63,8 +67,9 @@ session_analytics <- R6::R6Class(
             private$.write_data()
         },
 
-        # log user selections
+        # method: save side effects selections (regardless of error)
         save_selections = function(selections) {
+            private$.data$meta$se_submissions <- private$.data$meta$se_submissions + 1 
             private$.data$data[[length(private$.data$data) + 1]] <- list(
                 time = Sys.time(),
                 id = "selections",
@@ -75,7 +80,7 @@ session_analytics <- R6::R6Class(
             private$.write_data()
         },
 
-        # log results
+        # method: save medication recommendations
         save_results = function(results) {
             private$.data$data[[length(private$.data$data) + 1]] <- list(
                 time = Sys.time(),
@@ -87,8 +92,9 @@ session_analytics <- R6::R6Class(
             private$.write_data()
         },
 
-        # log errors
+        # method: save application errors
         save_error = function(error, message) {
+            private$.data$meta$errors <- private$.data$meta$errors + 1
             private$.data$data[[length(private$.data$data) + 1]] <- list(
                 time = Sys.time(),
                 id = "errors",
@@ -99,33 +105,73 @@ session_analytics <- R6::R6Class(
             private$.write_data()
         },
 
-        # on session end
-        save_session_end = function() {
+        # method: on app restart
+        save_restart = function() {
+            private$.data$meta$restarts <- private$.data$meta$restarts + 1
             private$.data$data[[length(private$.data$data) + 1]] <- list(
                 time = Sys.time(),
                 id = "session",
-                item = "session ended",
-                description = "user has stopped the app"
+                item = "app_restart",
+                description = "user has clicked the restart button"
             )
 
             private$.write_data()
         },
 
-        # print data
-        print = function(data = private$.data) {
-            print(data)
+        # method: when `session$onSessionEndend` is triggered
+        save_session_end = function() {
+            private$.data$ended <- Sys.time()
+            private$.data$data[[length(private$.data$data) + 1]] <- list(
+                time = Sys.time(),
+                id = "session",
+                item = "onSessionEnded",
+                description = "session has ended"
+            )
+
+            private$.write_data()
+        },
+
+        # method: print internal data to console
+        print = function() {
+            print(private$.data)
         }
 
     ),
+
+    # private methods
     private = list(
         .path = NA,
         .data = list(
-            name = "iceApp_analytics",
-            description = "analytics for the In Control of Effects webapp",
-            created = Sys.time(),
-            username = NA,
-            usertype = NA,
+
+            # basic information
+            name = "iceApp",
+            version = NA,
+            session_id = NA,
+            started = Sys.time(),
+            ended = NA,
+
+            # @param logged when TRUE, indicates that the user has logged in
+            # at least once. If FALSE, then the user did not sign on (i.e., did)
+            # ) did not have an account
             logged = FALSE,
+
+            # user info
+            client = list(
+                username = NA,
+                usertype = NA
+            ),
+
+            # summary data
+            meta = list(
+                errors = 0,
+                restarts = 0,
+                sign_in_count = 0,
+                sign_out_count = 0,
+                se_submissions = 0
+            ),
+
+            # activity (i.e., session history)
+            # all actions will be appended to to this list
             data = list(
                 list(
                     time = Sys.time(),
@@ -135,6 +181,8 @@ session_analytics <- R6::R6Class(
                 )
             )
         ),
+
+        # private method for saving data
         .write_data = function(data = private$.data, path = private$.path) {
             jsonlite::write_json(
                 x = data,

@@ -9,7 +9,7 @@ app_server <- function(input, output, session) {
     # set primary reactiveValues
     logged <- reactiveVal(FALSE)
     navigation <- reactiveVal(1)
-    session_data <- session_analytics$new()
+    session_data <- session_analytics$new(version = "0.0.1")
 
     # call login module
     mod_login_server("signin-form", accounts, logged, session_data)
@@ -163,7 +163,6 @@ app_server <- function(input, output, session) {
     # onClick: application restart
     observeEvent(input$appRestart, {
         navigation(1)
-
         session_data$save_click(
             btn = "app_restart",
             description = paste0(
@@ -171,6 +170,8 @@ app_server <- function(input, output, session) {
                 "(page ", navigation(), ")"
             )
         )
+
+        session_data$save_restart()
     })
 
     # onClick: navigation bar logout
