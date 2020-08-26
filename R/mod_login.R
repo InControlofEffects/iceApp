@@ -75,6 +75,12 @@ mod_login_server <- function(id, data, logged, analytics) {
         function(input, output, session) {
             ns <- session$ns
 
+            result <- reactiveValues(
+                status = FALSE,
+                username = NA,
+                usertype = NA
+            )
+
             # on submit
             observeEvent(input$login, {
                 iceComponents::clear_input(inputId = "username")
@@ -168,6 +174,10 @@ mod_login_server <- function(id, data, logged, analytics) {
                         # change state
                         logged(TRUE)
 
+                        result$status <- TRUE
+                        result$username <- data$username[usr]
+                        result$usertype <- data$type[usr]
+
                     } else {
 
                         # send + log error
@@ -198,6 +208,8 @@ mod_login_server <- function(id, data, logged, analytics) {
                     )
                 }
             })
+
+            return(result)
         }
     )
 }

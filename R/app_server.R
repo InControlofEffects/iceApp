@@ -9,10 +9,10 @@ app_server <- function(input, output, session) {
     # set primary reactiveValues
     logged <- reactiveVal(FALSE)
     navigation <- reactiveVal(1)
-    session_data <- session_analytics$new(version = "0.0.1")
+    session_data <- session_analytics$new(version = "0.0.11")
 
     # call login module
-    mod_login_server("signin-form", accounts, logged, session_data)
+    response <- mod_login_server("signin-form", accounts, logged, session_data)
 
     # page navigation for each subpage navigation component
     mod_nav_server("instructions-a", navigation, session_data)
@@ -29,26 +29,39 @@ app_server <- function(input, output, session) {
         # when logged
         if (logged()) {
 
-            # update progress bar
-            update_progress_bar(now = navigation(), max = length(pages))
-
-            # show menu buttons
-            browsertools::remove_css("#item-restart-app", "item-hidden")
+            # show logout button regardless of usertype
             browsertools::remove_css("#item-signout-app", "item-hidden")
 
-            # update document title
-            browsertools::set_document_title(
-                title = paste0(
-                    attributes(pages)$title, " | ",
-                    attributes(pages[[navigation()]])$title
-                )
-            )
 
-            # render page
-            browsertools::scroll_to()
-            output$current_page <- renderUI({
-                pages[[navigation()]]
-            })
+            # for default users
+            if (response$usertype %in% c("standard", "demo")) {
+
+                # init page
+                update_progress_bar(now = navigation(), max = length(pages))
+                browsertools::remove_css("#item-restart-app", "item-hidden")
+                browsertools::set_document_title(
+                    title = paste0(
+                        attributes(pages)$title, " | ",
+                        attributes(pages[[navigation()]])$title
+                    )
+                )
+
+                # render page based on navigation counter
+                browsertools::scroll_to()
+                output$current_page <- renderUI({
+                    pages[[navigation()]]
+                })
+            }
+
+            # admin panel
+            if (response$usertype == "admin") {
+                output$current_page <- renderUI({
+                    tagList(
+                        tags$h2("Admin Panel"),
+                        tags$p("This page is in development")
+                    )
+                })
+            }
         }
 
         # if unlogged, render signin page (on app load)
