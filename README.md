@@ -1,11 +1,6 @@
 
 ![in control of effects project](incontrolofeffects.png)
 
-<!-- badges: start -->
-[![R build status](https://github.com/InControlofEffects/iceApp/workflows/R-CMD-check/badge.svg)](https://github.com/InControlofEffects/iceApp/actions)
-[![Travis build status](https://travis-ci.com/InControlofEffects/iceApp.svg?branch=master)](https://travis-ci.com/InControlofEffects/iceApp)
-<!-- badges: end -->
-
 # In Control of Effects
 
 The In Control of Effects application is a shiny app that provides antipsychotic medication recommendations based on an individual's preference for avoiding side effects. This project aims to initiate a discussion between the individual and their psychiatrist regarding antipsychotic medications and the risk of side effects.
