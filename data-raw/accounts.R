@@ -16,7 +16,7 @@
 accounts <- data.frame(
     username = c("wallaby"),
     password = c("wall2200"), # sample password
-    type = c("standard")
+    type = c("demo")
 )
 
 # encrypt password

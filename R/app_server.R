@@ -9,7 +9,7 @@ app_server <- function(input, output, session) {
     # set primary reactiveValues
     logged <- reactiveVal(FALSE)
     navigation <- reactiveVal(1)
-    session_data <- session_analytics$new(version = "0.0.1")
+    session_data <- session_analytics$new(version = "0.0.11")
 
     # call login module
     response <- mod_login_server("signin-form", accounts, logged, session_data)
@@ -34,7 +34,7 @@ app_server <- function(input, output, session) {
 
 
             # for default users
-            if (response$usertype == "standard") {
+            if (response$usertype %in% c("standard", "demo")) {
 
                 # init page
                 update_progress_bar(now = navigation(), max = length(pages))
