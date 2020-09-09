@@ -54,7 +54,7 @@ pkgbump::set_pkgbump(
     )
 )
 
-pkgbump::pkgbump(version = "0.0.11")
+pkgbump::pkgbump(version = "0.0.12")
 
 
 # clean up logs post dev

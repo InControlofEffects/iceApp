@@ -226,10 +226,10 @@
     },
     "glue": {
       "Package": "glue",
-      "Version": "1.4.1",
+      "Version": "1.4.2",
       "Source": "Repository",
       "Repository": "CRAN",
-      "Hash": "f43e0d5e85ccb0a4045670c0607ee504"
+      "Hash": "6efd734b14c6471cfe443345f3e35e29"
     },
     "golem": {
       "Package": "golem",
@@ -275,7 +275,7 @@
     },
     "iceComponents": {
       "Package": "iceComponents",
-      "Version": "0.0.21",
+      "Version": "0.0.23",
       "Source": "GitHub",
       "Remotes": "davidruvolo51/rheroicons",
       "RemoteType": "github",
@@ -283,8 +283,8 @@
       "RemoteRepo": "iceComponents",
       "RemoteUsername": "InControlofEffects",
       "RemoteRef": "HEAD",
-      "RemoteSha": "9576c0428202eed2e6fda171fae500e18e7ef190",
-      "Hash": "abd4c2ffa6dc4491df3fe38542cf99f9"
+      "RemoteSha": "28692943a04394187bd64c1ec4542d36422e3ed0",
+      "Hash": "005552fa101b59c911e76cc2a11fd92f"
     },
     "iceData": {
       "Package": "iceData",
@@ -307,10 +307,10 @@
     },
     "jsonlite": {
       "Package": "jsonlite",
-      "Version": "1.7.0",
+      "Version": "1.7.1",
       "Source": "Repository",
       "Repository": "CRAN",
-      "Hash": "2657f20b9a74c996c602e74ebe540b06"
+      "Hash": "1ec84e070b88b37ed169f19def40d47c"
     },
     "knitr": {
       "Package": "knitr",
@@ -454,15 +454,15 @@
     },
     "rheroicons": {
       "Package": "rheroicons",
-      "Version": "0.1.5",
+      "Version": "0.2.0",
       "Source": "GitHub",
       "RemoteType": "github",
       "RemoteHost": "api.github.com",
       "RemoteRepo": "rheroicons",
       "RemoteUsername": "davidruvolo51",
       "RemoteRef": "HEAD",
-      "RemoteSha": "2bb4a41a78a2f1578ab42fefbb83b2adc865b426",
-      "Hash": "9c02003d9e96e2204b20b9c19e422130"
+      "RemoteSha": "5a83829d746d71b878e8cbbeec55bdcc4258c9f0",
+      "Hash": "7f1b9500dc2cf68d4a8a31316b2916e7"
     },
     "rlang": {
       "Package": "rlang",

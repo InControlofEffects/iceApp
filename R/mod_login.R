@@ -38,17 +38,13 @@ mod_login_ui <- function(id, class = NULL) {
                 inputId = ns("username"),
                 label = "Username",
                 type = "text",
-                icon = rheroicons::icons$user_circle(
-                    aria_hidden = TRUE
-                )
+                icon = rheroicons::rheroicon(name = "user_circle")
             ),
             iceComponents::input(
                 inputId = ns("password"),
                 label = "Password",
                 type = "password",
-                icon = rheroicons::icons$lock_closed(
-                    aria_hidden = TRUE
-                )
+                icon = rheroicons::rheroicon(name = "lock_closed")
             ),
             tags$button(
                 id = ns("login"),
