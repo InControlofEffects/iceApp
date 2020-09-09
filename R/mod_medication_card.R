@@ -21,7 +21,7 @@ mod_medication_card_ui <- function(id, title = "", type = "recommended") {
         )
         parent$children <- tagList(
             title,
-            rheroicons::icons$check_circle(type = "solid", aria_hidden = TRUE)
+            rheroicons::rheroicon(name = "check_circle", type = "solid")
         )
     }
 
@@ -33,7 +33,7 @@ mod_medication_card_ui <- function(id, title = "", type = "recommended") {
         )
         parent$children <- tagList(
             title,
-            rheroicons::icons$exclamation(type = "solid", aria_hidden = TRUE)
+            rheroicons::rheroicon(name = "exclamation", type = "solid")
         )
     }
 

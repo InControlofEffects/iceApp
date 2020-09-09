@@ -32,10 +32,10 @@ app_ui <- function(request) {
                         role = "menuitem",
                         id = "appRestart",
                         class = "action-button shiny-bound-input menu-button",
-                        rheroicons::icons$refresh(
+                        rheroicons::rheroicon(
+                            name = "refresh",
                             type = "outline",
-                            class = "menu-button-icon",
-                            aria_hidden = TRUE
+                            classnames = "menu-button-icon"
                         ),
                         tags$span(
                             class = "menu-button-label",
@@ -51,10 +51,10 @@ app_ui <- function(request) {
                         id = "appSignout",
                         role = "menuitem",
                         class = "action-button shiny-bound-input menu-button",
-                        rheroicons::icons$logout(
+                        rheroicons::rheroicon(
+                            name = "logout",
                             type = "outline",
-                            class = "menu-button-icon",
-                            aria_hidden = TRUE
+                            classnames = "menu-button-icon"
                         ),
                         tags$span(
                             class = "menu-button-label",

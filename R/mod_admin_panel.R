@@ -21,9 +21,9 @@ mod_admin_panel_ui <- function(id) {
                 tags$button(
                     id = "add",
                     class = "shiny-bound-input action-button default",
-                    rheroicons::icons$user_add(
-                        type = "solid",
-                        aria_hidden = TRUE
+                    rheroicons::rheroicon(
+                        name = "user_add",
+                        type = "solid"
                     ),
                     "Add Account"
                 )

@@ -15,7 +15,7 @@ error_box <- function(id, class = NULL) {
         class = "error-box",
         role = "alert",
         hidden = "",
-        rheroicons::icons$exclamation(type = "outline", aria_hidden = TRUE),
+        rheroicons::rheroicon(name = "exclamation", type = "outline"),
         tags$span(
             id = paste0(id, "-error-message"),
             class = "error-box-text"

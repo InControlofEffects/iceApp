@@ -18,9 +18,9 @@ mod_navigation_ui <- function(id, buttons) {
     btns$previous <- tags$button(
         id = ns("previousPage"),
         class = "shiny-bound-input action-button default",
-        rheroicons::icons$chevron_left(
-            type = "outline",
-            aria_hidden = TRUE
+        rheroicons::rheroicon(
+            name = "chevron_left",
+            type = "outline"
         ),
         "Previous"
     )
@@ -30,9 +30,9 @@ mod_navigation_ui <- function(id, buttons) {
         id = ns("nextPage"),
         class = "shiny-bound-input action-button primary",
         "Next",
-        rheroicons::icons$chevron_right(
-            type = "outline",
-            aria_hidden = TRUE
+        rheroicons::rheroicon(
+            name = "chevron_right",
+            type = "outline"
         )
     )
 
@@ -41,9 +41,9 @@ mod_navigation_ui <- function(id, buttons) {
         id = ns("begin"),
         class = "shiny-bound-input action-button primary",
         "Begin",
-        rheroicons::icons$chevron_right(
-            type = "outline",
-            aria_hidden = TRUE
+        rheroicons::rheroicon(
+            name = "chevron_right",
+            type = "outline"
         )
     )
 
@@ -52,9 +52,9 @@ mod_navigation_ui <- function(id, buttons) {
         id = ns("submit"),
         class = "shiny-bound-input action-button primary",
         "Submit",
-        rheroicons::icons$chevron_right(
-            type = "solid",
-            aria_hidden = TRUE
+        rheroicons::rheroicon(
+            name = "chevron_right",
+            type = "solid"
         )
     )
 
@@ -62,9 +62,9 @@ mod_navigation_ui <- function(id, buttons) {
     btns$reselect <- tags$button(
         id = ns("reselect"),
         class = "shiny-bound-input action-button default",
-        rheroicons::icons$chevron_left(
-            type = "outline",
-            aria_hidden = TRUE
+        rheroicons::rheroicon(
+            name = "chevron_left",
+            type = "outline"
         ),
         "Previous"
     )
@@ -74,9 +74,9 @@ mod_navigation_ui <- function(id, buttons) {
         id = ns("done"),
         class = "shiny-bound-input action-button primary",
         "Done",
-        rheroicons::icons$chevron_right(
-            type = "solid",
-            aria_hidden = TRUE
+        rheroicons::rheroicon(
+            name = "chevron_right",
+            type = "solid"
         )
     )
 
