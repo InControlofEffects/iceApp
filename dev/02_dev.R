@@ -91,9 +91,13 @@ usethis::use_build_ignore(
     files = c(
         gitignore,
         "config",
+        "data-raw",
         "dev",
+        "logs",
         "src",
+        ".babelrc",
         ".pkgbump.json",
+        "app.R",
         "CODE_OF_CONDUCT.md",
         "iceApp.code-workspace",
         "incontrolofeffects.png",
