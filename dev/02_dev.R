@@ -45,6 +45,9 @@ usethis::use_data_raw(name = "accounts")
 usethis::use_test("app")
 
 
+#'//////////////////////////////////////
+
+#' ~ 2 ~
 # version number management
 pkgbump::set_pkgbump(
     files = c(
@@ -54,11 +57,49 @@ pkgbump::set_pkgbump(
     )
 )
 
-pkgbump::pkgbump(version = "0.0.12")
+pkgbump::pkgbump(version = "0.0.2")
 
 
+#'//////////////////////////////////////
+
+#' ~ 3 ~
 # clean up logs post dev
 sapply(
     list.files("logs", pattern = "analytics_", full.names = TRUE),
     file.remove
+)
+
+#'//////////////////////////////////////
+
+#' ~ 99 ~
+#' Ignore Files
+
+# use ignore files
+gitignore <- c(
+    "node_modules",
+    ".Rproj.user",
+    ".Rhistory",
+    ".RData",
+    ".Ruserdata",
+    "renv/library/",
+    "renv/python/",
+    "renv/staging/"
+)
+
+usethis::use_git_ignore(gitignore)
+usethis::use_build_ignore(
+    files = c(
+        gitignore,
+        "config",
+        "dev",
+        "src",
+        ".pkgbump.json",
+        "CODE_OF_CONDUCT.md",
+        "iceApp.code-workspace",
+        "incontrolofeffects.png",
+        "package.json",
+        "postcss.config.js",
+        "webpack.config.js",
+        "yarn.lock"
+    )
 )

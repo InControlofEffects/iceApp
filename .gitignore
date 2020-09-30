@@ -1,8 +1,8 @@
+node_modules
 .Rproj.user
 .Rhistory
 .RData
 .Ruserdata
-server/database/users.R
-.sass-cache
-node_modules/
-.cache/
+renv/library/
+renv/python/
+renv/staging/

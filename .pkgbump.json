@@ -1,6 +1,6 @@
 {
   "name": "pkgbump.config",
-  "updated": "2020-09-09 10:15:33",
+  "updated": "2020-09-30 17:48:45",
   "n": 3,
   "files": ["DESCRIPTION", "package.json", "R/app_server.R"],
   "patterns": {
