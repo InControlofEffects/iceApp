@@ -350,7 +350,8 @@ pages$quit <- tags$article(
     ),
     tags$p(
         "You may now close this window or return to", tags$a(
-            href = "incontrolofeffects.com", "incontrolfofeffects.com"
+            href = "https://incontrolofeffects.com",
+            "incontrolfofeffects.com"
         ), "."
     )
 )

@@ -9,7 +9,7 @@ app_server <- function(input, output, session) {
     # set primary reactiveValues
     logged <- reactiveVal(FALSE)
     navigation <- reactiveVal(1)
-    session_data <- session_analytics$new(version = "0.0.12")
+    session_data <- session_analytics$new(version = "0.0.2")
 
     # call login module
     response <- mod_login_server("signin-form", accounts, logged, session_data)

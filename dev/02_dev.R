@@ -2,7 +2,7 @@
 #' FILE: 02_dev.R
 #' AUTHOR: David Ruvolo
 #' CREATED: 2020-07-20
-#' MODIFIED: 2020-08-19
+#' MODIFIED: 2020-09-30
 #' PURPOSE: manage scripts, packages, files, data, etc.
 #' STATUS: ongoing
 #' PACKAGES: usethis; renv; golem
@@ -45,6 +45,9 @@ usethis::use_data_raw(name = "accounts")
 usethis::use_test("app")
 
 
+#'//////////////////////////////////////
+
+#' ~ 2 ~
 # version number management
 pkgbump::set_pkgbump(
     files = c(
@@ -54,11 +57,53 @@ pkgbump::set_pkgbump(
     )
 )
 
-pkgbump::pkgbump(version = "0.0.12")
+pkgbump::pkgbump(version = "0.0.2")
 
 
+#'//////////////////////////////////////
+
+#' ~ 3 ~
 # clean up logs post dev
 sapply(
     list.files("logs", pattern = "analytics_", full.names = TRUE),
     file.remove
+)
+
+#'//////////////////////////////////////
+
+#' ~ 99 ~
+#' Ignore Files
+
+# use ignore files
+gitignore <- c(
+    "node_modules",
+    ".Rproj.user",
+    ".Rhistory",
+    ".RData",
+    ".Ruserdata",
+    "renv/library/",
+    "renv/python/",
+    "renv/staging/"
+)
+
+usethis::use_git_ignore(gitignore)
+usethis::use_build_ignore(
+    files = c(
+        gitignore,
+        "config",
+        "data-raw",
+        "dev",
+        "logs",
+        "src",
+        ".babelrc",
+        ".pkgbump.json",
+        "app.R",
+        "CODE_OF_CONDUCT.md",
+        "iceApp.code-workspace",
+        "incontrolofeffects.png",
+        "package.json",
+        "postcss.config.js",
+        "webpack.config.js",
+        "yarn.lock"
+    )
 )
