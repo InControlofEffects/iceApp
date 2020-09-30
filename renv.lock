@@ -74,15 +74,15 @@
     },
     "browsertools": {
       "Package": "browsertools",
-      "Version": "0.1.73",
+      "Version": "0.1.8",
       "Source": "GitHub",
       "RemoteType": "github",
       "RemoteHost": "api.github.com",
       "RemoteRepo": "browsertools",
       "RemoteUsername": "davidruvolo51",
       "RemoteRef": "HEAD",
-      "RemoteSha": "fb80b57f7562717e3155320224e0710ee49bda81",
-      "Hash": "ce65f8e8bf35f8a9ac4e32bcbb8df04b"
+      "RemoteSha": "fe13a498c387f8d456ded8c8e6cd39ed210ebfe3",
+      "Hash": "f6eeb12082d8564ebd7a3c1700204339"
     },
     "callr": {
       "Package": "callr",
@@ -275,7 +275,7 @@
     },
     "iceComponents": {
       "Package": "iceComponents",
-      "Version": "0.0.23",
+      "Version": "0.0.4",
       "Source": "GitHub",
       "Remotes": "davidruvolo51/rheroicons",
       "RemoteType": "github",
@@ -283,8 +283,8 @@
       "RemoteRepo": "iceComponents",
       "RemoteUsername": "InControlofEffects",
       "RemoteRef": "HEAD",
-      "RemoteSha": "28692943a04394187bd64c1ec4542d36422e3ed0",
-      "Hash": "005552fa101b59c911e76cc2a11fd92f"
+      "RemoteSha": "62ecd5b19dff34b34c936f58a065f90cb5440f36",
+      "Hash": "a49670040532dd2c87488702d2b941e0"
     },
     "iceData": {
       "Package": "iceData",
@@ -454,15 +454,15 @@
     },
     "rheroicons": {
       "Package": "rheroicons",
-      "Version": "0.2.0",
+      "Version": "0.2.21",
       "Source": "GitHub",
       "RemoteType": "github",
       "RemoteHost": "api.github.com",
       "RemoteRepo": "rheroicons",
       "RemoteUsername": "davidruvolo51",
       "RemoteRef": "HEAD",
-      "RemoteSha": "5a83829d746d71b878e8cbbeec55bdcc4258c9f0",
-      "Hash": "7f1b9500dc2cf68d4a8a31316b2916e7"
+      "RemoteSha": "6ab89a8b31047f94b3802bc29e197f26bff1bdec",
+      "Hash": "5c3a619340b2d854b0af3e02e3232dda"
     },
     "rlang": {
       "Package": "rlang",
@@ -515,10 +515,10 @@
     },
     "stringi": {
       "Package": "stringi",
-      "Version": "1.4.6",
+      "Version": "1.5.3",
       "Source": "Repository",
       "Repository": "CRAN",
-      "Hash": "e99d8d656980d2dd416a962ae55aec90"
+      "Hash": "a063ebea753c92910a4cca7b18bc1f05"
     },
     "stringr": {
       "Package": "stringr",
@@ -592,10 +592,10 @@
     },
     "withr": {
       "Package": "withr",
-      "Version": "2.2.0",
+      "Version": "2.3.0",
       "Source": "Repository",
       "Repository": "CRAN",
-      "Hash": "ecd17882a0b4419545691e095b74ee89"
+      "Hash": "7307d79f58d1885b38c4f4f1a8cb19dd"
     },
     "xfun": {
       "Package": "xfun",
