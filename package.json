@@ -6,9 +6,31 @@
   "license": "MIT",
   "scripts": {
     "shiny": "Rscript -e \"shiny::runApp(launch.browser = FALSE, port = 8000)\"",
-    "dev": "parcel inst/src/index.js -d inst/app/www -o inst/app/www/ice.min.js --no-source-maps",
-    "build": "parcel build inst/src/index.js -d inst/app/www -o inst/app/www/ice.min.js --no-source-maps",
-    "clean": "rm -rf inst/app/www/ice.min.* .cache"
+    "start": "webpack-dev-server --env dev",
+    "build": "webpack --env prod"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.11.6",
+    "@babel/preset-env": "^7.11.5",
+    "autoprefixer": "9.8.6",
+    "babel-loader": "^8.1.0",
+    "clean-webpack-plugin": "^3.0.0",
+    "copy-webpack-plugin": "^6.1.1",
+    "css-loader": "^4.3.0",
+    "file-loader": "^6.1.0",
+    "html-webpack-plugin": "^4.5.0",
+    "mini-css-extract-plugin": "^0.11.2",
+    "optimize-css-assets-webpack-plugin": "^5.0.4",
+    "postcss-combine-media-query": "^1.0.1",
+    "postcss-loader": "^4.0.2",
+    "postcss-modules": "^3.2.2",
+    "sass": "^1.26.11",
+    "sass-loader": "^10.0.2",
+    "terser-webpack-plugin": "^4.2.2",
+    "webpack": "^4.44.2",
+    "webpack-cli": "^3.3.12",
+    "webpack-dev-server": "^3.11.0",
+    "webpack-merge": "^5.1.4"
   },
   "keywords": [
     "r",
@@ -20,16 +42,5 @@
   },
   "bugs": {
     "url": "https://github.com/InControlofEffects/iceApp/issues"
-  },
-  "devDependencies": {
-    "parcel": "1.12.4",
-    "@babel/core": "^7.10.3",
-    "@babel/cli": "^7.10.3",
-    "@babel/preset-env": "^7.10.3",
-    "babel-preset-minify": "^0.5.1",
-    "sass": "^1.26.8",
-    "postcss-modules": "^2.0.0",
-    "autoprefixer": "^9.8.2",
-    "cssnano": "^4.1.10"
   }
 }

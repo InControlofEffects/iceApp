@@ -130,7 +130,7 @@ golem_helmet <- function() {
         tags$link(
             rel = "stylesheet",
             type = "text/css",
-            href = "www/ice.min.css"
+            href = "www/incontrolofeffectsapp.min.css"
         ),
         tags$title("In Control of Effects"),
 
@@ -157,7 +157,7 @@ golem_js_assets <- function() {
 
     # load static assets
     tagList(
-        tags$script(src = "www/ice.min.js")
+        tags$script(src = "www/incontrolofeffectsapp.min.js")
     )
 
 }
