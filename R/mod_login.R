@@ -170,10 +170,6 @@ mod_login_server <- function(id, data, logged, analytics) {
                         # change state
                         logged(TRUE)
 
-                        result$status <- TRUE
-                        result$username <- data$username[usr]
-                        result$usertype <- data$type[usr]
-
                     } else {
 
                         # send + log error

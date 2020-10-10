@@ -2,7 +2,6 @@
 #'
 #' Internal object that contains the HTML content for all subpages
 #'
-#' @importFrom shiny tags tagList
 #' @noRd
 pages <- list()
 
@@ -13,9 +12,9 @@ attr(pages, "title") <- "In Control of Effects"
 
 
 # Instructions page 1
-pages$instructions_a <- tags$article(
-    id = "instructions-a",
-    class = "page fadeIn instructions-page",
+pages$instructions_a <- iceComponents::page(
+    inputId = "instructions-a",
+    class = "fadeIn instructions-page",
     `aria-labelledby` = "instructions-a-title",
     tags$h1(
         id = "instructions-a-title",
@@ -45,9 +44,9 @@ attr(pages$instructions_a, "title") <- "Welcome!"
 
 
 # Instructions Page 2
-pages$instructions_b <- tags$article(
-    id = "instructions-b",
-    class = "page fadeIn instructions-page",
+pages$instructions_b <- iceComponents::page(
+    inputId = "instructions-b",
+    class = "fadeIn instructions-page",
     `aria-labelledby` = "how-to-use-this-app",
     tags$h1(
         id = "how-to-use-this-app",
@@ -79,9 +78,9 @@ attr(pages$instructions_b, "title") <- "How to use this app"
 
 
 # Instructions Page 3
-pages$instructions_c <- tags$article(
-    id = "instructions-c",
-    class = "page fadeIn instructions-page",
+pages$instructions_c <- iceComponents::page(
+    inputId = "instructions-c",
+    class = "fadeIn instructions-page",
     `aria-labelledby` = "how-to-select-side-effects",
     tags$h1(
         id = "how-to-select-side-effects",
@@ -95,7 +94,8 @@ pages$instructions_c <- tags$article(
     ),
     tags$p(
         "You can also view more information about each side effect by tapping",
-        "or clicking the open icon", rheroicons::rheroicon(name = "chevron_down"),
+        "or clicking the open icon",
+        rheroicons::rheroicon(name = "chevron_down"),
         ". When you have made your selection, press the submit button to view",
         "the results."
     ),
@@ -113,9 +113,9 @@ attr(pages$instructions_c, "title") <- "How to select side effects"
 
 
 
-pages$instructions_d <- tags$article(
-    id = "instructions-d",
-    class = "page fadeIn instructions-page",
+pages$instructions_d <- iceComponents::page(
+    inputId = "instructions-d",
+    class = "fadeIn instructions-page",
     `aria-labelledby` = "what-this-app-does-not-do",
     tags$h1(
         id = "what-this-app-does-not-do",
@@ -157,9 +157,9 @@ attr(pages$instructions_d, "title") <- "What this app does not do"
 # - qtc             : Irregular Heartbeat
 # - sedation        : Feeling Sleepy of Drowsy
 # - weight_gain     : Weight Gain
-pages$side_effects <- tags$article(
-    id = "side-effects",
-    class = "page fadeIn card-page page-extra-top-spacing",
+pages$side_effects <- iceComponents::page(
+    inputId = "side-effects",
+    class = "fadeIn card-page page-extra-top-spacing",
     `aria-labelledby` = "which-side-effect-would-you-like-to-avoid",
     tags$h1(
         id = "which-side-effect-would-you-like-to-avoid",
@@ -169,7 +169,7 @@ pages$side_effects <- tags$article(
         id = "side-effects-selection-title",
         "Click or tap the name of the side effect you would like to avoid."
     ),
-    error_box(id = "side-effects-error"),
+    iceComponents::error_box(inputId = "side-effects-error"),
     tags$form(
         id = "side-effects-selection",
         class = "card-group side-effect-cards",
@@ -291,9 +291,9 @@ attr(pages$side_effects, "title") <- "Select Side Effects"
 
 
 # Results Page
-pages$results <- tags$article(
-    id = "results",
-    class = "page fadeIn results page-extra-top-spacing",
+pages$results <- iceComponents::page(
+    inputId = "results",
+    class = "fadeIn results page-extra-top-spacing",
     `aria-labelledby` = "results-title",
     tags$h1(
         id = "results-title",
@@ -308,19 +308,55 @@ pages$results <- tags$article(
         "medication list have a high likelihood of causing of the",
         "side effect that you selected."
     ),
-    tags$div(
-        class = "card-group medication-cards rx-recommended",
+    iceComponents::card_group(
+        class = "medication-cards rx-recommended",
         tags$h2(id = "recRxTitle", "Recommended"),
-        mod_medication_card_ui(id = "rec-rx-a", type = "recommended"),
-        mod_medication_card_ui(id = "rec-rx-b", type = "recommended"),
-        mod_medication_card_ui(id = "rec-rx-c", type = "recommended")
+        iceComponents::card(
+            inputId = "rec-rx-a",
+            text = "",
+            icon_name = "check_circle",
+            icon_type = "solid",
+            class = "recommended"
+        ),
+        iceComponents::card(
+            inputId = "rec-rx-b",
+            text = "",
+            icon_name = "check_circle",
+            icon_type = "solid",
+            class = "recommended"
+        ),
+        iceComponents::card(
+            inputId = "rec-rx-c",
+            text = "",
+            icon_name = "check_circle",
+            icon_type = "solid",
+            class = "recommended"
+        )
     ),
-    tags$div(
-        class = "card-group medication-cards rx-avoid",
+    iceComponents::card_group(
+        class = "medication-cards rx-avoid",
         tags$h2(id = "avoidRxTitle", "Avoid"),
-        mod_medication_card_ui(id = "avoid-rx-a", type = "avoid"),
-        mod_medication_card_ui(id = "avoid-rx-b", type = "avoid"),
-        mod_medication_card_ui(id = "avoid-rx-c", type = "avoid")
+        iceComponents::card(
+            inputId = "avoid-rx-a",
+            text = "",
+            icon_name = "exclamation",
+            icon_type = "solid",
+            class = "avoid"
+        ),
+        iceComponents::card(
+            inputId = "avoid-rx-b",
+            text = "",
+            icon_name = "exclamation",
+            icon_type = "solid",
+            class = "avoid"
+        ),
+        iceComponents::card(
+            inputId = "avoid-rx-c",
+            text = "",
+            icon_name = "exclamation",
+            icon_type = "solid",
+            class = "avoid"
+        )
     ),
     mod_navigation_ui(id = "results", buttons = c("reselect", "done"))
 )
@@ -333,9 +369,9 @@ attr(pages$results, "title") <- "Results"
 
 
 # Quit Page
-pages$quit <- tags$article(
-    id = "quit",
-    class = "page fadeIn page-extra-top-spacing",
+pages$quit <- iceComponents::page(
+    inputId = "quit",
+    class = "fadeIn page-extra-top-spacing",
     tags$h1(
         "Thank you for using the",
         tags$span("In Control of Effects"),

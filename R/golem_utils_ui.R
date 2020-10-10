@@ -1,9 +1,7 @@
 #' App logo
 #'
-#' @param ... attributes to be passed down to the SVG element
-#'
 #' @noRd
-app__logo <- function(...) {
+app__logo <- function() {
     tag(
         `_tag_name` = "svg",
         list(

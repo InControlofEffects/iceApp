@@ -105,15 +105,17 @@ mod_navigation_ui <- function(id, buttons) {
 #' @param id a unique ID per module instance
 #' @param counter a reactive counter that manages the page to render
 #' @param analytics an R6 class for managing application analytics
+#' @param pb an R6 object for the progressbar
 #'
 #' @noRd
-mod_nav_server <- function(id, counter, analytics) {
+mod_nav_server <- function(id, counter, analytics, pb) {
     moduleServer(
         id,
         function(input, output, session) {
             # onClick: previous page navigation button
             observeEvent(input$previousPage, {
                 fade_page()
+                pb$decrease()
                 counter(counter() - 1)
                 analytics$save_click(
                     btn = "previous_page",
@@ -127,6 +129,7 @@ mod_nav_server <- function(id, counter, analytics) {
             # onClick: next page navigation button
             observeEvent(input$nextPage, {
                 fade_page()
+                pb$increase()
                 counter(counter() + 1)
                 analytics$save_click(
                     btn = "next_page",
@@ -140,6 +143,7 @@ mod_nav_server <- function(id, counter, analytics) {
             # onClick: done button click
             observeEvent(input$done, {
                 fade_page()
+                pb$increase()
                 counter(counter() + 1)
                 analytics$save_click(
                     btn = "done_page",
@@ -153,6 +157,7 @@ mod_nav_server <- function(id, counter, analytics) {
             # onClick: begin
             observeEvent(input$begin, {
                 fade_page()
+                pb$increase()
                 counter(counter() + 1)
                 analytics$save_click(
                     btn = "begin_page",
@@ -166,6 +171,7 @@ mod_nav_server <- function(id, counter, analytics) {
             # onClick: reselect side effects + update attempts
             observeEvent(input$reselect, {
                 fade_page()
+                pb$decrease()
                 counter(counter() - 1)
                 analytics$save_click(
                     btn = "previous_page",
