@@ -12,58 +12,6 @@
 // import scss
 import "./scss/index.scss"
 
-// import js
-import update_progress_bar from "./js/_progress"
-import { update_error_box, reset_error_box, reset_error_text, update_error_text } from "./js/_errors"
-
-////////////////////////////////////////
-
-// DOMContentLoaded event: execute only once
-window.addEventListener("DOMContentLoaded", function (e) {
-
-    // update html attributes
-    const html = document.getElementsByTagName("html")[0];
-    html.lang = "en";
-    html.dir = "ltr";
-
-}, { once: true });
-
-////////////////////////////////////////
-
-// bind: show_login_error
-Shiny.addCustomMessageHandler("show_login_error", function (data) {
-    show_login_error(data.elem, data.error);
-});
-
-// bind: update_error_box
-Shiny.addCustomMessageHandler("update_error_box", function (data) {
-    update_error_box(data.id, data.error);
-});
-
-// bind: reset_error_box
-Shiny.addCustomMessageHandler("reset_error_box", function (data) {
-    reset_error_box(data.id);
-});
-
-
-// bind: update_error_text
-Shiny.addCustomMessageHandler("update_error_text", function (data) {
-    update_error_text(data.id, data.error);
-});
-
-// bind: reset_error_text
-Shiny.addCustomMessageHandler("reset_error_text", function (data) {
-    reset_error_text(data.id);
-});
-
-
-// bind: update_progress_bar
-Shiny.addCustomMessageHandler("update_progress_bar", function (data) {
-    setTimeout(function () {
-        update_progress_bar(data.elem, data.now, data.max);
-    }, 200)
-});
-
 // bind: fade_page
 Shiny.addCustomMessageHandler("fade_page", function (data) {
     let p = document.querySelector(".page");

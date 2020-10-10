@@ -1,28 +1,85 @@
 @import "_variables", "_fade";
-@import "_base", "_buttons", "_navbar","_login", "_pages", "_cards";
+@import "_base", "_buttons", "_navbar", "_login";
 
-// progress bar
-.progressbar__container {
-	position: fixed;
-	display: block;
-	width: 100%;
-	top: 56px;
-	left: 0;
-	padding: 0;
-	margin: 0;
-	background-color: transparent;
-	z-index: 100;
 
-	// style the actual bar - id + class are the same
-	.progressbar__bar {
-		height: 10px;
-		background-color: $primary;
-		transform: scaleX(0);
-		transform-origin: 0 center;
-		transition: all 1s ease-in-out;
+// conainer + pages
+.main {
+	.page {
+		margin-top: 125px; 
+		p {
+			margin-bottom: 12px;
+			.rheroicons {
+				display: inline-block;
+				position: relative;
+				top: 4px;
+				&.rheroicons_outline {
+					stroke: $primary;
 
-		@media (prefers-reduced-motion) {
-			transition: all 1ms ease-in-out;
+					&.rheroicons_logout {
+						transform: scale(-1, 1);
+					}
+				}
+			}
+
+			// app name mentions
+			strong {
+				color: $primary;
+			}
+		}
+		.card__group {
+			.ice__card {
+				p {
+					margin-bottom: 0;
+				}
+
+				&.recommended {
+					.rheroicons {
+						fill: $primary;
+					}
+				}
+				&.avoid {
+					.rheroicons {
+						fill: $error;
+					}
+				}
+			}
+
+			&.medication-cards {
+				counter-reset: meds;
+				margin-bottom: 16px;
+
+				.ice__card {
+					p {
+						&:before {
+							counter-increment: meds;
+							content: counter(meds) ". " ;
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
+// additional styling for side effects
+.accordion.accordion__input {
+	&.side-effect-accordion {
+		margin: 0 auto;
+		margin-bottom: 2em;
+		max-width: 636px;
+		padding: 16px;
+
+		&.accordion__checked {
+			.accordion__content {
+				color: $light;
+				p {
+					color: $light;
+				}
+			}
+		}
+
+		&:last-child {
+			margin-bottom: 0;
 		}
 	}
 }
@@ -50,25 +107,12 @@
 }
 
 
-// additional styling for side effects
-.accordion.accordion__input {
-	&.side-effect-accordion {
-		margin: 0 auto;
-		margin-bottom: 2em;
-		max-width: 636px;
-		padding: 16px;
-
-		&.accordion__checked {
-			.accordion__content {
-				color: $light;
-				p {
-					color: $light;
-				}
-			}
-		}
-
-		&:last-child {
-			margin-bottom: 0;
+// results page
+#results {
+	h2 {
+		text-align: left;
+		@media screen and (min-width: $breakpoint) {
+			text-align: center;
 		}
 	}
 }
