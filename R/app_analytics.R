@@ -31,7 +31,7 @@ analytics <- R6::R6Class(
             private$data$client$usertype <- usertype
             private$data$meta$sign_in_count <- private$data$meta$sign_in_count + 1
             private$data$logged <- TRUE
-            private$data$data[[length(private$data$data) + 1]] <- list(
+            private$data$history[[length(private$data$history) + 1]] <- list(
                 time = Sys.time(),
                 id = "login",
                 item = "user logged in",
