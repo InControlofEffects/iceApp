@@ -10,9 +10,9 @@ app_server <- function(input, output, session) {
     logged <- reactiveVal(FALSE)
     initProg <- reactiveVal(TRUE)
     pageCounter <- reactiveVal(1)
-    analytics <- analytics$new(version = "0.0.2", active = FALSE)
+    analytics <- analytics$new(version = "0.0.3", active = FALSE)
     response <- mod_login_server("signin-form", accounts, logged, analytics)
-
+ 
     # output pages
     observe({
 
