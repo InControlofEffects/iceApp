@@ -1,6 +1,6 @@
 Package: iceApp
 Title: In Control of Effects Application
-Version: 0.0.2
+Version: 0.0.3
 Authors@R: person('David', 'Ruvolo', email = 'davidruvolo51@gmail.com', role = c('cre', 'aut'))
 Description: A decision aid for the choice of antipsychotics.
 License: MIT + file LICENSE
@@ -11,10 +11,10 @@ Imports:
     htmltools (>= 0.5.0),
     processx,
     browsertools (>= 0.1.8),
-    rheroicons (>= 0.2.21),
+    rheroicons (>= 0.2.3),
     iceData (>= 0.0.1),
     sodium (>= 1.1),
-    iceComponents (>= 0.0.4),
+    iceComponents (>= 0.0.6),
     pkgload
 Encoding: UTF-8
 LazyData: true

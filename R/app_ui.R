@@ -7,6 +7,7 @@
 app_ui <- function(request) {
     tagList(
         golem_helmet(),
+        iceComponents::set_doc_attribs(),
         tags$nav(
             class = "navbar",
             `aria-label` = "in control of effects",
@@ -64,17 +65,16 @@ app_ui <- function(request) {
                 )
             )
         ),
-        tags$div(
-            id = "appProgress",
-            class = "progressbar__container",
-            role = "progressbar",
-            `aria-valuenow` = "1",
-            `aria-valuemin` = "0",
-            `aria-valuemax` = "7",
-            `aria-valuetext` = "page 1 of 7",
-            tags$div(class = "progressbar__bar")
+        appProgress$bar(
+            inputId = "appProgress",
+            fill = "#4755a9",
+            fixed = TRUE,
+            text = "page {value} of {max}",
+            yOffset = "56px"
         ),
-        tags$main(class = "main", id = "main", uiOutput("current_page")),
+        iceComponents::container(
+            uiOutput("current_page")
+        ),
         golem_js_assets()
     )
 }

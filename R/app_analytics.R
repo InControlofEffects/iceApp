@@ -1,10 +1,10 @@
 #' Analytics R6 class
 #'
 #' @noRd
-session_analytics <- R6::R6Class(
+analytics <- R6::R6Class(
     "Analytics",
     public = list(
-        initialize = function(version, session = shiny::getDefaultReactiveDomain()) {
+        initialize = function(version, active) {
 
             # set and create new analytics file
             path <- paste0(
@@ -12,22 +12,26 @@ session_analytics <- R6::R6Class(
                 format(Sys.time(), "%y_%m_%d_%H%M%S"),
                 ".json"
             )
-            file.create(path)
+            if (active) {
+                file.create(path)
+            }
 
             # set private data
-            private$.data$session_id <- session$token
-            private$.data$version <- version
-            private$.path <- path
-            private$.write_data()
+            session <- shiny::getDefaultReactiveDomain()
+            private$path <- path
+            private$active <- active
+            private$data$session_id <- session$token
+            private$data$version <- version
+            private$write_data()
         },
 
         # method: save state when user is logged in
         save_login = function(username, usertype) {
-            private$.data$client$username <- username
-            private$.data$client$usertype <- usertype
-            private$.data$meta$sign_in_count <- private$.data$meta$sign_in_count + 1
-            private$.data$logged <- TRUE
-            private$.data$data[[length(private$.data$data) + 1]] <- list(
+            private$data$client$username <- username
+            private$data$client$usertype <- usertype
+            private$data$meta$sign_in_count <- private$data$meta$sign_in_count + 1
+            private$data$logged <- TRUE
+            private$data$data[[length(private$data$data) + 1]] <- list(
                 time = Sys.time(),
                 id = "login",
                 item = "user logged in",
@@ -38,117 +42,146 @@ session_analytics <- R6::R6Class(
                 )
             )
 
-            private$.write_data()
+            private$write_data()
         },
 
         # method: save logout
         save_logout = function() {
-            # private$.data$logged <- FALSE
-            private$.data$meta$sign_out_count <- private$.data$meta$sign_out_count + 1
-            private$.data$data[[length(private$.data$data) + 1]] <- list(
+            # private$data$logged <- FALSE
+            private$data$meta$sign_out_count <- private$data$meta$sign_out_count + 1
+            private$data$history[[length(private$data$history) + 1]] <- list(
                 time = Sys.time(),
                 id = "logout",
                 item = "user logout",
                 description = "user logged out"
             )
 
-            private$.write_data()
+            private$write_data()
         },
 
         # method: save button clicks
         save_click = function(btn, description) {
-            private$.data$data[[length(private$.data$data) + 1]] <- list(
+            private$data$history[[length(private$data$history) + 1]] <- list(
                 time = Sys.time(),
                 id = "btn_click",
                 item = btn,
                 description = description
             )
 
-            private$.write_data()
+            private$write_data()
         },
 
         # method: save side effects selections (regardless of error)
         save_selections = function(selections) {
-            private$.data$meta$se_submissions <- private$.data$meta$se_submissions + 1 
-            private$.data$data[[length(private$.data$data) + 1]] <- list(
+            t <- Sys.time()
+            id <- random_id(n = 16)
+
+            # update counter in meta
+            private$data$meta$submits <- private$data$meta$submits + 1
+
+            # log selections event + id in history
+            private$data$history[[length(private$data$history) + 1]] <- list(
                 time = Sys.time(),
                 id = "selections",
                 item = "side effect selections",
-                description = selections
+                description = id
             )
 
-            private$.write_data()
+            # save selections
+            private$data$selections[[length(private$data$selections) + 1]] <- list(
+                time = t,
+                id = id,
+                data = selections
+            )
+
+            private$write_data()
         },
 
         # method: save medication recommendations
         save_results = function(results) {
-            private$.data$data[[length(private$.data$data) + 1]] <- list(
-                time = Sys.time(),
+            t <- Sys.time()
+            id <- random_id(n = 16)
+
+            # log results in history
+            private$data$history[[length(private$data$history) + 1]] <- list(
+                time = t,
                 id = "results",
-                item = "medication recommendations",
-                description = results
+                item = "medication recommendations saved",
+                description = id
             )
 
-            private$.write_data()
+            # save results
+            private$data$results[[length(private$data$results) + 1]] <- list(
+                time = t,
+                id = id,
+                data = results
+            )
+
+            private$write_data()
         },
 
         # method: save application errors
         save_error = function(error, message) {
-            private$.data$meta$errors <- private$.data$meta$errors + 1
-            private$.data$data[[length(private$.data$data) + 1]] <- list(
+            private$data$meta$errors <- private$data$meta$errors + 1
+            private$data$history[[length(private$data$history) + 1]] <- list(
                 time = Sys.time(),
                 id = "errors",
                 item = error,
                 description = message
             )
 
-            private$.write_data()
+            private$write_data()
         },
 
         # method: on app restart
         save_restart = function() {
-            private$.data$meta$restarts <- private$.data$meta$restarts + 1
-            private$.data$data[[length(private$.data$data) + 1]] <- list(
+            private$data$meta$restarts <- private$data$meta$restarts + 1
+            private$data$history[[length(private$data$history) + 1]] <- list(
                 time = Sys.time(),
                 id = "session",
                 item = "app_restart",
                 description = "user has clicked the restart button"
             )
 
-            private$.write_data()
+            private$write_data()
         },
 
         # method: when `session$onSessionEndend` is triggered
         save_session_end = function() {
-            private$.data$ended <- Sys.time()
-            private$.data$data[[length(private$.data$data) + 1]] <- list(
+            private$data$timestamps$ended <- Sys.time()
+            private$data$history[[length(private$data$history) + 1]] <- list(
                 time = Sys.time(),
                 id = "session",
                 item = "onSessionEnded",
                 description = "session has ended"
             )
 
-            private$.write_data()
+            private$write_data()
         },
 
         # method: print internal data to console
         print = function() {
-            print(private$.data)
+            print(private$data)
         }
 
     ),
 
     # private methods
     private = list(
-        .path = NA,
-        .data = list(
+        path = NA,
+        active = NA,
+        data = list(
 
             # basic information
-            name = "iceApp",
+            name = "ice_analytics_module",
             version = NA,
-            session_id = NA,
-            started = Sys.time(),
-            ended = NA,
+            id = NA,
+
+            # timestamps
+            timestamps = list(
+                started = Sys.time(),
+                ended = NA
+            ),
 
             # @param logged when TRUE, indicates that the user has logged in
             # at least once. If FALSE, then the user did not sign on (i.e., did)
@@ -167,29 +200,33 @@ session_analytics <- R6::R6Class(
                 restarts = 0,
                 sign_in_count = 0,
                 sign_out_count = 0,
-                se_submissions = 0
+                submits = 0
             ),
 
             # activity (i.e., session history)
             # all actions will be appended to to this list
-            data = list(
+            history = list(
                 list(
                     time = Sys.time(),
                     id = "init",
-                    item = "Analytics Module",
+                    item = "App Analytics",
                     description = "new session started"
                 )
-            )
+            ),
+            selections = list(),
+            results = list()
         ),
 
         # private method for saving data
-        .write_data = function(data = private$.data, path = private$.path) {
-            jsonlite::write_json(
-                x = data,
-                path = path,
-                pretty = TRUE,
-                auto_unbox = TRUE
-            )
+        write_data = function() {
+            if (private$active) {
+                jsonlite::write_json(
+                    x = private$data,
+                    path = private$path,
+                    pretty = TRUE,
+                    auto_unbox = TRUE
+                )
+            }
         }
     )
 )

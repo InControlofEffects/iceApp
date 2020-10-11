@@ -8,67 +8,49 @@ app_server <- function(input, output, session) {
 
     # set primary reactiveValues
     logged <- reactiveVal(FALSE)
-    navigation <- reactiveVal(1)
-    session_data <- session_analytics$new(version = "0.0.2")
-
-    # call login module
-    response <- mod_login_server("signin-form", accounts, logged, session_data)
-
-    # page navigation for each subpage navigation component
-    mod_nav_server("instructions-a", navigation, session_data)
-    mod_nav_server("instructions-b", navigation, session_data)
-    mod_nav_server("instructions-c", navigation, session_data)
-    mod_nav_server("instructions-d", navigation, session_data)
-    mod_nav_server("sideEffects", navigation, session_data)
-    mod_nav_server("results", navigation, session_data)
-    mod_nav_server("quit", navigation, session_data)
-
+    initProg <- reactiveVal(TRUE)
+    pageCounter <- reactiveVal(1)
+    analytics <- analytics$new(version = "0.0.3", active = FALSE)
+    response <- mod_login_server("signin-form", accounts, logged, analytics)
+ 
     # output pages
     observe({
 
         # when logged
         if (logged()) {
 
-            # show logout button regardless of usertype
+            if (initProg()) {
+                appProgress$increase()
+                initProg(FALSE)
+            }
             browsertools::remove_css("#item-signout-app", "item-hidden")
-
-
-            # for default users
-            if (response$usertype %in% c("standard", "demo")) {
-
-                # init page
-                update_progress_bar(now = navigation(), max = length(pages))
-                browsertools::remove_css("#item-restart-app", "item-hidden")
-                browsertools::set_document_title(
-                    title = paste0(
-                        attributes(pages)$title, " | ",
-                        attributes(pages[[navigation()]])$title
-                    )
+            browsertools::remove_css("#item-restart-app", "item-hidden")
+            browsertools::set_document_title(
+                title = paste0(
+                    attributes(pages)$title, " | ",
+                    attributes(pages[[pageCounter()]])$title
                 )
+            )
 
-                # render page based on navigation counter
-                browsertools::scroll_to()
-                output$current_page <- renderUI({
-                    pages[[navigation()]]
-                })
-            }
+            # render page based on pageCounter counter
+            browsertools::scroll_to()
+            output$current_page <- renderUI({
+                pages[[pageCounter()]]
+            })
 
-            # admin panel
-            if (response$usertype == "admin") {
-                output$current_page <- renderUI({
-                    tagList(
-                        tags$h2("Admin Panel"),
-                        tags$p("This page is in development")
-                    )
-                })
-            }
+            browsertools::console_log(
+                list(
+                    progressbar = appProgress$current,
+                    pagecount = pageCounter()
+                )
+            )
         }
 
         # if unlogged, render signin page (on app load)
         if (!logged()) {
 
             # reset progress bar
-            update_progress_bar(now = 0, max = length(pages))
+            appProgress$reset()
 
             # update document title
             browsertools::set_document_title(
@@ -96,16 +78,31 @@ app_server <- function(input, output, session) {
         }
     })
 
-    # onSubmit: generate recommendations
-    observeEvent(input$`sideEffects-submit`, {
+    # functions for updating internal page counter
+    prevPage <- function() {
+        pageCounter(pageCounter() - 1)
+        appProgress$decrease()
+    }
+    nextPage <- function() {
+        pageCounter(pageCounter() + 1)
+        appProgress$increase()
+    }
 
-        session_data$save_click(
+    observeEvent(input$reselect, prevPage())
+    observeEvent(input$prevPage, prevPage())
+    observeEvent(input$nextPage, nextPage())
+    observeEvent(input$done, nextPage())
+
+    # onSubmit: generate recommendations
+    observeEvent(input$submit, {
+
+        analytics$save_click(
             btn = "side_effects_submit",
             description = "side effect selections were submitted"
         )
 
         # hide existing error messages
-        reset_error_box(id = "side-effects-error")
+        iceComponents::hide_error_box(inputId = "side-effects-error")
 
         # gather inputs
         selections <- data.frame(
@@ -122,39 +119,39 @@ app_server <- function(input, output, session) {
         response <- validate_side_effects(data = selections)
 
         # save selections
-        session_data$save_selections(selections = selections)
+        analytics$save_selections(selections = selections)
 
         # process response
         if (response$ok) {
 
             # advance to  results page
-            navigation(navigation() + 1)
+            nextPage()
 
             # write results with delay (time in milliseconds)
-            write_se_results(response$data$recs, delay = 250)
+            write_se_results(response$data$recs)
 
             # save click
-            session_data$save_click(
+            analytics$save_click(
                 btn = "next_page",
                 description = paste0(
                     "navigated to 'results' ",
-                    "(page ", navigation(), ")"
+                    "(page ", pageCounter(), ")"
                 )
             )
 
             # save results
-            session_data$save_results(results = response$data$recs)
+            analytics$save_results(results = response$data$recs)
 
         }
 
         # process failed response
         if (!response$ok) {
             browsertools::console_error(response$error$log)
-            update_error_box(
-                id = "side-effects-error",
+            iceComponents::show_error_box(
+                inputId = "side-effects-error",
                 error = response$error$msg
             )
-            session_data$save_error(
+            analytics$save_error(
                 error = "sie_effects_error",
                 message = response$error$msg
             )
@@ -175,28 +172,31 @@ app_server <- function(input, output, session) {
 
     # onClick: application restart
     observeEvent(input$appRestart, {
-        navigation(1)
-        session_data$save_click(
+        pageCounter(1)
+        appProgress$reset()
+        analytics$save_click(
             btn = "app_restart",
             description = paste0(
                 "application restarted, resetting to first page ",
-                "(page ", navigation(), ")"
+                "(page ", pageCounter(), ")"
             )
         )
-
-        session_data$save_restart()
+        analytics$save_restart()
+        initProg(TRUE)
     })
 
-    # onClick: navigation bar logout
+    # onClick: pageCounter bar logout
     observeEvent(input$appSignout, {
-        navigation(1)
+        pageCounter(1)
         logged(FALSE)
-        session_data$save_logout()
+        analytics$save_logout()
+        appProgress$reset()
+        initProg(TRUE)
     })
 
 
     # on sesssion end
     session$onSessionEnded(function() {
-        session_data$save_session_end()
+        analytics$save_session_end()
     })
 }
