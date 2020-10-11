@@ -7,21 +7,11 @@
 app_server <- function(input, output, session) {
 
     # set primary reactiveValues
-    logged <- reactiveVal(TRUE)
-    navigation <- reactiveVal(1)
+    logged <- reactiveVal(FALSE)
+    initProg <- reactiveVal(TRUE)
+    pageCounter <- reactiveVal(1)
     analytics <- analytics$new(version = "0.0.2", active = FALSE)
-
-    # call login module
     response <- mod_login_server("signin-form", accounts, logged, analytics)
-
-    # page navigation for each subpage navigation component
-    mod_nav_server("instructions-a", navigation, analytics, ice_progressbar)
-    mod_nav_server("instructions-b", navigation, analytics, ice_progressbar)
-    mod_nav_server("instructions-c", navigation, analytics, ice_progressbar)
-    mod_nav_server("instructions-d", navigation, analytics, ice_progressbar)
-    mod_nav_server("sideEffects", navigation, analytics, ice_progressbar)
-    mod_nav_server("results", navigation, analytics, ice_progressbar)
-    mod_nav_server("quit", navigation, analytics, ice_progressbar)
 
     # output pages
     observe({
@@ -29,31 +19,38 @@ app_server <- function(input, output, session) {
         # when logged
         if (logged()) {
 
-            # show logout button regardless of usertype
+            if (initProg()) {
+                appProgress$increase()
+                initProg(FALSE)
+            }
             browsertools::remove_css("#item-signout-app", "item-hidden")
-
-            # init page
-            # ice_progressbar$increase()
             browsertools::remove_css("#item-restart-app", "item-hidden")
             browsertools::set_document_title(
                 title = paste0(
                     attributes(pages)$title, " | ",
-                    attributes(pages[[navigation()]])$title
+                    attributes(pages[[pageCounter()]])$title
                 )
             )
 
-            # render page based on navigation counter
+            # render page based on pageCounter counter
             browsertools::scroll_to()
             output$current_page <- renderUI({
-                pages[[navigation()]]
+                pages[[pageCounter()]]
             })
+
+            browsertools::console_log(
+                list(
+                    progressbar = appProgress$current,
+                    pagecount = pageCounter()
+                )
+            )
         }
 
         # if unlogged, render signin page (on app load)
         if (!logged()) {
 
             # reset progress bar
-            ice_progressbar$reset()
+            appProgress$reset()
 
             # update document title
             browsertools::set_document_title(
@@ -81,8 +78,23 @@ app_server <- function(input, output, session) {
         }
     })
 
+    # functions for updating internal page counter
+    prevPage <- function() {
+        pageCounter(pageCounter() - 1)
+        appProgress$decrease()
+    }
+    nextPage <- function() {
+        pageCounter(pageCounter() + 1)
+        appProgress$increase()
+    }
+
+    observeEvent(input$reselect, prevPage())
+    observeEvent(input$prevPage, prevPage())
+    observeEvent(input$nextPage, nextPage())
+    observeEvent(input$done, nextPage())
+
     # onSubmit: generate recommendations
-    observeEvent(input$`sideEffects-submit`, {
+    observeEvent(input$submit, {
 
         analytics$save_click(
             btn = "side_effects_submit",
@@ -113,7 +125,7 @@ app_server <- function(input, output, session) {
         if (response$ok) {
 
             # advance to  results page
-            navigation(navigation() + 1)
+            nextPage()
 
             # write results with delay (time in milliseconds)
             write_se_results(response$data$recs)
@@ -123,7 +135,7 @@ app_server <- function(input, output, session) {
                 btn = "next_page",
                 description = paste0(
                     "navigated to 'results' ",
-                    "(page ", navigation(), ")"
+                    "(page ", pageCounter(), ")"
                 )
             )
 
@@ -160,23 +172,26 @@ app_server <- function(input, output, session) {
 
     # onClick: application restart
     observeEvent(input$appRestart, {
-        navigation(1)
+        pageCounter(1)
+        appProgress$reset()
         analytics$save_click(
             btn = "app_restart",
             description = paste0(
                 "application restarted, resetting to first page ",
-                "(page ", navigation(), ")"
+                "(page ", pageCounter(), ")"
             )
         )
-
         analytics$save_restart()
+        initProg(TRUE)
     })
 
-    # onClick: navigation bar logout
+    # onClick: pageCounter bar logout
     observeEvent(input$appSignout, {
-        navigation(1)
+        pageCounter(1)
         logged(FALSE)
         analytics$save_logout()
+        appProgress$reset()
+        initProg(TRUE)
     })
 
 

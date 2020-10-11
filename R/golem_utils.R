@@ -3,7 +3,7 @@
 #' Create new Progress bar that will be used in the UI and Server
 #'
 #' @noRd
-ice_progressbar <- iceComponents::progressbar(start = 0, min = 0, max = 7)
+appProgress <- iceComponents::progressbar(min = 0, start = 0, max = 7)
 
 #' Generate ID
 #'

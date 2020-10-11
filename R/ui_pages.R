@@ -30,9 +30,12 @@ pages$instructions_a <- iceComponents::page(
     tags$p(
         "Press next to continue."
     ),
-    mod_navigation_ui(
-        id = "instructions-a",
-        buttons = "next"
+    # mod_navigation_ui(
+    #     id = "instructions-a",
+    #     buttons = "next"
+    # )
+    page_nav(
+        next_btn()
     )
 )
 
@@ -63,9 +66,13 @@ pages$instructions_b <- iceComponents::page(
     tags$p(
         "Press next to continue"
     ),
-    mod_navigation_ui(
-        id = "instructions-b",
-        buttons = c("previous", "next")
+    # mod_navigation_ui(
+    #     id = "instructions-b",
+    #     buttons = c("previous", "next")
+    # )
+    page_nav(
+        back_btn(),
+        next_btn()
     )
 )
 
@@ -99,9 +106,13 @@ pages$instructions_c <- iceComponents::page(
         ". When you have made your selection, press the submit button to view",
         "the results."
     ),
-    mod_navigation_ui(
-        id = "instructions-c",
-        buttons = c("previous", "next")
+    # mod_navigation_ui(
+    #     id = "instructions-c",
+    #     buttons = c("previous", "next")
+    # )
+    page_nav(
+        back_btn(),
+        next_btn()
     )
 )
 
@@ -133,9 +144,13 @@ pages$instructions_d <- iceComponents::page(
         "psychiatrist."
     ),
     tags$p("Press next to view the side effects."),
-    mod_navigation_ui(
-        id = "instructions-d",
-        buttons = c("previous", "begin")
+    # mod_navigation_ui(
+    #     id = "instructions-d",
+    #     buttons = c("previous", "begin")
+    # )
+    page_nav(
+        back_btn(),
+        next_btn(label = "Begin")
     )
 )
 
@@ -281,7 +296,11 @@ pages$side_effects <- iceComponents::page(
             )
         )
     ),
-    mod_navigation_ui(id = "sideEffects", buttons = c("previous", "submit"))
+    # mod_navigation_ui(id = "sideEffects", buttons = c("previous", "submit"))
+    page_nav(
+        back_btn(),
+        next_btn(inputId = "submit", label = "Submit")
+    )
 )
 
 # set attributes of current page
@@ -358,7 +377,11 @@ pages$results <- iceComponents::page(
             class = "avoid"
         )
     ),
-    mod_navigation_ui(id = "results", buttons = c("reselect", "done"))
+    # mod_navigation_ui(id = "results", buttons = c("reselect", "done"))
+    page_nav(
+        back_btn(inputId = "reselect", label = "Reselect"),
+        next_btn(inputId = "done", label = "Done")
+    )
 )
 
 # set attributes of current page

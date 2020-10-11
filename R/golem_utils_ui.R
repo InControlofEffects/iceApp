@@ -43,3 +43,69 @@ app__logo <- function() {
         )
     )
 }
+
+
+#' Previous Button
+#'
+#' Render a back button
+#'
+#' @param inputId a unique Id for the button (default `prevPage`)
+#' @param label customize the button (default `Previous`)
+#'
+#' @noRd
+back_btn <- function(inputId = "prevPage", label = "Previous") {
+    tags$button(
+        id = inputId,
+        class = "shiny-bound-input action-button default",
+        rheroicons::rheroicon(
+            name = "chevron_left",
+            type = "outline"
+        ),
+        label
+    )
+}
+
+
+#' Next Button
+#'
+#' @param inputId a unique Id for the button (default `nextPage`)
+#' @param label set the button label (default `Next`)
+#'
+#' @noRd
+next_btn <- function(inputId = "nextPage", label = "Next") {
+    tags$button(
+        id = inputId,
+        class = "shiny-bound-input action-button primary",
+        label,
+        rheroicons::rheroicon(
+            name = "chevron_right",
+            type = "outline"
+        )
+    )
+}
+
+
+#' Navigation Container
+#'
+#' @param ... buttons
+#'
+#' @noRd
+page_nav <- function(...) {
+    elems <- tagList(...)
+    u <- tags$ul()
+    sapply(seq_len(length(elems)), function(x) {
+        u$children[[x]] <<- tags$li(class = "navigation-item", elems[[x]])
+    })
+
+    if (length(elems) == 1) {
+        u$attribs$class <- "navigation-button-list single-button-list"
+    }
+
+    if (length(elems) > 1) {
+        u$attribs$class <- "navigation-button-list multi-button-list"
+    }
+
+    tags$div(class = "navigation-wrapper", u)
+}
+
+page_nav(tags$p("text a"), tags$p("text b"), tags$p("text c"))

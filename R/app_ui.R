@@ -7,6 +7,7 @@
 app_ui <- function(request) {
     tagList(
         golem_helmet(),
+        iceComponents::set_doc_attribs(),
         tags$nav(
             class = "navbar",
             `aria-label` = "in control of effects",
@@ -64,7 +65,7 @@ app_ui <- function(request) {
                 )
             )
         ),
-        ice_progressbar$bar(
+        appProgress$bar(
             inputId = "appProgress",
             fill = "#4755a9",
             fixed = TRUE,
@@ -135,8 +136,7 @@ golem_helmet <- function() {
 
         # load dependencies
         iceComponents::use_iceComponents(),
-        browsertools::use_browsertools(),
-        iceComponents::set_doc_attribs()
+        browsertools::use_browsertools()
     )
 }
 
