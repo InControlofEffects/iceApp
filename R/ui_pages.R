@@ -9,8 +9,6 @@ pages <- list()
 attr(pages, "title") <- "In Control of Effects"
 
 
-
-
 # Instructions page 1
 pages$instructions_a <- iceComponents::page(
     inputId = "instructions-a",
@@ -30,19 +28,13 @@ pages$instructions_a <- iceComponents::page(
     tags$p(
         "Press next to continue."
     ),
-    # mod_navigation_ui(
-    #     id = "instructions-a",
-    #     buttons = "next"
-    # )
-    page_nav(
-        next_btn()
+    iceComponents::navigation(
+        iceComponents::forward_btn()
     )
 )
 
 # set attributes of current page
 attr(pages$instructions_a, "title") <- "Welcome!"
-
-
 
 
 
@@ -66,20 +58,14 @@ pages$instructions_b <- iceComponents::page(
     tags$p(
         "Press next to continue"
     ),
-    # mod_navigation_ui(
-    #     id = "instructions-b",
-    #     buttons = c("previous", "next")
-    # )
-    page_nav(
-        back_btn(),
-        next_btn()
+    iceComponents::navigation(
+        iceComponents::back_btn(),
+        iceComponents::forward_btn()
     )
 )
 
 # set attributes of page
 attr(pages$instructions_b, "title") <- "How to use this app"
-
-
 
 
 
@@ -106,20 +92,14 @@ pages$instructions_c <- iceComponents::page(
         ". When you have made your selection, press the submit button to view",
         "the results."
     ),
-    # mod_navigation_ui(
-    #     id = "instructions-c",
-    #     buttons = c("previous", "next")
-    # )
-    page_nav(
-        back_btn(),
-        next_btn()
+    iceComponents::navigation(
+        iceComponents::back_btn(),
+        iceComponents::forward_btn()
     )
 )
 
 # set attributes of current page
 attr(pages$instructions_c, "title") <- "How to select side effects"
-
-
 
 
 
@@ -144,22 +124,14 @@ pages$instructions_d <- iceComponents::page(
         "psychiatrist."
     ),
     tags$p("Press next to view the side effects."),
-    # mod_navigation_ui(
-    #     id = "instructions-d",
-    #     buttons = c("previous", "begin")
-    # )
-    page_nav(
-        back_btn(),
-        next_btn(label = "Begin")
+    iceComponents::navigation(
+        iceComponents::back_btn(),
+        iceComponents::forward_btn(label = "Begin")
     )
 )
 
 # set attributes
 attr(pages$instructions_d, "title") <- "What this app does not do"
-
-
-
-
 
 
 
@@ -296,10 +268,9 @@ pages$side_effects <- iceComponents::page(
             )
         )
     ),
-    # mod_navigation_ui(id = "sideEffects", buttons = c("previous", "submit"))
-    page_nav(
-        back_btn(),
-        next_btn(inputId = "submit", label = "Submit")
+    iceComponents::navigation(
+        iceComponents::back_btn(),
+        iceComponents::forward_btn(inputId = "submit", label = "Submit")
     )
 )
 
@@ -377,10 +348,9 @@ pages$results <- iceComponents::page(
             class = "avoid"
         )
     ),
-    # mod_navigation_ui(id = "results", buttons = c("reselect", "done"))
-    page_nav(
-        back_btn(inputId = "reselect", label = "Reselect"),
-        next_btn(inputId = "done", label = "Done")
+    iceComponents::navigation(
+        iceComponents::back_btn(inputId = "reselect", label = "Reselect"),
+        iceComponents::forward_btn(inputId = "done", label = "Done")
     )
 )
 

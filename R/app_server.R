@@ -10,7 +10,7 @@ app_server <- function(input, output, session) {
     logged <- reactiveVal(FALSE)
     initProg <- reactiveVal(TRUE)
     pageCounter <- reactiveVal(1)
-    analytics <- analytics$new(version = "0.0.3", active = TRUE)
+    analytics <- analytics$new(version = "0.0.4", active = TRUE)
     response <- mod_login_server("signin-form", accounts, logged, analytics)
  
     # output pages
@@ -89,8 +89,8 @@ app_server <- function(input, output, session) {
     }
 
     observeEvent(input$reselect, prevPage())
-    observeEvent(input$prevPage, prevPage())
-    observeEvent(input$nextPage, nextPage())
+    observeEvent(input$backBtn, prevPage())
+    observeEvent(input$forwardBtn, nextPage())
     observeEvent(input$done, nextPage())
 
     # onSubmit: generate recommendations

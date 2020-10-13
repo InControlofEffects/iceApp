@@ -2,7 +2,7 @@
 #' FILE: 02_dev.R
 #' AUTHOR: David Ruvolo
 #' CREATED: 2020-07-20
-#' MODIFIED: 2020-09-30
+#' MODIFIED: 2020-10-13
 #' PURPOSE: manage scripts, packages, files, data, etc.
 #' STATUS: ongoing
 #' PACKAGES: usethis; renv; golem
@@ -57,7 +57,7 @@ pkgbump::set_pkgbump(
     )
 )
 
-pkgbump::pkgbump(version = "0.0.3")
+pkgbump::pkgbump(version = "0.0.4")
 
 
 #'//////////////////////////////////////

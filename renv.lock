@@ -275,7 +275,7 @@
     },
     "iceComponents": {
       "Package": "iceComponents",
-      "Version": "0.0.6",
+      "Version": "0.0.7",
       "Source": "GitHub",
       "Remotes": "davidruvolo51/rheroicons",
       "RemoteType": "github",
@@ -283,8 +283,8 @@
       "RemoteRepo": "iceComponents",
       "RemoteUsername": "InControlofEffects",
       "RemoteRef": "HEAD",
-      "RemoteSha": "1b72adf05537626ac2c8150c59a1cd510f2a3f40",
-      "Hash": "b5078fd4e093bade40ab0ee6424be44c"
+      "RemoteSha": "6d9ff8c0334691ad507dc4dcf978a80498186d8f",
+      "Hash": "643ee7c7907d2694f8a0856793adedd2"
     },
     "iceData": {
       "Package": "iceData",
