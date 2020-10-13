@@ -89,8 +89,8 @@ app_server <- function(input, output, session) {
     }
 
     observeEvent(input$reselect, prevPage())
-    observeEvent(input$prevPage, prevPage())
-    observeEvent(input$nextPage, nextPage())
+    observeEvent(input$backBtn, prevPage())
+    observeEvent(input$forwardBtn, nextPage())
     observeEvent(input$done, nextPage())
 
     # onSubmit: generate recommendations

@@ -20,7 +20,7 @@ analytics <- R6::R6Class(
             session <- shiny::getDefaultReactiveDomain()
             private$path <- path
             private$active <- active
-            private$data$session_id <- session$token
+            private$data$id <- session$token
             private$data$version <- version
             private$write_data()
         },
