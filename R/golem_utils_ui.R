@@ -43,3 +43,30 @@ app__logo <- function() {
         )
     )
 }
+
+
+#' Side Effect Inputs
+#'
+#' Accordion inputs are generated from `iceData::side_effects`
+#'
+#' @noRd
+side_effects_inputs_ui <- function() {
+
+    # sort reference data by `common_name`
+    se_data <- iceData::side_effects[order(iceData::side_effects$common_name), ]
+
+    # generate UI
+    tagList(
+        lapply(
+            seq_len(length(se_data$id)),
+            function(d) {
+                iceComponents::accordion_input(
+                    inputId = se_data$id[d],
+                    title = se_data$common_name[d],
+                    content = tags$p(se_data$def[d]),
+                    class = "accordion__style__a side-effect-accordion"
+                )
+            }
+        )
+    )
+}
