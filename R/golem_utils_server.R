@@ -23,9 +23,9 @@ write_se_results <- function(data) {
     iceComponents::update_card(inputId = "rec-rx-a", text = data$rx_rec_a)
     iceComponents::update_card(inputId = "rec-rx-b", text = data$rx_rec_b)
     iceComponents::update_card(inputId = "rec-rx-c", text = data$rx_rec_c)
-    iceComponents::update_card(inputId = "avoid-rx-a", text = data$rx_rec_a)
-    iceComponents::update_card(inputId = "avoid-rx-b", text = data$rx_rec_b)
-    iceComponents::update_card(inputId = "avoid-rx-c", text = data$rx_rec_c)
+    iceComponents::update_card(inputId = "avoid-rx-a", text = data$rx_avoid_a)
+    iceComponents::update_card(inputId = "avoid-rx-b", text = data$rx_avoid_b)
+    iceComponents::update_card(inputId = "avoid-rx-c", text = data$rx_avoid_c)
 }
 
 
