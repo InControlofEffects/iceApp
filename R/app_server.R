@@ -27,8 +27,9 @@ app_server <- function(input, output, session) {
             browsertools::remove_css("#item-restart-app", "item-hidden")
             browsertools::set_document_title(
                 title = paste0(
-                    attributes(pages)$title, " | ",
-                    attributes(pages[[pageCounter()]])$title
+                    attributes(pages[[pageCounter()]])$title,
+                    " | ",
+                    attributes(pages)$title
                 )
             )
 
@@ -55,8 +56,9 @@ app_server <- function(input, output, session) {
             # update document title
             browsertools::set_document_title(
                 title = paste0(
-                    attributes(pages)$title, " | ",
-                    "Signin"
+                    "Signin",
+                    " | ",
+                    attributes(pages)$title
                 )
             )
 
