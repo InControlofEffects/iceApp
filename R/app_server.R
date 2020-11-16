@@ -10,7 +10,7 @@ app_server <- function(input, output, session) {
     logged <- reactiveVal(FALSE)
     initProg <- reactiveVal(TRUE)
     pageCounter <- reactiveVal(1)
-    analytics <- analytics$new(version = "0.0.5", active = TRUE)
+    analytics <- analytics$new(version = "0.0.6", active = TRUE)
     response <- mod_login_server("signin-form", accounts, logged, analytics)
  
     # output pages
@@ -38,13 +38,6 @@ app_server <- function(input, output, session) {
             output$current_page <- renderUI({
                 pages[[pageCounter()]]
             })
-
-            browsertools::console_log(
-                list(
-                    progressbar = appProgress$current,
-                    pagecount = pageCounter()
-                )
-            )
         }
 
         # if unlogged, render signin page (on app load)
