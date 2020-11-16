@@ -2,7 +2,7 @@
 #' FILE: 02_dev.R
 #' AUTHOR: David Ruvolo
 #' CREATED: 2020-07-20
-#' MODIFIED: 2020-10-13
+#' MODIFIED: 2020-11-16
 #' PURPOSE: manage scripts, packages, files, data, etc.
 #' STATUS: ongoing
 #' PACKAGES: usethis; renv; golem
@@ -57,7 +57,7 @@ pkgbump::set_pkgbump(
     )
 )
 
-pkgbump::pkgbump(version = "0.0.5")
+pkgbump::pkgbump(version = "0.0.6")
 
 
 #'//////////////////////////////////////
@@ -96,7 +96,7 @@ usethis::use_build_ignore(
         "logs",
         "src",
         ".babelrc",
-        ".pkgbump.json",
+        "pkgbump.config.json",
         "app.R",
         "CODE_OF_CONDUCT.md",
         "iceApp.code-workspace",

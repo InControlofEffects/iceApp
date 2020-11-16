@@ -1,6 +1,6 @@
 {
   "name": "iceApp",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "a shiny app for the decision of antipsychotic treatments based on side effects",
   "author": "davidruvolo51",
   "license": "MIT",

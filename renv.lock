@@ -18,10 +18,10 @@
     },
     "R6": {
       "Package": "R6",
-      "Version": "2.4.1",
+      "Version": "2.5.0",
       "Source": "Repository",
       "Repository": "CRAN",
-      "Hash": "292b54f8f4b94669b08f94e5acce6be2"
+      "Hash": "b203113193e70978a696b2809525649d"
     },
     "Rcpp": {
       "Package": "Rcpp",
@@ -74,15 +74,15 @@
     },
     "browsertools": {
       "Package": "browsertools",
-      "Version": "0.1.8",
+      "Version": "0.2.0",
       "Source": "GitHub",
       "RemoteType": "github",
       "RemoteHost": "api.github.com",
       "RemoteRepo": "browsertools",
       "RemoteUsername": "davidruvolo51",
-      "RemoteRef": "HEAD",
-      "RemoteSha": "fe13a498c387f8d456ded8c8e6cd39ed210ebfe3",
-      "Hash": "f6eeb12082d8564ebd7a3c1700204339"
+      "RemoteRef": "v0.2.0",
+      "RemoteSha": "1769063495959da343ca4b99708bc36a6f233f29",
+      "Hash": "5267e10f8e6005b0a77b56548b5ceb48"
     },
     "callr": {
       "Package": "callr",
@@ -149,10 +149,10 @@
     },
     "digest": {
       "Package": "digest",
-      "Version": "0.6.25",
+      "Version": "0.6.27",
       "Source": "Repository",
       "Repository": "CRAN",
-      "Hash": "f697db7d92b7028c4b3436e9603fb636"
+      "Hash": "a0cbe758a531d054b537d16dff4d58a1"
     },
     "dockerfiler": {
       "Package": "dockerfiler",
