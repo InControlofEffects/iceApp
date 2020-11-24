@@ -4,10 +4,14 @@
 \alias{run_app}
 \title{Run the Shiny Application}
 \usage{
-run_app(...)
+run_app(use_analytics = TRUE, analytics_outdir = "logs/", users_db_path = NULL)
 }
 \arguments{
-\item{...}{A series of options to be used inside the app.}
+\item{use_analytics}{if TRUE (default), app logging will run}
+
+\item{analytics_outdir}{Path to write the logs into (default "logs/")}
+
+\item{users_db_path}{path to user accounts RDS file}
 }
 \description{
 Run the Shiny Application
