@@ -32,7 +32,7 @@ validate_side_effects <- function(data) {
             ok = FALSE,
             error = list(
                 msg = "No selections were made. Please select a side effect",
-                log = "🚨 Side Effects Error: No options were selected"
+                log = "Side Effects Error: No options were selected"
             )
         )
 
@@ -43,7 +43,7 @@ validate_side_effects <- function(data) {
             ok = FALSE,
             error = list(
                 msg = "Too many selections were made. Please select 1 option.",
-                log = "🚨 Side Effects Error: selections were greater than 1."
+                log = "Side Effects Error: selections were greater than 1."
             )
         )
 

@@ -2,7 +2,7 @@
 #' FILE: 02_dev.R
 #' AUTHOR: David Ruvolo
 #' CREATED: 2020-07-20
-#' MODIFIED: 2020-11-16
+#' MODIFIED: 2020-11-24
 #' PURPOSE: manage scripts, packages, files, data, etc.
 #' STATUS: ongoing
 #' PACKAGES: usethis; renv; golem
@@ -10,7 +10,7 @@
 #' ////////////////////////////////////////////////////////////////////////////
 
 # revn init
-renv::init(settings = list(snapshot.type = "explicit"))
+#' renv::init(settings = list(snapshot.type = "explicit"))
 renv::snapshot()
 renv::restore()
 
@@ -18,7 +18,7 @@ renv::restore()
 remotes::install_github("davidruvolo51/browsertools")
 remotes::install_github("davidruvolo51/rheroicons")
 remotes::install_github("InControlofEffects/iceComponents")
-remotes::install_github("InControlofEffects/iceData", auth_token = "")
+remotes::install_github("InControlofEffects/iceData")
 remotes::install_github("davidruvolo51/pkgbump")
 
 # add packages
@@ -38,7 +38,7 @@ golem::add_module(name = "errors")
 golem::add_module(name = "validate_effects")
 
 # add interal dataset
-usethis::use_data_raw(name = "accounts")
+#' usethis::use_data_raw(name = "accounts")
 
 ## Tests ----
 ## Add one line by test you want to create
@@ -57,7 +57,7 @@ pkgbump::set_pkgbump(
     )
 )
 
-pkgbump::pkgbump(version = "0.0.6")
+pkgbump::pkgbump(version = "0.0.7")
 
 
 #'//////////////////////////////////////

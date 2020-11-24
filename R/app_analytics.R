@@ -4,11 +4,20 @@
 analytics <- R6::R6Class(
     "Analytics",
     public = list(
-        initialize = function(version, active) {
+        #' @description create a new analytics object
+        #' @param version application version
+        #' @param active If TRUE, data will be saved
+        #' @param out_dir path to save log files
+        initialize = function(version, active, out_dir) {
+
+            if (!dir.exists(out_dir)) {
+                dir.create(out_dir)
+            }
 
             # set and create new analytics file
             path <- paste0(
-                "logs/analytics_",
+                out_dir,
+                "/analytics_",
                 format(Sys.time(), "%y_%m_%d_%H%M%S"),
                 ".json"
             )
@@ -25,7 +34,9 @@ analytics <- R6::R6Class(
             private$write_data()
         },
 
-        # method: save state when user is logged in
+        #' @description save data for user login
+        #' @param username account name
+        #' @param usertype account type (dev defined)
         save_login = function(username, usertype) {
             private$data$client$username <- username
             private$data$client$usertype <- usertype
@@ -45,7 +56,7 @@ analytics <- R6::R6Class(
             private$write_data()
         },
 
-        # method: save logout
+        #' @description save data on user logout
         save_logout = function() {
             # private$data$logged <- FALSE
             private$data$meta$sign_out_count <- private$data$meta$sign_out_count + 1
@@ -59,7 +70,9 @@ analytics <- R6::R6Class(
             private$write_data()
         },
 
-        # method: save button clicks
+        #' @description save button clicks
+        #' @param btn button id
+        #' @param description note about button event
         save_click = function(btn, description) {
             private$data$history[[length(private$data$history) + 1]] <- list(
                 time = Sys.time(),
@@ -71,7 +84,8 @@ analytics <- R6::R6Class(
             private$write_data()
         },
 
-        # method: save side effects selections (regardless of error)
+        #' @description save side effects selections
+        #' @param selections a dataframe containing user selections
         save_selections = function(selections) {
             t <- Sys.time()
             id <- random_id(n = 16)
@@ -97,7 +111,8 @@ analytics <- R6::R6Class(
             private$write_data()
         },
 
-        # method: save medication recommendations
+        #' @description save medication recommendations
+        #' @param results a dataframe containing medication results
         save_results = function(results) {
             t <- Sys.time()
             id <- random_id(n = 16)
@@ -120,7 +135,9 @@ analytics <- R6::R6Class(
             private$write_data()
         },
 
-        # method: save application errors
+        #' @description save application errors
+        #' @param error error ID
+        #' @param message error displayed
         save_error = function(error, message) {
             private$data$meta$errors <- private$data$meta$errors + 1
             private$data$history[[length(private$data$history) + 1]] <- list(
@@ -133,7 +150,7 @@ analytics <- R6::R6Class(
             private$write_data()
         },
 
-        # method: on app restart
+        #' @description save data on app restart
         save_restart = function() {
             private$data$meta$restarts <- private$data$meta$restarts + 1
             private$data$history[[length(private$data$history) + 1]] <- list(
@@ -146,7 +163,7 @@ analytics <- R6::R6Class(
             private$write_data()
         },
 
-        # method: when `session$onSessionEndend` is triggered
+        #' @description save data when onsessionended is triggered
         save_session_end = function() {
             private$data$timestamps$ended <- Sys.time()
             private$data$history[[length(private$data$history) + 1]] <- list(
@@ -159,14 +176,12 @@ analytics <- R6::R6Class(
             private$write_data()
         },
 
-        # method: print internal data to console
+        #' @description print internal data to console
         print = function() {
             print(private$data)
         }
 
     ),
-
-    # private methods
     private = list(
         path = NA,
         active = NA,
