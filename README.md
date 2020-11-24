@@ -12,30 +12,63 @@ The `iceApp` package contains all of the code used to create and run the Shiny a
 - [browsertools](https://github.com/davidruvolo51/browsertools): a package for communication between R and the client
 - [rheroicons](https://github.com/davidruvolo51/rheroicons): the Heroicons library for R
 
-## Use
+## Getting Started
 
-Install the package using the following command.
+There are few things that will need to be configured before you can run the app.
 
-```r
-devtools::install_github("InControlofEffects/iceApp")
-```
+### Install `iceApp`
 
-The app can be viewed locally by running `run_app`.
+First, install the latest release from GitHub.
 
 ```r
-iceApp::run_app()
+devtools::install_github("InControlofEffects/iceApp@*release")
 ```
 
-The package comes with a demo account.
+### Create a New Projects
 
-- username: `wallaby`
-- password: `wall2200`
+Create the following folders and files.
 
+```text
+my-app /
+    + data /
+        - data.R
+    + app.R
+```
+
+### Create User Accounts
+
+In the file `data/data.R`, create a user accounts database using the `sodium` package.
+
+```r
+# create object
+db <- data.frame(
+    username = "test",
+    password = "test1234",
+    type = "demo-user"
+)
+
+# hash password
+db$password <- sapply(db$password, sodium::password_store)
+
+# save file
+saveRDS(db, "path/to/users.RDS")
+```
+
+### Setup the app
+
+In the `app.R` file, call the main run function. Define the path to the users database. You can also disable the analytics module and specify the path for the logs.
+
+```r
+iceApp::run_app(
+    use_analytics = TRUE,
+    users_db_path = "app-data/accounts.RDS",
+    out_dir = "app-data/logs/"
+)
+```
 
 ## Disclaimer
 
 The `iceApp` package and all related projects created by by the In Control of Effects projects are part of ongoing research led by researchers at the University of Oxford. Any tool produced by the In Control of Effects project does not replace medical treatment or consultation with any healthcare professional. Any information produced by this tool should be discussed with an individual's psychiatrist or other healthcare provider as this app does not take into account individual patient characteristics, pre-existing medical conditions, any current medical treatment or medications may already be prescribed.
-
 
 ## References
 
