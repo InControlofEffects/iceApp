@@ -86,17 +86,17 @@
     },
     "callr": {
       "Package": "callr",
-      "Version": "3.4.3",
+      "Version": "3.5.1",
       "Source": "Repository",
       "Repository": "CRAN",
-      "Hash": "643163a00cb536454c624883a10ae0bc"
+      "Hash": "b7d7f1e926dfcd57c74ce93f5c048e80"
     },
     "cli": {
       "Package": "cli",
-      "Version": "2.1.0",
+      "Version": "2.2.0",
       "Source": "Repository",
       "Repository": "CRAN",
-      "Hash": "0b316487b21d21f99ebf98abe179b1ea"
+      "Hash": "3ef298932294b775fa0a3eeaa3a645b0"
     },
     "clipr": {
       "Package": "clipr",
@@ -121,10 +121,10 @@
     },
     "cpp11": {
       "Package": "cpp11",
-      "Version": "0.2.3",
+      "Version": "0.2.4",
       "Source": "Repository",
       "Repository": "CRAN",
-      "Hash": "f9df472593124299aef98fba2c96dfd3"
+      "Hash": "ba66e5a750d39067d888aa7af797fed2"
     },
     "crayon": {
       "Package": "crayon",
@@ -205,10 +205,10 @@
     },
     "generics": {
       "Package": "generics",
-      "Version": "0.0.2",
+      "Version": "0.1.0",
       "Source": "Repository",
       "Repository": "CRAN",
-      "Hash": "b8cff1d1391fd1ad8b65877f4c7f2e53"
+      "Hash": "4d243a9c10b00589889fe32314ffd902"
     },
     "gh": {
       "Package": "gh",
@@ -275,16 +275,16 @@
     },
     "iceComponents": {
       "Package": "iceComponents",
-      "Version": "0.0.7",
+      "Version": "0.0.9",
       "Source": "GitHub",
-      "Remotes": "davidruvolo51/rheroicons",
       "RemoteType": "github",
+      "Remotes": "davidruvolo51/rheroicons",
       "RemoteHost": "api.github.com",
       "RemoteRepo": "iceComponents",
       "RemoteUsername": "InControlofEffects",
-      "RemoteRef": "HEAD",
-      "RemoteSha": "6d9ff8c0334691ad507dc4dcf978a80498186d8f",
-      "Hash": "643ee7c7907d2694f8a0856793adedd2"
+      "RemoteRef": "v0.0.9",
+      "RemoteSha": "0d5ce795e0c2238a963c7e3f22d466825efdbc7e",
+      "Hash": "3332ff8c3015b09a9278474b81d60088"
     },
     "iceData": {
       "Package": "iceData",
@@ -294,9 +294,9 @@
       "RemoteHost": "api.github.com",
       "RemoteRepo": "iceData",
       "RemoteUsername": "InControlofEffects",
-      "RemoteRef": "HEAD",
-      "RemoteSha": "5985872e47116e8af0b7e3ff1f4e527c5e2f71f9",
-      "Hash": "80384d66ad4b848de522a5a3cdfa318c"
+      "RemoteRef": "v0.0.2",
+      "RemoteSha": "056f24a2ab9edda1b4963aaded2b86da1454baac",
+      "Hash": "fd9c3b25331ce9a93ec8b4b024ad3fe9"
     },
     "ini": {
       "Package": "ini",
@@ -335,10 +335,10 @@
     },
     "magrittr": {
       "Package": "magrittr",
-      "Version": "1.5",
+      "Version": "2.0.1",
       "Source": "Repository",
       "Repository": "CRAN",
-      "Hash": "1bb58822a20301cee84a41678e25d9b7"
+      "Hash": "41287f1ac7d28a92f0a286ed507928d3"
     },
     "markdown": {
       "Package": "markdown",
@@ -363,10 +363,10 @@
     },
     "pillar": {
       "Package": "pillar",
-      "Version": "1.4.6",
+      "Version": "1.4.7",
       "Source": "Repository",
       "Repository": "CRAN",
-      "Hash": "bdf26e55ccb7df3e49a490150277f002"
+      "Hash": "3b3dd89b2ee115a8b54e93a34cd546b4"
     },
     "pkgbuild": {
       "Package": "pkgbuild",
@@ -405,10 +405,10 @@
     },
     "processx": {
       "Package": "processx",
-      "Version": "3.4.3",
+      "Version": "3.4.4",
       "Source": "Repository",
       "Repository": "CRAN",
-      "Hash": "f4f13345fcb00c51ace12f65dd18749f"
+      "Hash": "03446ed0b8129916f73676726cb3c48f"
     },
     "promises": {
       "Package": "promises",
@@ -447,10 +447,10 @@
     },
     "renv": {
       "Package": "renv",
-      "Version": "0.10.0",
+      "Version": "0.12.0",
       "Source": "Repository",
       "Repository": "CRAN",
-      "Hash": "0d3f1c2b63e70b3d918246b4e2ca59b7"
+      "Hash": "7340c71f46a0fd16506cfa804e224e44"
     },
     "rheroicons": {
       "Package": "rheroicons",
@@ -460,9 +460,9 @@
       "RemoteHost": "api.github.com",
       "RemoteRepo": "rheroicons",
       "RemoteUsername": "davidruvolo51",
-      "RemoteRef": "HEAD",
+      "RemoteRef": "v.0.2.3",
       "RemoteSha": "eabe4cf1e74fc2f02e395f74139675091db9083e",
-      "Hash": "213856523697fcc2ebc227c9b82a5417"
+      "Hash": "9a2795ab0e581d5a8f589c9fc8310db6"
     },
     "rlang": {
       "Package": "rlang",
@@ -473,10 +473,10 @@
     },
     "roxygen2": {
       "Package": "roxygen2",
-      "Version": "7.1.0",
+      "Version": "7.1.1",
       "Source": "Repository",
       "Repository": "CRAN",
-      "Hash": "f173062c04dc8e91d7376d914df6efee"
+      "Hash": "fcd94e00cc409b25d07ca50f7bf339f5"
     },
     "rprojroot": {
       "Package": "rprojroot",
@@ -564,10 +564,10 @@
     },
     "usethis": {
       "Package": "usethis",
-      "Version": "1.6.1",
+      "Version": "1.6.3",
       "Source": "Repository",
       "Repository": "CRAN",
-      "Hash": "e1985f5a9985fea2e338fa7eb99018ca"
+      "Hash": "c541a7aed5f7fb3b487406bf92842e34"
     },
     "utf8": {
       "Package": "utf8",
@@ -578,10 +578,10 @@
     },
     "vctrs": {
       "Package": "vctrs",
-      "Version": "0.3.4",
+      "Version": "0.3.5",
       "Source": "Repository",
       "Repository": "CRAN",
-      "Hash": "0bc90078aeee42f2520b1d0a33bd6758"
+      "Hash": "d25c5bea636cf892edbfd64fc3d20c20"
     },
     "whisker": {
       "Package": "whisker",

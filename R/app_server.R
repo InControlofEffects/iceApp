@@ -10,7 +10,18 @@ app_server <- function(input, output, session) {
     logged <- reactiveVal(FALSE)
     initProg <- reactiveVal(TRUE)
     pageCounter <- reactiveVal(1)
-    analytics <- analytics$new(version = "0.0.6", active = TRUE)
+
+    # load accounts
+    accounts <- readRDS(golem::get_golem_options("users_db_path"))
+
+    # init new analytics module
+    analytics <- analytics$new(
+        version = "0.0.7",
+        active = golem::get_golem_options("use_analytics"),
+        out_dir = golem::get_golem_options("analytics_outdir")
+    )
+
+    # define login server
     response <- mod_login_server("signin-form", accounts, logged, analytics)
  
     # output pages

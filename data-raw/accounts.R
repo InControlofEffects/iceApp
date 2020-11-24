@@ -2,8 +2,8 @@
 #' FILE: accounts.R
 #' AUTHOR: David Ruvolo
 #' CREATED: 2020-08-12
-#' MODIFIED: 2020-08-12
-#' PURPOSE: code used to create accounts dataset
+#' MODIFIED: 2020-11-24
+#' PURPOSE: code used to create sample accounts dataset
 #' STATUS: working
 #' PACKAGES: sodium
 #' COMMENTS: Use this to provide "some" level of access rights. This isn't
@@ -23,4 +23,4 @@ accounts <- data.frame(
 accounts$password <- sapply(accounts$password, sodium::password_store)
 
 # save
-usethis::use_data(accounts, overwrite = TRUE, internal = TRUE)
+saveRDS(accounts, "data-raw/demo_accounts.RDS")
