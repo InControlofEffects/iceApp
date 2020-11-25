@@ -21,7 +21,7 @@ There are few things that will need to be configured before you can run the app.
 First, install the latest release from GitHub.
 
 ```r
-devtools::install_github("InControlofEffects/iceApp@*release")
+remotes::install_github("InControlofEffects/iceApp@*release")
 ```
 
 ### Create a New Projects
