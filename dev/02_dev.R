@@ -2,26 +2,21 @@
 #' FILE: 02_dev.R
 #' AUTHOR: David Ruvolo
 #' CREATED: 2020-07-20
-#' MODIFIED: 2020-11-24
+#' MODIFIED: 2020-11-25
 #' PURPOSE: manage scripts, packages, files, data, etc.
 #' STATUS: ongoing
-#' PACKAGES: usethis; renv; golem
+#' PACKAGES: usethis; golem
 #' COMMENTS: NA
 #' ////////////////////////////////////////////////////////////////////////////
 
-# revn init
-#' renv::init(settings = list(snapshot.type = "explicit"))
-renv::snapshot()
-renv::restore()
-
 # install packages from GitHub
-remotes::install_github("davidruvolo51/browsertools")
-remotes::install_github("davidruvolo51/rheroicons")
-remotes::install_github("InControlofEffects/iceComponents")
-remotes::install_github("InControlofEffects/iceData")
-remotes::install_github("davidruvolo51/pkgbump")
+remotes::install_github("davidruvolo51/browsertools@*release")
+remotes::install_github("davidruvolo51/rheroicons@*release")
+remotes::install_github("InControlofEffects/iceComponents@*release")
+remotes::install_github("InControlofEffects/iceData@*release")
+remotes::install_github("davidruvolo51/pkgbump@*release")
 
-# add packages
+# add packages to DESCRIPTION
 usethis::use_package("shiny", min_version = TRUE)
 usethis::use_package("htmltools", min_version = TRUE)
 usethis::use_package("browsertools", min_version = TRUE)
@@ -30,24 +25,7 @@ usethis::use_package("iceData", min_version = TRUE)
 usethis::use_package("iceComponents", min_version = TRUE)
 usethis::use_package("sodium", min_version = TRUE)
 
-# add modules (to R/)
-golem::add_module(name = "login")
-golem::add_module(name = "medication_card")
-golem::add_module(name = "navigation")
-golem::add_module(name = "errors")
-golem::add_module(name = "validate_effects")
 
-# add interal dataset
-#' usethis::use_data_raw(name = "accounts")
-
-## Tests ----
-## Add one line by test you want to create
-usethis::use_test("app")
-
-
-#'//////////////////////////////////////
-
-#' ~ 2 ~
 # version number management
 pkgbump::set_pkgbump(
     files = c(
@@ -56,25 +34,12 @@ pkgbump::set_pkgbump(
         "R/app_server.R"
     )
 )
-
-pkgbump::pkgbump(version = "0.0.7")
-
-
-#'//////////////////////////////////////
-
-#' ~ 3 ~
-# clean up logs post dev
-sapply(
-    list.files("logs", pattern = "analytics_", full.names = TRUE),
-    file.remove
-)
+pkgbump::pkgbump(version = "0.0.8")
 
 #'//////////////////////////////////////
 
 #' ~ 99 ~
 #' Ignore Files
-
-# use ignore files
 gitignore <- c(
     "node_modules",
     ".Rproj.user",

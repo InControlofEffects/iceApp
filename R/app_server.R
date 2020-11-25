@@ -16,7 +16,7 @@ app_server <- function(input, output, session) {
 
     # init new analytics module
     analytics <- analytics$new(
-        version = "0.0.7",
+        version = "0.0.8",
         active = golem::get_golem_options("use_analytics"),
         out_dir = golem::get_golem_options("analytics_outdir")
     )
