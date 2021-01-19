@@ -6,7 +6,7 @@
   "license": "MIT",
   "scripts": {
     "shiny": "Rscript -e \"shiny::runApp(launch.browser = FALSE, port = 8000)\"",
-    "start": "webpack-dev-server --env dev",
+    "start": "webpack serve --env dev",
     "build": "webpack --env prod"
   },
   "keywords": [
