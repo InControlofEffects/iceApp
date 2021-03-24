@@ -1,6 +1,9 @@
 @import "_variables", "_fade";
 @import "_base", "_buttons", "_navbar", "_login";
 
+[hidden] {
+	display: none;
+}
 
 // conainer + pages
 .main {

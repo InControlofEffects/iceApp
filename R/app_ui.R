@@ -65,12 +65,14 @@ app_ui <- function(request) {
                 )
             )
         ),
-        appProgress$bar(
-            inputId = "appProgress",
-            fill = "#4755a9",
-            fixed = TRUE,
-            text = "page {value} of {max}",
-            yOffset = "56px"
+        browsertools::hidden(
+            appProgress$bar(
+                inputId = "appProgress",
+                fill = "#4755a9",
+                fixed = TRUE,
+                text = "page {value} of {max}",
+                yOffset = "56px"
+            )
         ),
         iceComponents::container(
             uiOutput("current_page")
