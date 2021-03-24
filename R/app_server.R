@@ -31,6 +31,7 @@ app_server <- function(input, output, session) {
         if (logged()) {
 
             if (initProg()) {
+                browsertools::show_elem(elem = "#appProgress")
                 appProgress$increase()
                 initProg(FALSE)
             }
