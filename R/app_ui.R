@@ -36,7 +36,7 @@ app_ui <- function(request) {
                         rheroicons::rheroicon(
                             name = "refresh",
                             type = "outline",
-                            classnames = "menu-button-icon"
+                            class = "menu-button-icon"
                         ),
                         tags$span(
                             class = "menu-button-label",
@@ -55,7 +55,7 @@ app_ui <- function(request) {
                         rheroicons::rheroicon(
                             name = "logout",
                             type = "outline",
-                            classnames = "menu-button-icon"
+                            class = "menu-button-icon"
                         ),
                         tags$span(
                             class = "menu-button-label",
@@ -76,6 +76,12 @@ app_ui <- function(request) {
         ),
         iceComponents::container(
             uiOutput("current_page")
+        ),
+        tags$div(
+            id = "selection-error",
+            class = "status-box",
+            rheroicons::rheroicon(name = "x_circle"),
+            tags$p("Oops, only one selection allowed.")
         ),
         golem_js_assets()
     )
