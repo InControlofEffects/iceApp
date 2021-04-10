@@ -172,7 +172,9 @@ pages$side_effects <- iceComponents::page(
             content = iceComponents::checkbox_group(
                 inputId = "countries-filter",
                 title = "Limit Results by Country",
+                # nolint start
                 caption = "The availability of medications may vary by country. You can limit the results to one or more countries.",
+                # nolint end
                 choices = c("Germany", "United Kingdom", "United States"),
                 values = c("Germany", "UK", "USA"),
                 checked = TRUE

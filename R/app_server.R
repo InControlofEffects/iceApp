@@ -7,9 +7,9 @@
 app_server <- function(input, output, session) {
 
     # set primary reactiveValues
-    logged <- reactiveVal(FALSE)
-    initProg <- reactiveVal(TRUE)
-    pageCounter <- reactiveVal(1)
+    logged <- shiny::reactiveVal(FALSE)
+    initProg <- shiny::reactiveVal(TRUE)
+    pageCounter <- shiny::reactiveVal(1)
 
     # load accounts
     accounts <- readRDS(golem::get_golem_options("users_db_path"))
@@ -23,9 +23,9 @@ app_server <- function(input, output, session) {
 
     # define login server
     response <- mod_login_server("signin-form", accounts, logged, analytics)
- 
+
     # output pages
-    observe({
+    shiny::observe({
 
         # when logged
         if (logged()) {
@@ -75,7 +75,7 @@ app_server <- function(input, output, session) {
             browsertools::scroll_to()
 
             # render signin page
-            output$current_page <- renderUI({
+            output$current_page <- shiny::renderUI({
                 tags$article(
                     id = "signin",
                     class = "signin_ui",
@@ -95,13 +95,39 @@ app_server <- function(input, output, session) {
         appProgress$increase()
     }
 
-    observeEvent(input$reselect, prevPage())
-    observeEvent(input$backBtn, prevPage())
-    observeEvent(input$forwardBtn, nextPage())
-    observeEvent(input$done, nextPage())
+    shiny::observeEvent(input$reselect, prevPage())
+    shiny::observeEvent(input$backBtn, prevPage())
+    shiny::observeEvent(input$forwardBtn, nextPage())
+    shiny::observeEvent(input$done, nextPage())
+
+    # observe: inputs
+    input_selections <- shiny::reactive({
+        c(
+            as.numeric(input$akathisia),
+            as.numeric(input$anticholinergic),
+            as.numeric(input$antiparkinson),
+            as.numeric(input$prolactin),
+            as.numeric(input$qtc),
+            as.numeric(input$sedation),
+            as.numeric(input$weight_gain)
+        )
+    })
+    shiny::observe({
+        if (sum(input_selections()) > 1) {
+            browsertools::add_css(
+                elem = "#selection-error",
+                css = "show"
+            )
+        } else {
+            browsertools::remove_css(
+                elem = "#selection-error",
+                css = "show"
+            )
+        }
+    })
 
     # onSubmit: generate recommendations
-    observeEvent(input$submit, {
+    shiny::observeEvent(input$submit, {
 
         analytics$save_click(
             btn = "side_effects_submit",
@@ -122,16 +148,11 @@ app_server <- function(input, output, session) {
             weight_gain = as.numeric(input$weight_gain)
         )
 
-        # validate inputs
         response <- validate_side_effects(data = selections)
-
-        # save selections
         analytics$save_selections(selections = selections)
 
         # process response
         if (response$ok) {
-
-            # advance to  results page
             nextPage()
 
             # write results with delay (time in milliseconds)
@@ -178,7 +199,7 @@ app_server <- function(input, output, session) {
     })
 
     # onClick: application restart
-    observeEvent(input$appRestart, {
+    shiny::observeEvent(input$appRestart, {
         pageCounter(1)
         appProgress$reset()
         analytics$save_click(
@@ -193,7 +214,7 @@ app_server <- function(input, output, session) {
     })
 
     # onClick: pageCounter bar logout
-    observeEvent(input$appSignout, {
+    shiny::observeEvent(input$appSignout, {
         pageCounter(1)
         logged(FALSE)
         analytics$save_logout()
